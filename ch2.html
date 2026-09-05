@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Software Life Cycle Models — Comprehensive Interactive Exam Quiz</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP HEADER & STATUS BAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <!-- Title & Subtitle -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center shadow-md shadow-indigo-100 font-bold text-lg">
+            <i class="ph-bold ph-tree-structure"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-slate-900 text-lg leading-tight">Software Life Cycle Models</h1>
+            <p class="text-xs text-slate-500 font-medium">Chapter 2 Mastery Quiz • 55 Questions (43 MCQs + 12 T/F)</p>
+          </div>
+        </div>
+
+        <!-- Live Metrics & Actions -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <!-- Score Badge -->
+          <div class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 text-xs">
+            <span class="text-slate-500 font-semibold uppercase tracking-wider">Score:</span>
+            <span id="score-counter" class="font-bold text-indigo-600 text-sm">0 / 55</span>
+          </div>
+
+          <!-- Accuracy Badge -->
+          <div class="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 text-xs">
+            <span class="text-emerald-700 font-semibold uppercase tracking-wider">Accuracy:</span>
+            <span id="accuracy-counter" class="font-bold text-emerald-700 text-sm">0%</span>
+          </div>
+
+          <!-- Question Jump Palette Trigger -->
+          <button id="open-palette-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs transition border border-indigo-200">
+            <i class="ph-bold ph-squares-four text-base"></i>
+            <span>Question Navigator</span>
+          </button>
+
+          <!-- Reset Button -->
+          <button id="reset-all-btn" title="Reset all progress" class="p-2 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-600 transition border border-slate-200 hover:border-rose-200">
+            <i class="ph-bold ph-arrow-counter-clockwise text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Progress Bar -->
+      <div class="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+        <div id="progress-bar-fill" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300 w-0"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- LEFT SIDEBAR: FILTERS & SUMMARY (Desktop) -->
+      <aside class="hidden lg:block lg:col-span-1 space-y-6">
+        <!-- Quick Stats Card -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+          <h2 class="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i class="ph-bold ph-chart-pie text-indigo-600"></i>
+            Performance Summary
+          </h2>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+              <span class="text-slate-500">Attempted</span>
+              <span id="stat-attempted" class="font-bold text-slate-800">0 / 55</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+              <span class="text-slate-500 text-emerald-600 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Correct
+              </span>
+              <span id="stat-correct" class="font-bold text-emerald-600">0</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+              <span class="text-slate-500 text-rose-600 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span> Incorrect
+              </span>
+              <span id="stat-incorrect" class="font-bold text-rose-600">0</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5">
+              <span class="text-slate-500">Unanswered</span>
+              <span id="stat-unanswered" class="font-bold text-slate-400">55</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-3">
+          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <i class="ph-bold ph-funnel text-indigo-600"></i>
+            Filter Questions
+          </h2>
+          <div class="space-y-1.5 text-xs font-semibold">
+            <button data-filter="all" class="filter-btn w-full text-left px-3 py-2 rounded-lg bg-indigo-600 text-white flex justify-between items-center transition">
+              <span>All Questions</span>
+              <span class="bg-white/20 px-2 py-0.5 rounded-full text-[11px]">55</span>
+            </button>
+            <button data-filter="mcq" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+              <span>MCQs Only (Q1 - Q43)</span>
+              <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">43</span>
+            </button>
+            <button data-filter="tf" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+              <span>True / False (TF1 - TF12)</span>
+              <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">12</span>
+            </button>
+            <button data-filter="incorrect" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Marked Incorrect</span>
+              <span id="filter-incorrect-badge" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Tips Reference -->
+        <div class="bg-indigo-50/60 rounded-2xl p-4 border border-indigo-100 text-xs text-indigo-950 space-y-2">
+          <div class="flex items-center gap-2 font-bold text-indigo-900">
+            <i class="ph-bold ph-lightbulb text-base text-indigo-600"></i>
+            Key Exam Insights
+          </div>
+          <p class="leading-relaxed">
+            • <strong>Radial</strong> = Cumulative Cost; <strong>Angular</strong> = Progress in phase.<br/>
+            • <strong>Testing</strong> accounts for 40–50% of development effort.<br/>
+            • <strong>RAD</strong> prototype is refined into production; <strong>Prototyping</strong> model usually discards it.<br/>
+            • <strong>Kanban</strong> balances workload & reduces delays, but does <em>not</em> reduce manpower.
+          </p>
+        </div>
+      </aside>
+
+      <!-- RIGHT / MAIN: QUESTION STREAM -->
+      <section class="lg:col-span-3 space-y-6">
+        
+        <!-- Search & Quick Navigation Bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+          <div class="relative w-full sm:w-80">
+            <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input id="search-input" type="text" placeholder="Search keywords (e.g., spiral, XP, RAD)..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition" />
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+            <span id="visible-count" class="text-xs text-slate-500 font-medium">Showing 55 questions</span>
+            <button id="expand-all-rationales" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 px-3 py-1.5 rounded-lg hover:bg-indigo-50 transition border border-transparent hover:border-indigo-200">
+              Expand All Explanations
+            </button>
+          </div>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questions-list" class="space-y-6">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- QUESTION NAVIGATOR MODAL / SLIDE-OVER DRAWER -->
+  <div id="palette-modal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex justify-end">
+    <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col animate-slide-left p-6">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-squares-four text-indigo-600 text-lg"></i>
+          <h3 class="font-bold text-slate-900 text-base">Question Grid Navigator</h3>
+        </div>
+        <button id="close-palette-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i class="ph-bold ph-x text-lg"></i>
+        </button>
+      </div>
+
+      <div class="my-4 flex items-center justify-between text-xs text-slate-600">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-emerald-500 inline-block"></span> Correct</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-rose-500 inline-block"></span> Incorrect</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-slate-200 border border-slate-300 inline-block"></span> Unanswered</span>
+      </div>
+
+      <!-- Grid list -->
+      <div class="flex-1 overflow-y-auto scrollbar-thin py-2">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Multiple Choice (1 – 43)</h4>
+        <div id="palette-mcq-grid" class="grid grid-cols-6 gap-2 mb-6"></div>
+
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">True / False (TF1 – TF12)</h4>
+        <div id="palette-tf-grid" class="grid grid-cols-4 gap-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC & QUESTION DATABASE -->
+  <script>
+    // COMPLETE 55 QUESTIONS DATASET (43 MCQs + 12 True/False)
+    const questionsData = [
+      {
+        id: 1,
+        type: 'mcq',
+        numberText: 'MCQ 1',
+        question: "Which one of the following may be experienced by a software development team when it adopts a systematic development process model in preference to a build-and-fix style of development?",
+        options: [
+          { key: 'a', text: "Increased documentation overhead" },
+          { key: 'b', text: "Increased development cost" },
+          { key: 'c', text: "Decreased maintainability" },
+          { key: 'd', text: "Increased development time" }
+        ],
+        correct: 'a',
+        reason: "Adopting a systematic development process (like Waterfall, V-Model, or Iterative processes) requires creating well-defined artifacts at the end of each phase (such as Feasibility Reports, SRS documents, Design documents, and Test suites). This inevitably introduces documentation overhead compared to the ad-hoc build-and-fix approach, while significantly decreasing overall cost, reducing rework time, and drastically improving maintainability."
+      },
+      {
+        id: 2,
+        type: 'mcq',
+        numberText: 'MCQ 2',
+        question: "A software process model represents which one of the following:",
+        options: [
+          { key: 'a', text: "The way in which software is developed" },
+          { key: 'b', text: "The way in which software processes data" },
+          { key: 'c', text: "The way in which software is used" },
+          { key: 'd', text: "The way in which software may fail" }
+        ],
+        correct: 'a',
+        reason: "A software development process (or SDLC) model describes the ordered sequence of activities, phase transitions, and methodologies through which a software product evolves from initial inception through development, operation, and retirement."
+      },
+      {
+        id: 3,
+        type: 'mcq',
+        numberText: 'MCQ 3',
+        question: "Prototyping life cycle model is appropriate when a project suffers from which one of the following risks:",
+        options: [
+          { key: 'a', text: "Schedule slippage" },
+          { key: 'b', text: "Manpower turnover" },
+          { key: 'c', text: "Incomplete and uncertain requirements" },
+          { key: 'd', text: "Poor quality of outsourced work" }
+        ],
+        correct: 'c',
+        reason: "The prototyping model is specifically used when customer requirements are vague, incomplete, or ambiguous (or when technical solutions are unclear upfront). A throw-away prototype enables the customer to interact with an operational mock-up, clarifying requirements before actual full-scale development."
+      },
+      {
+        id: 4,
+        type: 'mcq',
+        numberText: 'MCQ 4',
+        question: "Which one of the following activity spans all stages of a software development life cycle (SDLC)?",
+        options: [
+          { key: 'a', text: "Coding" },
+          { key: 'b', text: "Testing" },
+          { key: 'c', text: "Project management" },
+          { key: 'd', text: "Design" }
+        ],
+        correct: 'c',
+        reason: "Project management is an umbrella activity that continues throughout the entire life cycle of the software—from inception and feasibility analysis all the way to maintenance and retirement."
+      },
+      {
+        id: 5,
+        type: 'mcq',
+        numberText: 'MCQ 5',
+        question: "The operation phase of the waterfall model is a synonym for which one of the following phases:",
+        options: [
+          { key: 'a', text: "Coding and unit testing phase" },
+          { key: 'b', text: "Integration and system testing phase" },
+          { key: 'c', text: "Maintenance phase" },
+          { key: 'd', text: "Design phase" }
+        ],
+        correct: 'c',
+        reason: "In software engineering literature, the terms 'Operation phase' and 'Maintenance phase' are used synonymously. It represents the post-deployment period during which the software is in active use and undergoing corrective, perfective, or adaptive modifications."
+      },
+      {
+        id: 6,
+        type: 'mcq',
+        numberText: 'MCQ 6',
+        question: "The implementation phase of the waterfall model is a synonym for which one of the following phases:",
+        options: [
+          { key: 'a', text: "Coding and unit testing phase" },
+          { key: 'b', text: "Integration and system testing phase" },
+          { key: 'c', text: "Maintenance phase" },
+          { key: 'd', text: "Design phase" }
+        ],
+        correct: 'a',
+        reason: "The Implementation phase directly refers to translating detailed software designs into source code and verifying each individual module through unit testing."
+      },
+      {
+        id: 7,
+        type: 'mcq',
+        numberText: 'MCQ 7',
+        question: "Unit testing is carried out during which phase of the waterfall model:",
+        options: [
+          { key: 'a', text: "Implementation phase" },
+          { key: 'b', text: "Testing phase" },
+          { key: 'c', text: "Maintenance phase" },
+          { key: 'd', text: "Design phase" }
+        ],
+        correct: 'a',
+        reason: "In the classical and iterative waterfall models, the phase is formally titled 'Coding and Unit Testing' (Implementation phase). Integration and System testing are deferred to the subsequent dedicated Testing phase."
+      },
+      {
+        id: 8,
+        type: 'mcq',
+        numberText: 'MCQ 8',
+        question: "Which one of the following phases accounts for the maximum effort during development of a typical software?",
+        options: [
+          { key: 'a', text: "Coding" },
+          { key: 'b', text: "Testing" },
+          { key: 'c', text: "Designing" },
+          { key: 'd', text: "Specification" }
+        ],
+        correct: 'b',
+        reason: "Among the development phases (excluding post-delivery maintenance), Integration and System Testing consumes the maximum effort—typically around 40% to 50% of the entire development life cycle effort."
+      },
+      {
+        id: 9,
+        type: 'mcq',
+        numberText: 'MCQ 9',
+        question: "Which one of the following is not a standard software development process model?",
+        options: [
+          { key: 'a', text: "Waterfall Model" },
+          { key: 'b', text: "Recursive Model" },
+          { key: 'c', text: "RAD Model" },
+          { key: 'd', text: "V-Model" }
+        ],
+        correct: 'b',
+        reason: "Waterfall, Rapid Application Development (RAD), and the V-Model are well-established standard SDLC models. 'Recursive Model' is fictitious and does not exist in standard software engineering."
+      },
+      {
+        id: 10,
+        type: 'mcq',
+        numberText: 'MCQ 10',
+        question: "Which one of the following feedback paths is not present in an iterative waterfall model?",
+        options: [
+          { key: 'a', text: "Design phase to feasibility study phase" },
+          { key: 'b', text: "Implementation phase to design phase" },
+          { key: 'c', text: "Implementation phase to requirements specification phase" },
+          { key: 'd', text: "Design phase to requirements specification phase" }
+        ],
+        correct: 'a',
+        reason: "In the iterative waterfall model, feedback loops exist between development phases to accommodate rework, but there is strictly NO feedback path back to the Feasibility Study phase. Once financial, legal, and operational commitments are signed, the project is not abandoned mid-development via normal phase feedback."
+      },
+      {
+        id: 11,
+        type: 'mcq',
+        numberText: 'MCQ 11',
+        question: "Which one of the following can be considered to be a suitable SDLC model for developing a moderate-sized software for which the customer is not clear about his exact requirements?",
+        options: [
+          { key: 'a', text: "RAD model" },
+          { key: 'b', text: "V-model" },
+          { key: 'c', text: "Iterative waterfall model" },
+          { key: 'd', text: "Classical waterfall model" }
+        ],
+        correct: 'a',
+        reason: "Among the given options, the RAD (Rapid Application Development) model allows development through rapid time-boxed prototypes with active customer interaction and feedback, making it suitable when requirements are unclear. Classical waterfall, iterative waterfall, and V-model strictly require well-understood and frozen specifications upfront."
+      },
+      {
+        id: 12,
+        type: 'mcq',
+        numberText: 'MCQ 12',
+        question: "Which one of the following SDLC models would be suitable for use in a project involving customisation of a computer communication package? Assume that the project would be manned by experienced personnel and that the schedule for the project has been very aggressively set?",
+        options: [
+          { key: 'a', text: "Spiral model" },
+          { key: 'b', text: "Iterative waterfall model" },
+          { key: 'c', text: "RAD model" },
+          { key: 'd', text: "Agile model" }
+        ],
+        correct: 'c',
+        reason: "The RAD model is ideal when: (1) the software involves customisation/heavy reuse of existing software components, (2) the delivery schedule is aggressively constrained (time-boxes), and (3) the team consists of experienced, skilled developers."
+      },
+      {
+        id: 13,
+        type: 'mcq',
+        numberText: 'MCQ 13',
+        question: "Which one of the following life cycle models lacks the characteristics of iterative software development?",
+        options: [
+          { key: 'a', text: "Spiral model" },
+          { key: 'b', text: "Prototyping model" },
+          { key: 'c', text: "Classical waterfall model" },
+          { key: 'd', text: "Evolutionary model" }
+        ],
+        correct: 'c',
+        reason: "The Classical Waterfall Model is strictly linear and sequential. It has zero feedback loops and assumes no rework or iterations, making it purely non-iterative."
+      },
+      {
+        id: 14,
+        type: 'mcq',
+        numberText: 'MCQ 14',
+        question: "Which one of the following life cycle models does not involve constructing a prototype any time during software development?",
+        options: [
+          { key: 'a', text: "Spiral model" },
+          { key: 'b', text: "Prototyping model" },
+          { key: 'c', text: "RAD model" },
+          { key: 'd', text: "Evolutionary model" }
+        ],
+        correct: 'd',
+        reason: "In the Evolutionary model, the system is partitioned into full increments that are systematically designed, coded, tested, and deployed at the client site using full engineering rigor—it does not rely on mock-ups or throw-away prototypes. In contrast, Spiral builds a prototype in Q2 of each loop, Prototyping builds one upfront, and RAD builds rapid prototypes in each time box."
+      },
+      {
+        id: 15,
+        type: 'mcq',
+        numberText: 'MCQ 15',
+        question: "The prototyping model may not be appropriate for a project for developing a gaming software when it has which one of the following characteristics?",
+        options: [
+          { key: 'a', text: "Unresolved technical issues" },
+          { key: 'b', text: "Unclear user requirements" },
+          { key: 'c', text: "Significant GUI components" },
+          { key: 'd', text: "Significant business risk arising from the fact that several competitors may in the near future come out with similar gaming software" }
+        ],
+        correct: 'd',
+        reason: "The Prototyping model is effective only for resolving initial technical uncertainties and clarifying GUI/user requirements upfront. It provides no framework for dynamically assessing and resolving ongoing, changing business risks or competitor actions during the development cycle (which requires the Spiral Model)."
+      },
+      {
+        id: 16,
+        type: 'mcq',
+        numberText: 'MCQ 16',
+        question: "Which one of the following is not a characteristic of the agile model of software development?",
+        options: [
+          { key: 'a', text: "Completion of requirements specification before design phase" },
+          { key: 'b', text: "Evolutionary development" },
+          { key: 'c', text: "Iterative development" },
+          { key: 'd', text: "Periodic delivery of working software" }
+        ],
+        correct: 'a',
+        reason: "Agile methodologies reject the traditional notion of freezing and completing a comprehensive requirements specification (SRS) prior to design. Requirements in Agile are dynamic user stories that emerge and evolve sprint by sprint."
+      },
+      {
+        id: 17,
+        type: 'mcq',
+        numberText: 'MCQ 17',
+        question: "Which one of the following SDLC models can be considered to be most effective for determination of the exact customer requirements when the customer is not clear about the requirements?",
+        options: [
+          { key: 'a', text: "Iterative waterfall model" },
+          { key: 'b', text: "V-model" },
+          { key: 'c', text: "Prototyping model" },
+          { key: 'd', text: "Classical waterfall model" }
+        ],
+        correct: 'c',
+        reason: "The Prototyping Model specifically constructs a working model for the customer to evaluate and provide feedback, making it the most direct and effective technique for eliciting unclear requirements."
+      },
+      {
+        id: 18,
+        type: 'mcq',
+        numberText: 'MCQ 18',
+        question: "Change requests from customers later in the development cycle are easiest to handle in which one of the following life cycle models:",
+        options: [
+          { key: 'a', text: "Iterative waterfall model" },
+          { key: 'b', text: "Prototyping model" },
+          { key: 'c', text: "V-model" },
+          { key: 'd', text: "Evolutionary model" }
+        ],
+        correct: 'd',
+        reason: "The Evolutionary model operates on a 'design a little, build a little, test a little, deploy a little' paradigm with no rigid long-term plans. Requirements and designs evolve with each release, making late change requests naturally accommodated without invalidating a frozen architecture."
+      },
+      {
+        id: 19,
+        type: 'mcq',
+        numberText: 'MCQ 19',
+        question: "Assume that you are the project manager of a project for developing a data processing application in which the user requirements for the GUI part are not very clear. Which one of the following life cycle models would you use to develop the GUI part?",
+        options: [
+          { key: 'a', text: "Classical waterfall model" },
+          { key: 'b', text: "Iterative waterfall model" },
+          { key: 'c', text: "Prototyping model" },
+          { key: 'd', text: "Spiral model" }
+        ],
+        correct: 'c',
+        reason: "Graphical User Interfaces (GUIs) are notoriously difficult for end-users to specify abstractly on paper. Developing a rapid mock-up/prototype allows the user to click through screens, ensuring accurate elicitation of UI workflows."
+      },
+      {
+        id: 20,
+        type: 'mcq',
+        numberText: 'MCQ 20',
+        question: "The angular dimension of the spiral model does not represent which one of the following?",
+        options: [
+          { key: 'a', text: "Cost incurred so far" },
+          { key: 'b', text: "Number of features implemented so far" },
+          { key: 'c', text: "Progress in the implementation of the current feature" },
+          { key: 'd', text: "Number of risks that have been resolved so far" }
+        ],
+        correct: 'a',
+        reason: "In the Spiral model, the *radial dimension* (distance from the center) represents the cumulative cost incurred so far. The *angular dimension* represents the progress made in completing the steps/quadrants of the current cycle."
+      },
+      {
+        id: 21,
+        type: 'mcq',
+        numberText: 'MCQ 21',
+        question: "The radial dimension of the spiral model represents which one of the following:",
+        options: [
+          { key: 'a', text: "Cost incurred so far" },
+          { key: 'b', text: "Number of features implemented so far" },
+          { key: 'c', text: "Progress in the implementation of the current feature" },
+          { key: 'd', text: "Number of risks that have been resolved so far" }
+        ],
+        correct: 'a',
+        reason: "By definition in Barry Boehm's Spiral Model, the radius (distance from the origin) directly tracks the cumulative cost incurred across all phases to date."
+      },
+      {
+        id: 22,
+        type: 'mcq',
+        numberText: 'MCQ 22',
+        question: "Which one of the following activities is not carried out during the testing phase of the waterfall life cycle model?",
+        options: [
+          { key: 'a', text: "Unit testing" },
+          { key: 'b', text: "Integration testing" },
+          { key: 'c', text: "System testing" },
+          { key: 'd', text: "Debugging" }
+        ],
+        correct: 'a',
+        reason: "Unit testing is carried out during the 'Coding and Unit Testing' phase (Implementation phase) by the developers themselves. The dedicated Testing phase is reserved for Integration Testing and System Testing."
+      },
+      {
+        id: 23,
+        type: 'mcq',
+        numberText: 'MCQ 23',
+        question: "Which one of the following is not a phase of the waterfall life cycle model?",
+        options: [
+          { key: 'a', text: "Feasibility study" },
+          { key: 'b', text: "Project management" },
+          { key: 'c', text: "Maintenance" },
+          { key: 'd', text: "Requirements specification" }
+        ],
+        correct: 'b',
+        reason: "The standard phases of the Waterfall model are: (1) Feasibility Study, (2) Requirements Analysis & Specification, (3) Design, (4) Coding & Unit Testing, (5) Integration & System Testing, and (6) Maintenance. Project management is an overarching activity that spans all phases rather than being a single phase."
+      },
+      {
+        id: 24,
+        type: 'mcq',
+        numberText: 'MCQ 24',
+        question: "Which one of the following life cycle models has the least similarity with the waterfall model?",
+        options: [
+          { key: 'a', text: "Prototyping" },
+          { key: 'b', text: "V-model" },
+          { key: 'c', text: "Spiral" },
+          { key: 'd', text: "Scrum" }
+        ],
+        correct: 'd',
+        reason: "Scrum is an Agile framework emphasizing self-organizing teams, cross-functional sprints (2-4 weeks), absence of heavyweight upfront documentation, and continuous feature reprioritization. In contrast, Prototyping, V-model, and Spiral all inherit heavily from the waterfall phase structure."
+      },
+      {
+        id: 25,
+        type: 'mcq',
+        numberText: 'MCQ 25',
+        question: "Presence of which one of the following characteristics in a project would indicate the suitability of the extreme programming (XP) model:",
+        options: [
+          { key: 'a', text: "Stable and well understood requirements" },
+          { key: 'b', text: "Mission critical software" },
+          { key: 'c', text: "Service-oriented project" },
+          { key: 'd', text: "Extremely large project" }
+        ],
+        correct: 'c',
+        reason: "XP is tailored for small-to-medium teams working on dynamic service-oriented or custom software where requirements evolve rapidly and face-to-face customer communication is practical. Stable requirements favor waterfall; mission-critical software requires V-model; large projects struggle with XP's lack of formal documentation."
+      },
+      {
+        id: 26,
+        type: 'mcq',
+        numberText: 'MCQ 26',
+        question: "Which one of the following life cycle models does not involve constructing a prototype any time during software development?",
+        options: [
+          { key: 'a', text: "Spiral model" },
+          { key: 'b', text: "Prototyping model" },
+          { key: 'c', text: "RAD" },
+          { key: 'd', text: "Evolutionary model" }
+        ],
+        correct: 'd',
+        reason: "The Evolutionary model builds working software incrementally via formal software engineering steps without creating throw-away or exploratory prototypes. Spiral, RAD, and Prototyping explicitly rely on prototype creation."
+      },
+      {
+        id: 27,
+        type: 'mcq',
+        numberText: 'MCQ 27',
+        question: "Which one of the following is the most appropriate reason behind scrum teams to be called self-organizing?",
+        options: [
+          { key: 'a', text: "The team members independently decide when to join and leave a project" },
+          { key: 'b', text: "The team members decide among themselves their respective roles and responsibilities" },
+          { key: 'c', text: "The team members decide among themselves their respective roles in the project, after which the scrum master assigns them specific responsibilities." },
+          { key: 'd', text: "The team members decide who would report to whom among themselves." }
+        ],
+        correct: 'b',
+        reason: "In Scrum, a self-organizing team means that members collectively decide how to break down backlog stories into tasks and distribute responsibilities among themselves, rather than having a project manager or Scrum Master assign tasks to them."
+      },
+      {
+        id: 28,
+        type: 'mcq',
+        numberText: 'MCQ 28',
+        question: "Which one of the following is not a sprint ceremony in scrum?",
+        options: [
+          { key: 'a', text: "Sprint planning meeting" },
+          { key: 'b', text: "Daily stand-up meeting" },
+          { key: 'c', text: "Sprint retrospective meeting" },
+          { key: 'd', text: "Project start up meeting" }
+        ],
+        correct: 'd',
+        reason: "The recognized standard Scrum ceremonies/events are Sprint Planning, Daily Scrum (Stand-up), Sprint Review, and Sprint Retrospective. 'Project start up meeting' is a traditional project management term, not a Scrum ceremony."
+      },
+      {
+        id: 29,
+        type: 'mcq',
+        numberText: 'MCQ 29',
+        question: "The prototyping model essentially involves incorporating the construction of a prototype in the iterative waterfall process model. The prototype is constructed in which one of the following phases of the waterfall model of software development:",
+        options: [
+          { key: 'a', text: "Feasibility study" },
+          { key: 'b', text: "Requirements analysis and specification" },
+          { key: 'c', text: "Design" },
+          { key: 'd', text: "Coding and unit testing" }
+        ],
+        correct: 'b',
+        reason: "The prototype is constructed during the Requirements Analysis & Specification phase to resolve requirement ambiguities with the user before preparing the finalized SRS document."
+      },
+      {
+        id: 30,
+        type: 'mcq',
+        numberText: 'MCQ 30',
+        question: "Which one of the following is true for prototypes constructed in the prototyping model of software development?",
+        options: [
+          { key: 'a', text: "Construction of prototypes incurs significant cost and should be avoided as far as possible." },
+          { key: 'b', text: "A prototype is useful for eliciting early feedback on requirements for the stakeholders." },
+          { key: 'c', text: "Prototypes are usually constructed toward the end of the design phase." },
+          { key: 'd', text: "Prototypes increase the risk of misunderstandings between developers and users." }
+        ],
+        correct: 'b',
+        reason: "The foundational value of a prototype is providing a tangible system model that allows stakeholders to experience proposed functionality and give early, accurate feedback."
+      },
+      {
+        id: 31,
+        type: 'mcq',
+        numberText: 'MCQ 31',
+        question: "In the prototyping model of software development, which one of the following is the principal reason for developing a prototype?",
+        options: [
+          { key: 'a', text: "A prototype is iteratively enhanced into a working software and is finally deployed at the client site" },
+          { key: 'b', text: "A prototype is deployed at the client site as an operational software till the full version is developed" },
+          { key: 'c', text: "A working prototype helps the customer to provide meaningful feedback about requirements" },
+          { key: 'd', text: "A prototype helps in development of accurate project schedule" }
+        ],
+        correct: 'c',
+        reason: "In the Prototyping Model (specifically throwaway prototyping), the primary purpose is to help the customer understand system behavior and give meaningful, concrete feedback to finalize the requirements specification."
+      },
+      {
+        id: 32,
+        type: 'mcq',
+        numberText: 'MCQ 32',
+        question: "Which one of the following is not an expected outcome of using Kanban method?",
+        options: [
+          { key: 'a', text: "Reduced delay" },
+          { key: 'b', text: "Reduced fatigue of team members" },
+          { key: 'c', text: "Reduced manpower" },
+          { key: 'd', text: "More balanced work load" }
+        ],
+        correct: 'c',
+        reason: "Kanban visualizes workflow, enforces Work-In-Progress (WIP) limits, balances workload, reduces delays, and lowers team fatigue. Reducing project manpower is explicitly NOT a goal of Kanban."
+      },
+      {
+        id: 33,
+        type: 'mcq',
+        numberText: 'MCQ 33',
+        question: "In which one of the following SDLC models, testing activities are spread over the entire development life cycle?",
+        options: [
+          { key: 'a', text: "Iterative waterfall model" },
+          { key: 'b', text: "V-model" },
+          { key: 'c', text: "Prototyping model" },
+          { key: 'd', text: "Classical waterfall model" }
+        ],
+        correct: 'b',
+        reason: "In the V-Model, test planning and test suite design for unit, integration, system, and acceptance testing are performed concurrently with their corresponding development phases (Requirements -> Acceptance/System test design; Design -> Integration test design; Coding -> Unit test design)."
+      },
+      {
+        id: 34,
+        type: 'mcq',
+        numberText: 'MCQ 34',
+        question: "Which of the following is the principal reason for developing a prototype?",
+        options: [
+          { key: 'a', text: "It can be used as an early production tool" },
+          { key: 'b', text: "It may solve a problem that is not included in the requirements" },
+          { key: 'c', text: "It allows the customer to provide feedback about requirements" },
+          { key: 'd', text: "It reduces the schedule for development through alpha testing" }
+        ],
+        correct: 'c',
+        reason: "Prototypes enable interactive evaluation by non-technical customers, generating accurate feedback on requirements and eliminating misunderstandings early."
+      },
+      {
+        id: 35,
+        type: 'mcq',
+        numberText: 'MCQ 35',
+        question: "Which one of the following is not a characteristic of the agile model of software development?",
+        options: [
+          { key: 'a', text: "Well demarcated phases" },
+          { key: 'b', text: "Evolutionary development" },
+          { key: 'c', text: "Iterative development" },
+          { key: 'd', text: "Periodic delivery of working software" }
+        ],
+        correct: 'a',
+        reason: "Agile methodologies avoid rigid, sequential, well-demarcated phases (like separate 3-month requirements or design periods). Instead, small cross-functional increments undergo continuous specification, design, code, and test within each sprint."
+      },
+      {
+        id: 36,
+        type: 'mcq',
+        numberText: 'MCQ 36',
+        question: "Which one of the following is expected to be achieved by pair-wise programming and is not achieved by traditional programming?",
+        options: [
+          { key: 'a', text: "Incremental development" },
+          { key: 'b', text: "Test-driven development" },
+          { key: 'c', text: "Continuous review" },
+          { key: 'd', text: "Iterative development" }
+        ],
+        correct: 'c',
+        reason: "In pair programming, one programmer writes code while the other reviews each line continuously as it is typed, providing real-time, continuous inspection that traditional solo programming cannot offer."
+      },
+      {
+        id: 37,
+        type: 'mcq',
+        numberText: 'MCQ 37',
+        question: "Defects get introduced into a work product due to mistakes committed by the members of the development team. A mistake committed during which one of the following phases and detected after product release is usually the most expensive to correct:",
+        options: [
+          { key: 'a', text: "System testing" },
+          { key: 'b', text: "Design" },
+          { key: 'c', text: "Coding and unit testing" },
+          { key: 'd', text: "Requirements analysis and specification" }
+        ],
+        correct: 'd',
+        reason: "According to Boehm's cost-of-change curve, a requirement defect undetected until post-release can cost up to 100 times more to fix than if caught in the requirements phase, because all downstream artifacts (architectural designs, code modules, test cases, user manuals) must be scrapped and redone."
+      },
+      {
+        id: 38,
+        type: 'mcq',
+        numberText: 'MCQ 38',
+        question: "Which one of the following is not a characteristic of the agile software development model?",
+        options: [
+          { key: 'a', text: "Long-term planning" },
+          { key: 'b', text: "Evolutionary development" },
+          { key: 'c', text: "Iterative development" },
+          { key: 'd', text: "Periodic delivery of working software" }
+        ],
+        correct: 'a',
+        reason: "Agile software development explicitly minimizes rigid long-term planning because requirements and business environments are assumed to be volatile. Instead, teams plan in short iterations (time-boxes)."
+      },
+      {
+        id: 39,
+        type: 'mcq',
+        numberText: 'MCQ 39',
+        question: "Pair programming intends to take which one of the following best practices to the extreme:",
+        options: [
+          { key: 'a', text: "Design" },
+          { key: 'b', text: "Incremental development" },
+          { key: 'c', text: "Code review" },
+          { key: 'd', text: "Simplicity" }
+        ],
+        correct: 'c',
+        reason: "Kent Beck formulated XP on the philosophy of taking proven practices to extreme levels. Since code review is beneficial, Pair Programming takes code review to the extreme by having a second pair of eyes continuously inspecting code second-by-second."
+      },
+      {
+        id: 40,
+        type: 'mcq',
+        numberText: 'MCQ 40',
+        question: "Which one of the following phrases would most appropriately to complete the sentence? “The later a defect is found, __________ .”",
+        options: [
+          { key: 'a', text: "the easier it is to find" },
+          { key: 'b', text: "the more expensive it is to repair" },
+          { key: 'c', text: "the less important it is to the product" },
+          { key: 'd', text: "the faster it is to fix" }
+        ],
+        correct: 'b',
+        reason: "This is the fundamental tenet of software quality engineering (Boehm's error cost escalation law): the later an error is discovered in the life cycle, the exponentially more expensive it is to repair."
+      },
+      {
+        id: 41,
+        type: 'mcq',
+        numberText: 'MCQ 41',
+        question: "For a typical software product, testing should accounts for what percentage of the total software development costs:",
+        options: [
+          { key: 'a', text: "10–20" },
+          { key: 'b', text: "40–50" },
+          { key: 'c', text: "70–80" },
+          { key: 'd', text: "5–10" }
+        ],
+        correct: 'b',
+        reason: "In typical commercial software development, testing activities (unit, integration, and system testing) consume approximately 40% to 50% of the overall development budget and effort."
+      },
+      {
+        id: 42,
+        type: 'mcq',
+        numberText: 'MCQ 42',
+        question: "Which one of the following is not an agile software development methodology?",
+        options: [
+          { key: 'a', text: "Extreme programming (XP)" },
+          { key: 'b', text: "Scrum" },
+          { key: 'c', text: "Lean software development" },
+          { key: 'd', text: "Rapid application development (RAD)" }
+        ],
+        correct: 'd',
+        reason: "RAD was formulated by James Martin in 1991 as an early iterative prototyping methodology prior to the Agile Manifesto (2001). XP, Scrum, and Lean are recognized official Agile methodologies."
+      },
+      {
+        id: 43,
+        type: 'mcq',
+        numberText: 'MCQ 43',
+        question: "In the spiral model, when is risk analysis performed?",
+        options: [
+          { key: 'a', text: "In the first loop" },
+          { key: 'b', text: "In the last loop" },
+          { key: 'c', text: "In every loop" },
+          { key: 'd', before: 'd', text: "Before the first loop" }
+        ],
+        correct: 'c',
+        reason: "Risk analysis is performed in Quadrant 2 of EVERY single loop/iteration of the Spiral Model, allowing the project manager to identify and resolve newly emerging risks dynamically."
+      },
+
+      // TRUE / FALSE QUESTIONS (12)
+      {
+        id: 44,
+        type: 'tf',
+        numberText: 'True / False 1',
+        question: "If the phase containment of errors principle is not followed during software development, then development cost would increase.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. The phase containment principle states that errors should be caught in the same phase they are introduced. If errors slip past their originating phase, fixing them later requires widespread rework across design, code, and documentation, causing development costs to multiply exponentially."
+      },
+      {
+        id: 45,
+        type: 'tf',
+        numberText: 'True / False 2',
+        question: "Evolutionary life cycle model would be appropriate to develop a software that appears to be beset with a large number of risks.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. The Spiral Model (not the Evolutionary model) is specifically designed to handle projects beset with a large number of risks because it incorporates dedicated risk analysis and prototyping in every cycle."
+      },
+      {
+        id: 46,
+        type: 'tf',
+        numberText: 'True / False 3',
+        question: "The number of phases in the spiral life cycle model is not fixed and is normally determined by the project managers as the project progresses.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. The number of loops (phases) in a spiral model is dynamic and determined by the project manager based on the remaining risks and feature increments as the project evolves."
+      },
+      {
+        id: 47,
+        type: 'tf',
+        numberText: 'True / False 4',
+        question: "The primary purpose of phase containment of errors is to develop an error-free software.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Developing completely error-free software is impossible for non-trivial systems. The primary purpose of phase containment of errors is to MINIMIZE the cost and effort of error correction by finding and fixing bugs as close to their introduction point as possible."
+      },
+      {
+        id: 48,
+        type: 'tf',
+        numberText: 'True / False 5',
+        question: "Development of a software using the prototyping life cycle model is always more expensive than development of the same software using the iterative waterfall model due to the additional cost incurred to construct a throw-away prototype.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Although constructing a prototype adds initial cost, in projects with unclear or changing requirements it prevents massive architectural rework and redesign later. Thus, the total development cost using prototyping is often significantly LOWER than using iterative waterfall."
+      },
+      {
+        id: 49,
+        type: 'tf',
+        numberText: 'True / False 6',
+        question: "When a large software is developed by a commercial software development house using the iterative waterfall model, there do not exist precise points of time at which transitions from one phase to another take place.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. In commercial practice, phases overlap because team members who finish tasks early start the next phase to avoid being idle (blocking states), and rework from defect detection causes ongoing activity in earlier phases."
+      },
+      {
+        id: 50,
+        type: 'tf',
+        numberText: 'True / False 7',
+        question: "Among all phases of software development, an undetected error from the design phase that ultimately gets detected during the system acceptance test costs the maximum.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Undetected errors from the REQUIREMENTS ANALYSIS AND SPECIFICATION phase cost the maximum when detected during acceptance testing, because resolving them invalidates the design, coding, integration, and all validation suites."
+      },
+      {
+        id: 51,
+        type: 'tf',
+        numberText: 'True / False 8',
+        question: "If a team developing a moderate sized software product does not care about phase containment of errors, it can still produce a reliable software, albeit at a higher cost compared to the case where it attempts phase containment of errors.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. A reliable software can still be achieved if exhaustive system testing, beta testing, and extensive debugging are performed at the end. However, doing so without phase containment is enormously expensive and inefficient due to delayed defect isolation."
+      },
+      {
+        id: 52,
+        type: 'tf',
+        numberText: 'True / False 9',
+        question: "The angular dimension in a spiral model of software development indicates the total cost incurred in the project till that time.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. The RADIAL dimension represents cumulative cost incurred so far; the ANGULAR dimension represents the progress made in the current cycle/phase."
+      },
+      {
+        id: 53,
+        type: 'tf',
+        numberText: 'True / False 10',
+        question: "When the spiral model is used in a software development project, the number of loops in the spiral is fixed by the project manager during the project planning stage.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. The number of loops in the spiral model is not fixed at the project planning stage; it is determined dynamically as the project proceeds based on remaining risks and newly emerging requirements."
+      },
+      {
+        id: 54,
+        type: 'tf',
+        numberText: 'True / False 11',
+        question: "RAD would be a suitable life cycle model for developing a commercial operating system.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Commercial operating systems require optimal execution speed, high reliability, hardware-level optimization, and rigorous architectural design. RAD sacrifices performance and formal validation for fast prototype-based delivery and reuse, making it completely unsuitable for operating systems."
+      },
+      {
+        id: 55,
+        type: 'tf',
+        numberText: 'True / False 12',
+        question: "RAD is a suitable process model to use for developing a safety-critical application such as a controller for a nuclear reactor.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Safety-critical systems (like nuclear reactor controllers or avionics) demand formal specifications, rigorous verification, and exhaustive phase-by-phase validation (best served by the V-Model or formal methods). RAD's shortcut prototype-evolution style lacks the necessary safety guarantees."
+      }
+    ];
+
+    // State
+    const userAnswers = {}; // id -> selected key
+    let activeFilter = 'all';
+    let searchQuery = '';
+
+    // Elements
+    const questionsContainer = document.getElementById('questions-list');
+    const scoreCounter = document.getElementById('score-counter');
+    const accuracyCounter = document.getElementById('accuracy-counter');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const statAttempted = document.getElementById('stat-attempted');
+    const statCorrect = document.getElementById('stat-correct');
+    const statIncorrect = document.getElementById('stat-incorrect');
+    const statUnanswered = document.getElementById('stat-unanswered');
+    const filterIncorrectBadge = document.getElementById('filter-incorrect-badge');
+    const visibleCount = document.getElementById('visible-count');
+    const paletteModal = document.getElementById('palette-modal');
+    const openPaletteBtn = document.getElementById('open-palette-btn');
+    const closePaletteBtn = document.getElementById('close-palette-btn');
+    const paletteMcqGrid = document.getElementById('palette-mcq-grid');
+    const paletteTfGrid = document.getElementById('palette-tf-grid');
+    const searchInput = document.getElementById('search-input');
+    const resetAllBtn = document.getElementById('reset-all-btn');
+    const expandAllRationalesBtn = document.getElementById('expand-all-rationales');
+
+    // Build Palette
+    function initPalette() {
+      paletteMcqGrid.innerHTML = '';
+      paletteTfGrid.innerHTML = '';
+
+      questionsData.forEach(q => {
+        const btn = document.createElement('button');
+        btn.id = `palette-item-${q.id}`;
+        btn.className = "w-full aspect-square text-xs font-bold rounded-lg border flex items-center justify-center transition bg-slate-100 border-slate-200 text-slate-600 hover:border-indigo-400";
+        btn.innerText = q.type === 'mcq' ? q.id : `TF${q.id - 43}`;
+        btn.onclick = () => {
+          paletteModal.classList.add('hidden');
+          const el = document.getElementById(`question-card-${q.id}`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('ring-2', 'ring-indigo-500');
+            setTimeout(() => el.classList.remove('ring-2', 'ring-indigo-500'), 1500);
+          }
+        };
+
+        if (q.type === 'mcq') {
+          paletteMcqGrid.appendChild(btn);
+        } else {
+          paletteTfGrid.appendChild(btn);
+        }
+      });
+    }
+
+    // Render Question Cards
+    function renderQuestions() {
+      questionsContainer.innerHTML = '';
+      
+      const filtered = questionsData.filter(q => {
+        // filter by type / status
+        if (activeFilter === 'mcq' && q.type !== 'mcq') return false;
+        if (activeFilter === 'tf' && q.type !== 'tf') return false;
+        if (activeFilter === 'incorrect') {
+          if (!userAnswers[q.id] || userAnswers[q.id] === q.correct) return false;
+        }
+
+        // filter by search
+        if (searchQuery.trim() !== '') {
+          const matchQuestion = q.question.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchReason = q.reason.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchOpts = q.options.some(o => o.text.toLowerCase().includes(searchQuery.toLowerCase()));
+          if (!matchQuestion && !matchReason && !matchOpts) return false;
+        }
+        return true;
+      });
+
+      visibleCount.innerText = `Showing ${filtered.length} of ${questionsData.length} questions`;
+
+      if (filtered.length === 0) {
+        questionsContainer.innerHTML = `
+          <div class="bg-white rounded-2xl p-12 text-center border border-slate-200">
+            <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <i class="ph-bold ph-magnifying-glass text-xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-base mb-1">No questions found</h3>
+            <p class="text-xs text-slate-500">Try adjusting your search query or switching the active filter.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(q => {
+        const isAnswered = !!userAnswers[q.id];
+        const selectedKey = userAnswers[q.id];
+        const isCorrect = isAnswered && selectedKey === q.correct;
+
+        const card = document.createElement('div');
+        card.id = `question-card-${q.id}`;
+        card.className = "bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm transition-all";
+
+        // Top meta
+        let statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 border border-slate-200">Unanswered</span>`;
+        if (isAnswered) {
+          if (isCorrect) {
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1"><i class="ph-bold ph-check"></i> Correct</span>`;
+          } else {
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1"><i class="ph-bold ph-x"></i> Incorrect</span>`;
+          }
+        }
+
+        const typeTag = q.type === 'mcq' 
+          ? `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">Multiple Choice</span>`
+          : `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100">True / False</span>`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm text-slate-900 bg-slate-100 px-2.5 py-1 rounded-lg">${q.numberText}</span>
+              ${typeTag}
+            </div>
+            <div>${statusBadge}</div>
+          </div>
+
+          <p class="text-sm font-semibold text-slate-800 mb-5 leading-relaxed">${q.question}</p>
+
+          <div class="options-container space-y-2.5 mb-4">
+            ${q.options.map(opt => {
+              let optClass = "border-slate-200 hover:border-indigo-300 hover:bg-slate-50/80 text-slate-700";
+              let iconHtml = `<span class="w-6 h-6 rounded-lg border border-slate-300 text-xs font-bold flex items-center justify-center text-slate-500 uppercase">${opt.key}</span>`;
+
+              if (isAnswered) {
+                if (opt.key === q.correct) {
+                  // The true correct option is ALWAYS highlighted green once answered
+                  optClass = "border-emerald-500 bg-emerald-50/90 text-emerald-900 font-semibold ring-1 ring-emerald-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-check"></i></span>`;
+                } else if (opt.key === selectedKey) {
+                  // User selected this incorrect option -> RED
+                  optClass = "border-rose-500 bg-rose-50/90 text-rose-900 font-semibold ring-1 ring-rose-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-rose-600 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-x"></i></span>`;
+                } else {
+                  optClass = "border-slate-200 bg-slate-50/40 text-slate-400 opacity-60";
+                }
+              }
+
+              return `
+                <button 
+                  type="button" 
+                  data-qid="${q.id}" 
+                  data-optkey="${opt.key}" 
+                  class="option-btn w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm flex items-center gap-3 transition ${optClass}"
+                  ${isAnswered ? 'disabled' : ''}
+                >
+                  ${iconHtml}
+                  <span class="flex-1">${opt.text}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- Rationale / Explanation Box -->
+          <div class="rationale-box ${isAnswered ? '' : 'hidden'} mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs leading-relaxed">
+            <div class="flex items-center gap-1.5 font-bold text-slate-800 mb-1.5">
+              <i class="ph-bold ph-info text-indigo-600 text-sm"></i>
+              <span>Textbook Explanation & Reason:</span>
+            </div>
+            <p class="text-slate-600">${q.reason}</p>
+          </div>
+        `;
+
+        questionsContainer.appendChild(card);
+      });
+
+      // Attach click listeners to option buttons
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const qid = parseInt(btn.dataset.qid);
+          const optkey = btn.dataset.optkey;
+          handleOptionSelect(qid, optkey);
+        });
+      });
+    }
+
+    // Handle Option Click
+    function handleOptionSelect(qid, selectedKey) {
+      if (userAnswers[qid]) return; // already answered
+      userAnswers[qid] = selectedKey;
+
+      updateMetrics();
+      renderQuestions();
+      updatePaletteItem(qid);
+    }
+
+    // Update Palette UI item
+    function updatePaletteItem(qid) {
+      const btn = document.getElementById(`palette-item-${qid}`);
+      if (!btn) return;
+      const q = questionsData.find(item => item.id === qid);
+      const isCorrect = userAnswers[qid] === q.correct;
+
+      btn.classList.remove('bg-slate-100', 'border-slate-200', 'text-slate-600', 'bg-emerald-500', 'bg-rose-500', 'text-white', 'border-emerald-600', 'border-rose-600');
+
+      if (isCorrect) {
+        btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+      } else {
+        btn.classList.add('bg-rose-500', 'text-white', 'border-rose-600');
+      }
+    }
+
+    // Update Header and Summary Metrics
+    function updateMetrics() {
+      const answeredKeys = Object.keys(userAnswers);
+      const totalAnswered = answeredKeys.length;
+      let correctCount = 0;
+      let incorrectCount = 0;
+
+      answeredKeys.forEach(qid => {
+        const q = questionsData.find(item => item.id === parseInt(qid));
+        if (userAnswers[qid] === q.correct) {
+          correctCount++;
+        } else {
+          incorrectCount++;
+        }
+      });
+
+      const accuracy = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+      const progressPercent = Math.round((totalAnswered / questionsData.length) * 100);
+
+      // DOM Updates
+      scoreCounter.innerText = `${correctCount} / ${questionsData.length}`;
+      accuracyCounter.innerText = `${accuracy}%`;
+      progressBarFill.style.width = `${progressPercent}%`;
+
+      statAttempted.innerText = `${totalAnswered} / ${questionsData.length}`;
+      statCorrect.innerText = correctCount;
+      statIncorrect.innerText = incorrectCount;
+      statUnanswered.innerText = questionsData.length - totalAnswered;
+      filterIncorrectBadge.innerText = incorrectCount;
+    }
+
+    // Reset Quiz
+    resetAllBtn.addEventListener('click', () => {
+      if (confirm("Are you sure you want to reset all your answers and progress?")) {
+        for (let key in userAnswers) {
+          delete userAnswers[key];
+        }
+        initPalette();
+        updateMetrics();
+        renderQuestions();
+      }
+    });
+
+    // Filter Buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-indigo-600', 'text-white');
+          b.classList.add('hover:bg-slate-100', 'text-slate-600');
+        });
+        btn.classList.remove('hover:bg-slate-100', 'text-slate-600');
+        btn.classList.add('bg-indigo-600', 'text-white');
+
+        activeFilter = btn.dataset.filter;
+        renderQuestions();
+      });
+    });
+
+    // Search Input
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderQuestions();
+    });
+
+    // Expand All Rationales
+    let allExpanded = false;
+    expandAllRationalesBtn.addEventListener('click', () => {
+      allExpanded = !allExpanded;
+      document.querySelectorAll('.rationale-box').forEach(box => {
+        if (allExpanded) {
+          box.classList.remove('hidden');
+        } else {
+          // hide if not answered
+          const card = box.closest('[id^="question-card-"]');
+          const qid = parseInt(card.id.replace('question-card-', ''));
+          if (!userAnswers[qid]) {
+            box.classList.add('hidden');
+          }
+        }
+      });
+      expandAllRationalesBtn.innerText = allExpanded ? "Collapse Unanswered Explanations" : "Expand All Explanations";
+    });
+
+    // Modal Drawer open / close
+    openPaletteBtn.addEventListener('click', () => paletteModal.classList.remove('hidden'));
+    closePaletteBtn.addEventListener('click', () => paletteModal.classList.add('hidden'));
+    paletteModal.addEventListener('click', (e) => {
+      if (e.target === paletteModal) paletteModal.classList.add('hidden');
+    });
+
+    // Initialize
+    initPalette();
+    updateMetrics();
+    renderQuestions();
+  </script>
+</body>
+</html>
