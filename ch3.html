@@ -4,8 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Software Project Management — Comprehensive Interactive Exam Quiz</title>
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS CDN with dark mode configured to 'class' -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
   <!-- Phosphor Icons -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
@@ -30,55 +35,70 @@
     .scrollbar-thin::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
+    .dark .scrollbar-thin::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-blue-600 selection:text-white transition-colors duration-200">
 
   <!-- TOP HEADER & LIVE STATUS BAR -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors duration-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <!-- Title -->
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white flex items-center justify-center shadow-md shadow-blue-100 font-bold text-lg">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white flex items-center justify-center shadow-md shadow-blue-500/20 font-bold text-lg">
             <i class="ph-bold ph-kanban"></i>
           </div>
           <div>
-            <h1 class="font-bold text-slate-900 text-lg leading-tight">Software Project Management</h1>
-            <p class="text-xs text-slate-500 font-medium">Chapter 3 Mastery Quiz • 52 Questions (39 MCQs + 13 T/F)</p>
+            <h1 class="font-bold text-slate-900 dark:text-white text-lg leading-tight">Software Project Management</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Chapter 3 Mastery Quiz • 52 Questions (39 MCQs + 13 T/F)</p>
           </div>
         </div>
 
         <!-- Live Metrics & Controls -->
         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
           <!-- Score -->
-          <div class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 text-xs">
-            <span class="text-slate-500 font-semibold uppercase tracking-wider">Score:</span>
-            <span id="score-counter" class="font-bold text-blue-600 text-sm">0 / 52</span>
+          <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs">
+            <span class="text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">Score:</span>
+            <span id="score-counter" class="font-bold text-blue-600 dark:text-blue-400 text-sm">0 / 52</span>
           </div>
 
           <!-- Accuracy -->
-          <div class="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 text-xs">
-            <span class="text-emerald-700 font-semibold uppercase tracking-wider">Accuracy:</span>
-            <span id="accuracy-counter" class="font-bold text-emerald-700 text-sm">0%</span>
+          <div class="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800/60 text-xs">
+            <span class="text-emerald-700 dark:text-emerald-400 font-semibold uppercase tracking-wider">Accuracy:</span>
+            <span id="accuracy-counter" class="font-bold text-emerald-700 dark:text-emerald-300 text-sm">0%</span>
           </div>
 
           <!-- Question Palette Trigger -->
-          <button id="open-palette-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-xs transition border border-blue-200">
+          <button id="open-palette-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-semibold text-xs transition border border-blue-200 dark:border-blue-800">
             <i class="ph-bold ph-squares-four text-base"></i>
             <span>Question Navigator</span>
           </button>
 
+          <!-- Night Mode Toggle Button -->
+          <button id="theme-toggle-btn" title="Toggle Night Mode" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition border border-slate-200 dark:border-slate-700">
+            <i id="theme-icon" class="ph-bold ph-moon text-base text-amber-500"></i>
+            <span id="theme-text" class="hidden sm:inline">Night Mode</span>
+          </button>
+
           <!-- Reset -->
-          <button id="reset-all-btn" title="Reset all progress" class="p-2 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-600 transition border border-slate-200 hover:border-rose-200">
+          <button id="reset-all-btn" title="Reset all progress" class="p-2 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 transition border border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-800">
             <i class="ph-bold ph-arrow-counter-clockwise text-sm"></i>
           </button>
         </div>
       </div>
 
       <!-- Live Progress Bar -->
-      <div class="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-        <div id="progress-bar-fill" class="bg-blue-600 h-1.5 rounded-full transition-all duration-300 w-0"></div>
+      <div class="mt-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+        <div id="progress-bar-fill" class="bg-blue-600 dark:bg-blue-500 h-1.5 rounded-full transition-all duration-300 w-0"></div>
       </div>
     </div>
   </header>
@@ -90,39 +110,39 @@
       <!-- SIDEBAR: STATS, FILTERS, EXAM FORMULAS -->
       <aside class="hidden lg:block lg:col-span-1 space-y-6">
         <!-- Quick Stats Card -->
-        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
-          <h2 class="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i class="ph-bold ph-chart-pie text-blue-600"></i>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors duration-200">
+          <h2 class="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+            <i class="ph-bold ph-chart-pie text-blue-600 dark:text-blue-400"></i>
             Performance Summary
           </h2>
           <div class="space-y-3 text-sm">
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
-              <span class="text-slate-500">Attempted</span>
-              <span id="stat-attempted" class="font-bold text-slate-800">0 / 52</span>
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400">Attempted</span>
+              <span id="stat-attempted" class="font-bold text-slate-800 dark:text-slate-200">0 / 52</span>
             </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
-              <span class="text-slate-500 text-emerald-600 flex items-center gap-1.5">
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Correct
               </span>
-              <span id="stat-correct" class="font-bold text-emerald-600">0</span>
+              <span id="stat-correct" class="font-bold text-emerald-600 dark:text-emerald-400">0</span>
             </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
-              <span class="text-slate-500 text-rose-600 flex items-center gap-1.5">
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-rose-500"></span> Incorrect
               </span>
-              <span id="stat-incorrect" class="font-bold text-rose-600">0</span>
+              <span id="stat-incorrect" class="font-bold text-rose-600 dark:text-rose-400">0</span>
             </div>
             <div class="flex justify-between items-center py-1.5">
-              <span class="text-slate-500">Unanswered</span>
-              <span id="stat-unanswered" class="font-bold text-slate-400">52</span>
+              <span class="text-slate-500 dark:text-slate-400">Unanswered</span>
+              <span id="stat-unanswered" class="font-bold text-slate-400 dark:text-slate-500">52</span>
             </div>
           </div>
         </div>
 
         <!-- Filter Controls -->
-        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-3">
-          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <i class="ph-bold ph-funnel text-blue-600"></i>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3 transition-colors duration-200">
+          <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <i class="ph-bold ph-funnel text-blue-600 dark:text-blue-400"></i>
             Filter Questions
           </h2>
           <div class="space-y-1.5 text-xs font-semibold">
@@ -130,25 +150,25 @@
               <span>All Questions</span>
               <span class="bg-white/20 px-2 py-0.5 rounded-full text-[11px]">52</span>
             </button>
-            <button data-filter="mcq" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+            <button data-filter="mcq" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 flex justify-between items-center transition">
               <span>MCQs Only (Q1 – Q39)</span>
-              <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">39</span>
+              <span class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px]">39</span>
             </button>
-            <button data-filter="tf" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+            <button data-filter="tf" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 flex justify-between items-center transition">
               <span>True / False (TF1 – TF13)</span>
-              <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">13</span>
+              <span class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px]">13</span>
             </button>
-            <button data-filter="incorrect" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+            <button data-filter="incorrect" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 flex justify-between items-center transition">
               <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Marked Incorrect</span>
-              <span id="filter-incorrect-badge" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">0</span>
+              <span id="filter-incorrect-badge" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px]">0</span>
             </button>
           </div>
         </div>
 
         <!-- Formula Cheat Card -->
-        <div class="bg-blue-50/70 rounded-2xl p-4 border border-blue-100 text-xs text-blue-950 space-y-2.5">
-          <div class="flex items-center gap-2 font-bold text-blue-900">
-            <i class="ph-bold ph-function text-base text-blue-600"></i>
+        <div class="bg-blue-50/70 dark:bg-blue-950/30 rounded-2xl p-4 border border-blue-100 dark:border-blue-900/50 text-xs text-blue-950 dark:text-blue-200 space-y-2.5 transition-colors duration-200">
+          <div class="flex items-center gap-2 font-bold text-blue-900 dark:text-blue-300">
+            <i class="ph-bold ph-function text-base text-blue-600 dark:text-blue-400"></i>
             Key Formulas & Rules
           </div>
           <p class="leading-relaxed font-medium">
@@ -165,15 +185,15 @@
       <section class="lg:col-span-3 space-y-6">
         
         <!-- Search & Control Bar -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors duration-200">
           <div class="relative w-full sm:w-80">
             <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input id="search-input" type="text" placeholder="Search keywords (e.g. COCOMO, Putnam, PERT, SCM)..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" />
+            <input id="search-input" type="text" placeholder="Search keywords (e.g. COCOMO, Putnam, PERT, SCM)..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" />
           </div>
 
           <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-            <span id="visible-count" class="text-xs text-slate-500 font-medium">Showing 52 questions</span>
-            <button id="expand-all-rationales" class="text-xs font-semibold text-blue-600 hover:text-blue-800 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition border border-transparent hover:border-blue-200">
+            <span id="visible-count" class="text-xs text-slate-500 dark:text-slate-400 font-medium">Showing 52 questions</span>
+            <button id="expand-all-rationales" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 transition border border-transparent hover:border-blue-200 dark:hover:border-blue-800">
               Expand All Explanations
             </button>
           </div>
@@ -187,22 +207,22 @@
   </main>
 
   <!-- QUESTION NAVIGATOR DRAWER -->
-  <div id="palette-modal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex justify-end">
-    <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col p-6">
-      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+  <div id="palette-modal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex justify-end">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md h-full shadow-2xl flex flex-col p-6 border-l border-slate-200 dark:border-slate-800 transition-colors duration-200">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center gap-2">
-          <i class="ph-bold ph-squares-four text-blue-600 text-lg"></i>
-          <h3 class="font-bold text-slate-900 text-base">Question Grid Navigator</h3>
+          <i class="ph-bold ph-squares-four text-blue-600 dark:text-blue-400 text-lg"></i>
+          <h3 class="font-bold text-slate-900 dark:text-white text-base">Question Grid Navigator</h3>
         </div>
-        <button id="close-palette-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+        <button id="close-palette-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
           <i class="ph-bold ph-x text-lg"></i>
         </button>
       </div>
 
-      <div class="my-4 flex items-center justify-between text-xs text-slate-600">
+      <div class="my-4 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
         <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-emerald-500 inline-block"></span> Correct</span>
         <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-rose-500 inline-block"></span> Incorrect</span>
-        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-slate-200 border border-slate-300 inline-block"></span> Unanswered</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 inline-block"></span> Unanswered</span>
       </div>
 
       <!-- Navigation Grids -->
@@ -354,7 +374,7 @@
           { key: 'a', text: "Employing 100 persons for 1 month" },
           { key: 'b', text: "Employing 1 person for 100 months" },
           { key: 'c', text: "Employing 10 persons for 10 months" },
-          { key: 'd', text: "The number of persons employed over different project phases would correspond to Rayleigh distribution" },
+          { key: 'd', text: "The number of persons employed over different project phases would correspond to Rayleigh distribution" }
         ],
         correct: 'd',
         reason: "An effort of 100 PM does NOT mean 100 persons for 1 month or 10 persons for 10 months. Effort represents the area under the person-month curve, and optimal staffing dynamically follows a Rayleigh-Norden distribution (few people at inception, peaking during integration/testing, then decreasing)."
@@ -949,6 +969,27 @@
     const searchInput = document.getElementById('search-input');
     const resetAllBtn = document.getElementById('reset-all-btn');
     const expandAllRationalesBtn = document.getElementById('expand-all-rationales');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+
+    // Night Mode Toggle Functionality
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      if (isDark) {
+        themeIcon.classList.remove('ph-moon', 'text-amber-500');
+        themeIcon.classList.add('ph-sun', 'text-amber-400');
+        themeText.innerText = 'Day Mode';
+        themeToggleBtn.setAttribute('title', 'Switch to Day Mode');
+      } else {
+        themeIcon.classList.remove('ph-sun', 'text-amber-400');
+        themeIcon.classList.add('ph-moon', 'text-amber-500');
+        themeText.innerText = 'Night Mode';
+        themeToggleBtn.setAttribute('title', 'Switch to Night Mode');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
 
     // Build Palette
     function initPalette() {
@@ -958,7 +999,7 @@
       questionsData.forEach(q => {
         const btn = document.createElement('button');
         btn.id = `palette-item-${q.id}`;
-        btn.className = "w-full aspect-square text-xs font-bold rounded-lg border flex items-center justify-center transition bg-slate-100 border-slate-200 text-slate-600 hover:border-blue-400";
+        btn.className = "w-full aspect-square text-xs font-bold rounded-lg border flex items-center justify-center transition bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-blue-400 dark:hover:border-blue-500";
         btn.innerText = q.type === 'mcq' ? q.id : `TF${q.id - 39}`;
         btn.onclick = () => {
           paletteModal.classList.add('hidden');
@@ -1002,12 +1043,12 @@
 
       if (filtered.length === 0) {
         questionsContainer.innerHTML = `
-          <div class="bg-white rounded-2xl p-12 text-center border border-slate-200">
-            <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800 transition-colors duration-200">
+            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center mx-auto mb-3">
               <i class="ph-bold ph-magnifying-glass text-xl"></i>
             </div>
-            <h3 class="font-bold text-slate-800 text-base mb-1">No questions found</h3>
-            <p class="text-xs text-slate-500">Try adjusting your search query or switching active filters.</p>
+            <h3 class="font-bold text-slate-800 dark:text-slate-200 text-base mb-1">No questions found</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Try adjusting your search query or switching active filters.</p>
           </div>
         `;
         return;
@@ -1020,46 +1061,46 @@
 
         const card = document.createElement('div');
         card.id = `question-card-${q.id}`;
-        card.className = "bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm transition-all";
+        card.className = "bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/90 dark:border-slate-800 shadow-sm transition-colors duration-200";
 
-        let statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 border border-slate-200">Unanswered</span>`;
+        let statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Unanswered</span>`;
         if (isAnswered) {
           if (isCorrect) {
-            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1"><i class="ph-bold ph-check"></i> Correct</span>`;
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-1"><i class="ph-bold ph-check"></i> Correct</span>`;
           } else {
-            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1"><i class="ph-bold ph-x"></i> Incorrect</span>`;
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 flex items-center gap-1"><i class="ph-bold ph-x"></i> Incorrect</span>`;
           }
         }
 
         const typeTag = q.type === 'mcq' 
-          ? `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100">Multiple Choice</span>`
-          : `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-100">True / False</span>`;
+          ? `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/60">Multiple Choice</span>`
+          : `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-900/60">True / False</span>`;
 
         card.innerHTML = `
           <div class="flex items-center justify-between gap-2 mb-3">
             <div class="flex items-center gap-2">
-              <span class="font-bold text-sm text-slate-900 bg-slate-100 px-2.5 py-1 rounded-lg">${q.numberText}</span>
+              <span class="font-bold text-sm text-slate-900 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">${q.numberText}</span>
               ${typeTag}
             </div>
             <div>${statusBadge}</div>
           </div>
 
-          <p class="text-sm font-semibold text-slate-800 mb-5 leading-relaxed whitespace-pre-line">${q.question}</p>
+          <p class="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-5 leading-relaxed whitespace-pre-line">${q.question}</p>
 
           <div class="options-container space-y-2.5 mb-4">
             ${q.options.map(opt => {
-              let optClass = "border-slate-200 hover:border-blue-300 hover:bg-slate-50/80 text-slate-700";
-              let iconHtml = `<span class="w-6 h-6 rounded-lg border border-slate-300 text-xs font-bold flex items-center justify-center text-slate-500 uppercase">${opt.key}</span>`;
+              let optClass = "border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-slate-50/80 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200";
+              let iconHtml = `<span class="w-6 h-6 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center justify-center text-slate-500 dark:text-slate-400 uppercase">${opt.key}</span>`;
 
               if (isAnswered) {
                 if (opt.key === q.correct) {
-                  optClass = "border-emerald-500 bg-emerald-50/90 text-emerald-900 font-semibold ring-1 ring-emerald-500";
-                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-check"></i></span>`;
+                  optClass = "border-emerald-500 dark:border-emerald-500 bg-emerald-50/90 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-semibold ring-1 ring-emerald-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-emerald-600 dark:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-check"></i></span>`;
                 } else if (opt.key === selectedKey) {
-                  optClass = "border-rose-500 bg-rose-50/90 text-rose-900 font-semibold ring-1 ring-rose-500";
-                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-rose-600 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-x"></i></span>`;
+                  optClass = "border-rose-500 dark:border-rose-500 bg-rose-50/90 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 font-semibold ring-1 ring-rose-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-rose-600 dark:bg-rose-500 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-x"></i></span>`;
                 } else {
-                  optClass = "border-slate-200 bg-slate-50/40 text-slate-400 opacity-60";
+                  optClass = "border-slate-200 dark:border-slate-800/60 bg-slate-50/40 dark:bg-slate-900/40 text-slate-400 dark:text-slate-600 opacity-60";
                 }
               }
 
@@ -1078,12 +1119,12 @@
             }).join('')}
           </div>
 
-          <div class="rationale-box ${isAnswered ? '' : 'hidden'} mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs leading-relaxed">
-            <div class="flex items-center gap-1.5 font-bold text-slate-800 mb-1.5">
-              <i class="ph-bold ph-info text-blue-600 text-sm"></i>
+          <div class="rationale-box ${isAnswered ? '' : 'hidden'} mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs leading-relaxed">
+            <div class="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-200 mb-1.5">
+              <i class="ph-bold ph-info text-blue-600 dark:text-blue-400 text-sm"></i>
               <span>Textbook Explanation & Reason:</span>
             </div>
-            <p class="text-slate-600 whitespace-pre-line">${q.reason}</p>
+            <p class="text-slate-600 dark:text-slate-300 whitespace-pre-line">${q.reason}</p>
           </div>
         `;
 
@@ -1114,7 +1155,7 @@
       const q = questionsData.find(item => item.id === qid);
       const isCorrect = userAnswers[qid] === q.correct;
 
-      btn.classList.remove('bg-slate-100', 'border-slate-200', 'text-slate-600', 'bg-emerald-500', 'bg-rose-500', 'text-white', 'border-emerald-600', 'border-rose-600');
+      btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300', 'bg-emerald-500', 'bg-rose-500', 'text-white', 'border-emerald-600', 'border-rose-600');
 
       if (isCorrect) {
         btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
@@ -1167,9 +1208,9 @@
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => {
           b.classList.remove('bg-blue-600', 'text-white');
-          b.classList.add('hover:bg-slate-100', 'text-slate-600');
+          b.classList.add('hover:bg-slate-100', 'dark:hover:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
         });
-        btn.classList.remove('hover:bg-slate-100', 'text-slate-600');
+        btn.classList.remove('hover:bg-slate-100', 'dark:hover:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
         btn.classList.add('bg-blue-600', 'text-white');
 
         activeFilter = btn.dataset.filter;
