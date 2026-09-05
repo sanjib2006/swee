@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Function-Oriented Software Design — Chapter 6 Mastery Quiz</title>
+  <!-- Tailwind CSS CDN with dark mode configured to 'class' -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .dark .scrollbar-thin::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-purple-600 selection:text-white transition-colors duration-200">
+
+  <!-- TOP HEADER & LIVE STATUS BAR -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <!-- Title & Subtitle -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center shadow-md shadow-purple-500/20 font-bold text-lg">
+            <i class="ph-bold ph-git-fork"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-slate-900 dark:text-white text-lg leading-tight">Function-Oriented Software Design</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Chapter 6 Mastery Quiz • 30 Questions (Official Exercises + SA/SD Concepts)</p>
+          </div>
+        </div>
+
+        <!-- Live Metrics & Actions -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <!-- Score Badge -->
+          <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs">
+            <span class="text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">Score:</span>
+            <span id="score-counter" class="font-bold text-purple-600 dark:text-purple-400 text-sm">0 / 30</span>
+          </div>
+
+          <!-- Accuracy Badge -->
+          <div class="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800/60 text-xs">
+            <span class="text-emerald-700 dark:text-emerald-400 font-semibold uppercase tracking-wider">Accuracy:</span>
+            <span id="accuracy-counter" class="font-bold text-emerald-700 dark:text-emerald-300 text-sm">0%</span>
+          </div>
+
+          <!-- Question Palette Trigger -->
+          <button id="open-palette-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/50 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-semibold text-xs transition border border-purple-200 dark:border-purple-800">
+            <i class="ph-bold ph-squares-four text-base"></i>
+            <span>Question Navigator</span>
+          </button>
+
+          <!-- Night Mode Toggle Button -->
+          <button id="theme-toggle-btn" title="Toggle Night Mode" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition border border-slate-200 dark:border-slate-700">
+            <i id="theme-icon" class="ph-bold ph-moon text-base text-amber-500"></i>
+            <span id="theme-text" class="hidden sm:inline">Night Mode</span>
+          </button>
+
+          <!-- Reset Button -->
+          <button id="reset-all-btn" title="Reset all progress" class="p-2 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 transition border border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-800">
+            <i class="ph-bold ph-arrow-counter-clockwise text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Progress Bar -->
+      <div class="mt-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+        <div id="progress-bar-fill" class="bg-purple-600 dark:bg-purple-500 h-1.5 rounded-full transition-all duration-300 w-0"></div>
+      </div>
+    </div>
+  </header>
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- SIDEBAR: PERFORMANCE STATS, FILTERS, EXAM CHEAT SHEET -->
+      <aside class="hidden lg:block lg:col-span-1 space-y-6">
+        <!-- Quick Stats Card -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors duration-200">
+          <h2 class="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+            <i class="ph-bold ph-chart-pie text-purple-600 dark:text-purple-400"></i>
+            Performance Summary
+          </h2>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400">Attempted</span>
+              <span id="stat-attempted" class="font-bold text-slate-800 dark:text-slate-200">0 / 30</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Correct
+              </span>
+              <span id="stat-correct" class="font-bold text-emerald-600 dark:text-emerald-400">0</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span> Incorrect
+              </span>
+              <span id="stat-incorrect" class="font-bold text-rose-600 dark:text-rose-400">0</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5">
+              <span class="text-slate-500 dark:text-slate-400">Unanswered</span>
+              <span id="stat-unanswered" class="font-bold text-slate-400 dark:text-slate-500">30</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3 transition-colors duration-200">
+          <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <i class="ph-bold ph-funnel text-purple-600 dark:text-purple-400"></i>
+            Filter Questions
+          </h2>
+          <div class="space-y-1.5 text-xs font-semibold">
+            <button data-filter="all" class="filter-btn w-full text-left px-3 py-2 rounded-lg bg-purple-600 text-white flex justify-between items-center transition">
+              <span>All Questions</span>
+              <span class="bg-white/20 px-2 py-0.5 rounded-full text-[11px]">30</span>
+            </button>
+            <button data-filter="official" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 flex justify-between items-center transition">
+              <span>Official Textbook Questions</span>
+              <span class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px]">6</span>
+            </button>
+            <button data-filter="mcq" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 flex justify-between items-center transition">
+              <span>Multiple Choice (MCQs)</span>
+              <span class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px]">23</span>
+            </button>
+            <button data-filter="tf" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 flex justify-between items-center transition">
+              <span>True / False Statements</span>
+              <span class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px]">7</span>
+            </button>
+            <button data-filter="incorrect" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 flex justify-between items-center transition">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Marked Incorrect</span>
+              <span id="filter-incorrect-badge" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px]">0</span>
+            </button>
+          </div>
+        </div>
+        <!-- Chapter 6 Key Rules Cheat Card -->
+        <div class="bg-purple-50/70 dark:bg-purple-950/30 rounded-2xl p-4 border border-purple-100 dark:border-purple-900/50 text-xs text-purple-950 dark:text-purple-200 space-y-2.5 transition-colors duration-200">
+          <div class="flex items-center gap-2 font-bold text-purple-900 dark:text-purple-300">
+            <i class="ph-bold ph-lightbulb text-base text-purple-600 dark:text-purple-400"></i>
+            Key Exam Insights (Ch 6)
+          </div>
+          <p class="leading-relaxed font-medium">
+            • <strong>DFD = Data Flow Only:</strong> No control flow, no sequence, no algorithmic decisions.<br/>
+            • <strong>Context Diagram:</strong> Single bubble with a NOUN. External entities appear <em>only</em> here.<br/>
+            • <strong>3–7 Bubbles Rule:</strong> Each level should contain 3 to 7 bubbles (Miller's chunking).<br/>
+            • <strong>Synchronous vs. Asynchronous:</strong> Direct connection = synchronous (same speed); via data store = asynchronous.<br/>
+            • <strong>Transform vs. Transaction:</strong> Single processing path = Transform (afferent, central, efferent); diverging paths = Transaction.
+          </p>
+        </div>
+      </aside>
+
+      <!-- MAIN QUESTION STREAM -->
+      <section class="lg:col-span-3 space-y-6">
+        
+        <!-- Search & Control Bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors duration-200">
+          <div class="relative w-full sm:w-80">
+            <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input id="search-input" type="text" placeholder="Search keywords (e.g. DFD, balancing, afferent, transaction, Ward-Mellor)..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition" />
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+            <span id="visible-count" class="text-xs text-slate-500 dark:text-slate-400 font-medium">Showing 30 questions</span>
+            <button id="expand-all-rationales" class="text-xs font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/50 transition border border-transparent hover:border-purple-200 dark:hover:border-purple-800">
+              Expand All Explanations
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Cards List -->
+        <div id="questions-list" class="space-y-6"></div>
+
+      </section>
+    </div>
+  </main>
+  <!-- QUESTION NAVIGATOR DRAWER -->
+  <div id="palette-modal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex justify-end">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md h-full shadow-2xl flex flex-col p-6 border-l border-slate-200 dark:border-slate-800 transition-colors duration-200">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-squares-four text-purple-600 dark:text-purple-400 text-lg"></i>
+          <h3 class="font-bold text-slate-900 dark:text-white text-base">Question Grid Navigator</h3>
+        </div>
+        <button id="close-palette-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i class="ph-bold ph-x text-lg"></i>
+        </button>
+      </div>
+
+      <div class="my-4 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-emerald-500 inline-block"></span> Correct</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-rose-500 inline-block"></span> Incorrect</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 inline-block"></span> Unanswered</span>
+      </div>
+
+      <!-- Navigation Grids -->
+      <div class="flex-1 overflow-y-auto scrollbar-thin py-2">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Official Textbook Exercises (Q1 – Q6)</h4>
+        <div id="palette-official-grid" class="grid grid-cols-6 gap-2 mb-6"></div>
+
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Chapter 6 Concept Mastery (Q7 – Q30)</h4>
+        <div id="palette-mastery-grid" class="grid grid-cols-6 gap-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*
+     * CHAPTER 6 DATASET: FUNCTION-ORIENTED SOFTWARE DESIGN
+     * Evaluated against Rajib Mall's Fundamentals of Software Engineering (Ch. 6, pp. 243–294)
+     * - Q1 to Q4: Official Textbook MCQs (Exercises p. 272)
+     * - Q5 & Q6: Official Textbook Review Questions (Q10 & Q11, p. 273)
+     * - Q7 to Q30: Chapter 6 Concept Mastery Questions (Sections 6.2 - 6.6)
+     */
+    const questionsData = [
+      // --- OFFICIAL TEXTBOOK EXERCISES (Q1 - Q6) ---
+      {
+        id: 1,
+        type: 'mcq',
+        isOfficial: true,
+        numberText: 'Textbook MCQ 1',
+        question: "A data flow diagram represents:",
+        options: [
+          { key: 'a', text: "The conditions based on which a data may be processed" },
+          { key: 'b', text: "The order in which different activities are carried out" },
+          { key: 'c', text: "The transformation of data through processing stations" },
+          { key: 'd', text: "The order in which various functions of a program are invoked" }
+        ],
+        correct: 'c',
+        reason: "Textbook Reference (Section 6.2, p. 243):\n\"A DFD model only represents the data flow aspects and does not show the sequence of execution of the different functions and the conditions based on which a function may or may not be executed... It is useful to consider each function as a processing station (or process) that consumes some input data and produces some output data.\""
+      },
+      {
+        id: 2,
+        type: 'mcq',
+        isOfficial: true,
+        numberText: 'Textbook MCQ 2',
+        question: "A DFD depicts which of the following:",
+        options: [
+          { key: 'a', text: "Flow of data" },
+          { key: 'b', text: "Flow of control" },
+          { key: 'c', text: "Flow of statements" },
+          { key: 'd', text: "None of the above" }
+        ],
+        correct: 'a',
+        reason: "Textbook Reference (Section 6.2 & 6.2.1, pp. 243–244, 252):\n\"It is important to realise that a DFD represents only data flow, and it does not represent any control information.\" DFD completely ignores control flow, decisions, and sequential statements."
+      },
+      {
+        id: 3,
+        type: 'mcq',
+        isOfficial: true,
+        numberText: 'Textbook MCQ 3',
+        question: "Which of the following statements is not true of data flow diagrams (DFDs)?",
+        options: [
+          { key: 'a', text: "Hierarchical diagram" },
+          { key: 'b', text: "Represent code structure" },
+          { key: 'c', text: "Do not represent decisions and control flows" },
+          { key: 'd', text: "Represent functional decomposition" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.2 & 6.4, pp. 243, 265):\nDFD represents functional decomposition and the data flow between processes; it does NOT represent program/code structure or module calling relationships. The module and code architecture is represented by a Structure Chart."
+      },
+      {
+        id: 4,
+        type: 'mcq',
+        isOfficial: true,
+        numberText: 'Textbook MCQ 4',
+        question: "In a procedural design approach, during the detailed design stage, which of the following is undertaken?",
+        options: [
+          { key: 'a', text: "Module structure is designed" },
+          { key: 'b', text: "Data flow representation is developed" },
+          { key: 'c', text: "Data structures and algorithms for the individual modules are developed" },
+          { key: 'd', text: "Structure chart is developed" }
+        ],
+        correct: 'c',
+        reason: "Textbook Reference (Section 6.5, p. 270):\n\"During detailed design the pseudo code description of the processing and the different data structures are designed for the different modules of the structure chart. These are usually described in the form of module specifications (MSPEC).\"\nHigh-level design creates the structure chart and module structure; detailed design defines the internal algorithms and data structures."
+      },
+      {
+        id: 5,
+        type: 'tf',
+        isOfficial: true,
+        numberText: 'Textbook Review Q10',
+        question: "State whether the following statement is TRUE or FALSE:\n\"The essence of any good function-oriented design principle is to map similar functions into a module.\"",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Textbook Reference (Section 5.3 & 6.1, pp. 222, 243):\nGrouping 'similar' functions (e.g. putting all mathematical calculations or all printing routines in one module) yields Logical Cohesion, which is considered a weak and undesirable form of cohesion. The essence of good function-oriented design is Functional Cohesion, where all elements of a module cooperate to execute a single, well-defined function."
+      },
+      {
+        id: 6,
+        type: 'mcq',
+        isOfficial: true,
+        numberText: 'Textbook Review Q11',
+        question: "Identify the correct statement among the following:",
+        options: [
+          { key: 'a', text: "A DFD model essentially represents the data and control relationships among program elements." },
+          { key: 'b', text: "A DFD model of a system usually comprises many DFDs." },
+          { key: 'c', text: "The DFD model is the design model of a system." },
+          { key: 'd', text: "A DFD model cannot represent a system's file data storage." }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.3, pp. 247–248, Fig 6.4):\n\"The DFD model of a system is constructed by using a hierarchy of DFDs... consists of many DFDs and a single data dictionary.\" (Level 0, Level 1, up to 7 Level 2 DFDs, up to 49 Level 3 DFDs).\nStatement (a) is false because DFD has no control relationships; (c) is false because DFD is an analysis model; (d) is false because data stores explicitly represent file storage."
+      },
+
+      // --- CHAPTER 6 CONCEPT MASTERY (Q7 - Q30) ---
+      {
+        id: 7,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 1',
+        question: "In a DFD model, how does the naming convention of the bubble in the Context Diagram (Level 0 DFD) differ from all other bubbles in the lower-level DFDs?",
+        options: [
+          { key: 'a', text: "It is named using an active verb phrase, whereas lower-level bubbles use adjectives" },
+          { key: 'b', text: "It is annotated with a noun representing the software system, whereas all lower-level bubbles are annotated with verbs" },
+          { key: 'c', text: "It is identified only by a numeric identifier without any text label" },
+          { key: 'd', text: "It must match the customer's corporate legal name exactly" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.3.1, p. 247):\n\"The bubble in the context diagram is annotated with the name of the software system being developed (usually a noun). This is the only bubble in a DFD model, where a noun is used for naming the bubble. The bubbles at all other levels are annotated with verbs according to the main function performed by the bubble.\""
+      },
+      {
+        id: 8,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 2',
+        question: "When two bubbles in a DFD are connected directly by a data flow arrow (without an intervening data store), what is their execution relationship?",
+        options: [
+          { key: 'a', text: "Asynchronous: each bubble executes completely independent of the other's speed" },
+          { key: 'b', text: "Synchronous: they operate at the same speed; the consuming bubble must wait for data, and the producing bubble must wait until data is consumed" },
+          { key: 'c', text: "Concurrent multithreading with automatic buffering" },
+          { key: 'd', text: "Intermittent batch processing" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.2.1, p. 245, Fig 6.3):\n\"If two bubbles are directly connected by a data flow arrow, then they are synchronous. This means that they operate at the same speed... However, if two bubbles are connected through a data store, then the speed of operation of the bubbles are independent (asynchronous).\""
+      },
+      {
+        id: 9,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 3',
+        question: "In a data dictionary, which operator is used to represent selection (i.e. exactly one of the enclosed data items occurs)?",
+        options: [
+          { key: 'a', text: "{ }" },
+          { key: 'b', text: "( )" },
+          { key: 'c', text: "[ , ]" },
+          { key: 'd', text: "+ " }
+        ],
+        correct: 'c',
+        reason: "Textbook Reference (Section 6.2.1, pp. 246–247):\n• + denotes composition (sequence)\n• [ , ] represents selection (e.g. [a, b] represents either a occurs or b occurs)\n• ( ) represents optional data\n• { } represents iteration / repetition."
+      },
+      {
+        id: 10,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 4',
+        question: "In a data dictionary, the entry \"student-record = roll-no + name + (hostel-address)\" indicates that hostel-address is:",
+        options: [
+          { key: 'a', text: "Repeated multiple times" },
+          { key: 'b', text: "Optional data that may or may not appear" },
+          { key: 'c', text: "Mutually exclusive with student name" },
+          { key: 'd', text: "An internal comment for the compiler" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.2.1, pp. 246–247):\n\"( ) : the contents inside the bracket represent optional data which may or may not appear. a + (b) represents either a or a + b occurs.\""
+      },
+      {
+        id: 11,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 5',
+        question: "According to standard structured analysis guidelines, how many bubbles should ideally appear on any single DFD at any level?",
+        options: [
+          { key: 'a', text: "Exactly 1 or 2 bubbles" },
+          { key: 'b', text: "Between 3 and 7 bubbles" },
+          { key: 'c', text: "Between 10 and 15 bubbles" },
+          { key: 'd', text: "As many as needed to avoid multiple levels" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.3.2, p. 249):\n\"The level 1 DFD usually contains three to seven bubbles... Each bubble at any level of DFD is usually decomposed to anything three to seven bubbles. A few bubbles at any level make that level superfluous... too many bubbles (more than seven) makes the DFD model hard to understand.\""
+      },
+      {
+        id: 12,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 6',
+        question: "What does the concept of \"Balancing a DFD\" signify?",
+        options: [
+          { key: 'a', text: "Ensuring that the number of inputs to every bubble equals the number of outputs" },
+          { key: 'b', text: "The data flows into or out of a bubble in a parent DFD must exactly match the external data flows entering and leaving its decomposed child DFD" },
+          { key: 'c', text: "Ensuring that all bubbles have identical processing time and CPU resource usage" },
+          { key: 'd', text: "Keeping equal numbers of data stores and processes across each level" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.3.2, p. 250, Fig 6.5):\n\"The data that flow into or out of a bubble must match the data flow at the next level of DFD. This is known as balancing a DFD. Dangling arrows represent the data flows into or out of a diagram.\""
+      },
+      {
+        id: 13,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 7',
+        question: "Which one of the following connections is STRICTLY ILLEGAL in a Data Flow Diagram?",
+        options: [
+          { key: 'a', text: "A data flow arrow from an external entity to a process bubble" },
+          { key: 'b', text: "A data flow arrow directly connecting one data store to another data store without an intervening process" },
+          { key: 'c', text: "A data flow arrow from a process bubble to a data store" },
+          { key: 'd', text: "A data flow arrow between two process bubbles" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.3.2, p. 252):\n\"A data flow arrow should not connect two data stores or even a data store with an external entity. Thus, data cannot flow from a data store to another data store or to an external entity without any intervening processing. A data store should be connected only to bubbles.\""
+      },
+
+      {
+        id: 14,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 8',
+        question: "In the Ward and Mellor extension of DFDs for real-time systems, how are control processes and control flows represented?",
+        options: [
+          { key: 'a', text: "Double-bordered rectangles and double arrows" },
+          { key: 'b', text: "Dashed bubbles and dashed lines/arrows" },
+          { key: 'c', text: "Hexagonal boxes and bold red arrows" },
+          { key: 'd', text: "Diamonds and curved arcs" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.3.3, p. 264):\n\"In the Ward and Mellor notation, a type of process that handles only control flows is introduced. These processes representing control processing are denoted using dashed bubbles. Control flows are shown using dashed lines/arrows.\""
+      },
+      {
+        id: 15,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 9',
+        question: "In the Hatley and Pirbhai extension for real-time systems, what does the Control Specification (CSPEC) contain to link data flow and control flow?",
+        options: [
+          { key: 'a', text: "A Gantt chart and a PERT network" },
+          { key: 'b', text: "A State Transition Diagram (STD) for sequential behavior and a Program Activation Table (PAT) for combinatorial activation" },
+          { key: 'c', text: "An Entity-Relationship diagram and SQL queries" },
+          { key: 'd', text: "A Class diagram and Object Sequence charts" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.3.3, pp. 264–265):\n\"The CSPEC describes the effect of an external event... It contains a state transition diagram (STD) as a sequential specification of behaviour, and a program activation table (PAT) as a combinatorial specification representing the invocation sequence of bubbles in a DFD.\""
+      },
+      {
+        id: 16,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 10',
+        question: "What is the primary aim of Structured Design (SD) in the SA/SD methodology?",
+        options: [
+          { key: 'a', text: "To write compiled executable machine code directly from use cases" },
+          { key: 'b', text: "To transform the results of structured analysis (the DFD model) into a software architecture represented as a structure chart" },
+          { key: 'c', text: "To prepare commercial pricing and cost estimates for project bidding" },
+          { key: 'd', text: "To formulate test suites for unit and acceptance testing" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.4, p. 265):\n\"The aim of structured design is to transform the results of the structured analysis (that is, the DFD model) into a structure chart. A structure chart represents the software architecture: the various modules making up the system, the module dependency, and the parameters passed.\""
+      },
+      {
+        id: 17,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 11',
+        question: "In a Structure Chart, what does a rectangle with double edges represent?",
+        options: [
+          { key: 'a', text: "The root module of the application" },
+          { key: 'b', text: "A library module (a frequently called module invoked by many others)" },
+          { key: 'c', text: "A data store on secondary storage" },
+          { key: 'd', text: "An operating system interrupt service routine" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.4, p. 265):\n\"Library modules: A library module is usually represented by a rectangle with double edges. Libraries comprise the frequently called modules. Usually, when a module is invoked by many other modules, it is made into a library module.\""
+      },
+      {
+        id: 18,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 12',
+        question: "In a Structure Chart, what does a diamond symbol placed at the base of a module invocation arrow signify?",
+        options: [
+          { key: 'a', text: "Recursive function execution" },
+          { key: 'b', text: "Selection: one module out of several connected modules is invoked conditionally" },
+          { key: 'c', text: "Data store read/write lock" },
+          { key: 'd', text: "Multi-threaded synchronization point" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.4, p. 265):\n\"Selection: The diamond symbol represents the fact that one module of several modules connected with the diamond symbol is invoked depending on the outcome of the condition attached with the diamond symbol.\""
+      },
+      {
+        id: 19,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 13',
+        question: "In Transform Analysis, what is the \"afferent branch\" of a DFD?",
+        options: [
+          { key: 'a', text: "The portion that performs central database computations" },
+          { key: 'b', text: "The input portion that transforms input data from physical form (e.g. keyboard characters) into internal logical form" },
+          { key: 'c', text: "The output portion that formats data for display terminals" },
+          { key: 'd', text: "The error-handling loop for fatal exceptions" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.4.1, p. 267):\n\"The input portion in the DFD includes processes that transform input data from physical (e.g. character from terminal) to logical form (e.g. internal tables, lists, etc.). Each input portion is called an afferent branch.\""
+      },
+      {
+        id: 20,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 14',
+        question: "In Transform Analysis, what is the \"efferent branch\" of a DFD?",
+        options: [
+          { key: 'a', text: "The output portion that transforms output data from internal logical form to physical form (e.g. printed bills or screen display)" },
+          { key: 'b', text: "The branch that validates data against the data dictionary" },
+          { key: 'c', text: "The central computational algorithm" },
+          { key: 'd', text: "The module that initializes global variables" }
+        ],
+        correct: 'a',
+        reason: "Textbook Reference (Section 6.4.1, p. 267):\n\"The output portion of a DFD transforms output data from logical form to physical form. Each output portion is called an efferent branch. The remaining portion of a DFD is called central transform.\""
+      },
+      {
+        id: 21,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 15',
+        question: "When should Transaction Analysis be applied in preference to Transform Analysis?",
+        options: [
+          { key: 'a', text: "When all inputs entering the DFD are processed through identical computational steps" },
+          { key: 'b', text: "When different input data items trigger different computation paths, corresponding to distinct user transactions" },
+          { key: 'c', text: "Only when developing safety-critical embedded systems" },
+          { key: 'd', text: "When the system has no persistent disk storage" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.4.1, pp. 267, 269):\n\"If all the data flow into the diagram are processed in similar ways... then transform analysis is applicable. In a transaction-driven system, different data items may pass through different computation paths through the DFD... Each different way in which input data is processed is a transaction.\""
+      },
+      {
+        id: 22,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 16',
+        question: "Which of the following is NOT a principal difference between a Flow Chart and a Structure Chart?",
+        options: [
+          { key: 'a', text: "A flowchart represents the sequential ordering of tasks, whereas this ordering is suppressed in a structure chart" },
+          { key: 'b', text: "A structure chart shows data interchange among modules, which is not represented in a flowchart" },
+          { key: 'c', text: "A flowchart can only be drawn for object-oriented languages, while a structure chart is purely for assembly code" },
+          { key: 'd', text: "It is difficult to identify module boundaries from a flowchart, whereas modules are explicitly depicted as boxes in a structure chart" }
+        ],
+        correct: 'c',
+        reason: "Textbook Reference (Section 6.4, p. 266):\nA structure chart differs from a flowchart in three ways: (1) module boundaries are explicitly clear in structure charts, (2) data interchange parameters are shown in structure charts, and (3) sequential execution order inherent to flowcharts is suppressed in structure charts. Claiming that flowcharts are only for OO languages is completely false."
+      },
+      {
+        id: 23,
+        type: 'mcq',
+        isOfficial: false,
+        numberText: 'Concept MCQ 17',
+        question: "During a structured design review, what does checking for \"Traceability\" verify?",
+        options: [
+          { key: 'a', text: "That the execution run-time of each module is under 1 millisecond" },
+          { key: 'b', text: "That each functional requirement in the SRS traces to DFD bubbles, and each DFD bubble traces to specific modules in the structure chart and vice versa" },
+          { key: 'c', text: "That all variable names follow camelCase conventions" },
+          { key: 'd', text: "That memory leaks can be traced using an automated garbage collector" }
+        ],
+        correct: 'b',
+        reason: "Textbook Reference (Section 6.6, p. 271):\n\"Traceability: Whether each bubble of the DFD can be traced to some module in the structure chart and vice versa. They check whether each functional requirement in the SRS document can be traced to some bubble in the DFD model and vice versa.\""
+      },
+
+      {
+        id: 24,
+        type: 'tf',
+        isOfficial: false,
+        numberText: 'Concept True / False 1',
+        question: "In a DFD model, external entities should appear across all DFD levels (Level 0, Level 1, Level 2) to maintain full context.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Textbook Reference (Section 6.3.2, p. 251):\n\"All external entities interacting with the system should be represented only in the context diagram. The external entities should not appear in the DFDs at any other level.\""
+      },
+      {
+        id: 25,
+        type: 'tf',
+        isOfficial: false,
+        numberText: 'Concept True / False 2',
+        question: "A DFD model explicitly specifies the sequential order in which different functions are invoked during execution.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Textbook Reference (Section 6.2 & 6.3.2, pp. 243, 252):\n\"A DFD model only represents the data flow aspects and does not show the sequence of execution of the different functions... A DFD similarly should not represent the conditions under which different functions are invoked or when or in what order they run.\""
+      },
+      {
+        id: 26,
+        type: 'tf',
+        isOfficial: false,
+        numberText: 'Concept True / False 3',
+        question: "In a complete DFD model of a system, each level of DFD maintains its own separate data dictionary.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Textbook Reference (Section 6.2.1 & 6.3, pp. 246, 247, Fig 6.4):\n\"The DFD model of a problem consists of many DFDs and a single data dictionary. A single data dictionary should capture all the data appearing in all the DFDs constituting the DFD model of a system.\""
+      },
+      {
+        id: 27,
+        type: 'tf',
+        isOfficial: false,
+        numberText: 'Concept True / False 4',
+        question: "In a properly layered Structure Chart, there should be at most one control relationship between any two modules (e.g. if Module A calls Module B, Module B cannot call Module A).",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. Textbook Reference (Section 6.4, p. 265, Fig 6.18):\n\"There should be at most one control relationship between any two modules in the structure chart. This means that if module A invokes module B, module B cannot invoke module A. The principle of abstraction does not allow lower-level modules to be aware of the existence of the high-level modules.\""
+      },
+      {
+        id: 28,
+        type: 'tf',
+        isOfficial: false,
+        numberText: 'Concept True / False 5',
+        question: "If two bubbles in a DFD communicate through a data store, they are forced to execute synchronously at the same speed.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Textbook Reference (Section 6.2.1, p. 245, Fig 6.3(b)):\n\"If two bubbles are connected through a data store... then the speed of operation of the bubbles are independent (asynchronous). The producer bubble can store several pieces of data before the consumer consumes any.\""
+      },
+      {
+        id: 29,
+        type: 'tf',
+        isOfficial: false,
+        numberText: 'Concept True / False 6',
+        question: "In transform analysis, input validation processes are classified as part of the central transform.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Textbook Reference (Section 6.4.1, p. 267):\n\"Processes which validate input are not central transforms. Processes which sort input or filter data from it are central transforms.\" Input validation belongs to the afferent (input) branch that prepares valid logical data."
+      },
+      {
+        id: 30,
+        type: 'tf',
+        isOfficial: false,
+        numberText: 'Concept True / False 7',
+        question: "During detailed design, Module Specifications (MSPEC) are written using structured English to describe algorithms for leaf-level modules.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. Textbook Reference (Section 6.5, p. 270):\n\"The MSPEC for the leaf-level modules should describe in algorithmic form how the primitive processing steps are carried out... written using structured English.\""
+      }
+    ];
+
+    // State Variables
+    const userAnswers = {};
+    let activeFilter = 'all';
+    let searchQuery = '';
+
+    // DOM Elements
+    const questionsContainer = document.getElementById('questions-list');
+    const scoreCounter = document.getElementById('score-counter');
+    const accuracyCounter = document.getElementById('accuracy-counter');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const statAttempted = document.getElementById('stat-attempted');
+    const statCorrect = document.getElementById('stat-correct');
+    const statIncorrect = document.getElementById('stat-incorrect');
+    const statUnanswered = document.getElementById('stat-unanswered');
+    const filterIncorrectBadge = document.getElementById('filter-incorrect-badge');
+    const visibleCount = document.getElementById('visible-count');
+    const paletteModal = document.getElementById('palette-modal');
+    const openPaletteBtn = document.getElementById('open-palette-btn');
+    const closePaletteBtn = document.getElementById('close-palette-btn');
+    const paletteOfficialGrid = document.getElementById('palette-official-grid');
+    const paletteMasteryGrid = document.getElementById('palette-mastery-grid');
+    const searchInput = document.getElementById('search-input');
+    const resetAllBtn = document.getElementById('reset-all-btn');
+    const expandAllRationalesBtn = document.getElementById('expand-all-rationales');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      if (isDark) {
+        themeIcon.classList.remove('ph-moon', 'text-amber-500');
+        themeIcon.classList.add('ph-sun', 'text-amber-400');
+        themeText.innerText = 'Day Mode';
+        themeToggleBtn.setAttribute('title', 'Switch to Day Mode');
+      } else {
+        themeIcon.classList.remove('ph-sun', 'text-amber-400');
+        themeIcon.classList.add('ph-moon', 'text-amber-500');
+        themeText.innerText = 'Night Mode';
+        themeToggleBtn.setAttribute('title', 'Switch to Night Mode');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    function initPalette() {
+      paletteOfficialGrid.innerHTML = '';
+      paletteMasteryGrid.innerHTML = '';
+
+      questionsData.forEach(q => {
+        const btn = document.createElement('button');
+        btn.id = `palette-item-${q.id}`;
+        btn.className = "w-full aspect-square text-xs font-bold rounded-lg border flex items-center justify-center transition bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-purple-400 dark:hover:border-purple-500";
+        
+        if (q.id <= 6) {
+          btn.innerText = q.type === 'tf' ? `TF1` : `Q${q.id}`;
+        } else {
+          btn.innerText = q.type === 'tf' ? `TF${q.id - 23}` : `M${q.id - 6}`;
+        }
+
+        btn.onclick = () => {
+          paletteModal.classList.add('hidden');
+          const el = document.getElementById(`question-card-${q.id}`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('ring-2', 'ring-purple-500');
+            setTimeout(() => el.classList.remove('ring-2', 'ring-purple-500'), 1500);
+          }
+        };
+
+        if (q.isOfficial) {
+          paletteOfficialGrid.appendChild(btn);
+        } else {
+          paletteMasteryGrid.appendChild(btn);
+        }
+      });
+    }
+
+    function renderQuestions() {
+      questionsContainer.innerHTML = '';
+      
+      const filtered = questionsData.filter(q => {
+        if (activeFilter === 'official' && !q.isOfficial) return false;
+        if (activeFilter === 'mcq' && q.type !== 'mcq') return false;
+        if (activeFilter === 'tf' && q.type !== 'tf') return false;
+        if (activeFilter === 'incorrect') {
+          if (!userAnswers[q.id] || userAnswers[q.id] === q.correct) return false;
+        }
+
+        if (searchQuery.trim() !== '') {
+          const matchQuestion = q.question.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchReason = q.reason.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchOpts = q.options.some(o => o.text.toLowerCase().includes(searchQuery.toLowerCase()));
+          if (!matchQuestion && !matchReason && !matchOpts) return false;
+        }
+        return true;
+      });
+
+      visibleCount.innerText = `Showing ${filtered.length} of ${questionsData.length} questions`;
+
+      if (filtered.length === 0) {
+        questionsContainer.innerHTML = `
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800 transition-colors duration-200">
+            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center mx-auto mb-3">
+              <i class="ph-bold ph-magnifying-glass text-xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 dark:text-slate-200 text-base mb-1">No matching questions</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Try adjusting your search query or selecting another filter tab.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(q => {
+        const isAnswered = !!userAnswers[q.id];
+        const selectedKey = userAnswers[q.id];
+        const isCorrect = isAnswered && selectedKey === q.correct;
+
+        const card = document.createElement('div');
+        card.id = `question-card-${q.id}`;
+        card.className = "bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/90 dark:border-slate-800 shadow-sm transition-colors duration-200";
+
+        let statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Unanswered</span>`;
+        if (isAnswered) {
+          if (isCorrect) {
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-1"><i class="ph-bold ph-check"></i> Correct</span>`;
+          } else {
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 flex items-center gap-1"><i class="ph-bold ph-x"></i> Incorrect</span>`;
+          }
+        }
+
+        const typeTag = q.type === 'mcq' 
+          ? `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 border border-purple-100 dark:border-purple-900/60">Multiple Choice</span>`
+          : `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-900/60">True / False</span>`;
+
+        const originTag = q.isOfficial
+          ? `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/60">Textbook Exercise</span>`
+          : `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Concept Mastery</span>`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm text-slate-900 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">${q.numberText}</span>
+              ${typeTag}
+              ${originTag}
+            </div>
+            <div>${statusBadge}</div>
+          </div>
+
+          <p class="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-5 leading-relaxed whitespace-pre-line">${q.question}</p>
+
+          <div class="options-container space-y-2.5 mb-4">
+            ${q.options.map(opt => {
+              let optClass = "border-slate-200 dark:border-slate-800 hover:border-purple-300 dark:hover:border-purple-500 hover:bg-slate-50/80 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200";
+              let iconHtml = `<span class="w-6 h-6 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center justify-center text-slate-500 dark:text-slate-400 uppercase">${opt.key}</span>`;
+
+              if (isAnswered) {
+                if (opt.key === q.correct) {
+                  optClass = "border-emerald-500 dark:border-emerald-500 bg-emerald-50/90 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-semibold ring-1 ring-emerald-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-emerald-600 dark:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-check"></i></span>`;
+                } else if (opt.key === selectedKey) {
+                  optClass = "border-rose-500 dark:border-rose-500 bg-rose-50/90 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 font-semibold ring-1 ring-rose-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-rose-600 dark:bg-rose-500 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-x"></i></span>`;
+                } else {
+                  optClass = "border-slate-200 dark:border-slate-800/60 bg-slate-50/40 dark:bg-slate-900/40 text-slate-400 dark:text-slate-600 opacity-60";
+                }
+              }
+
+              return `
+                <button 
+                  type="button" 
+                  data-qid="${q.id}" 
+                  data-optkey="${opt.key}" 
+                  class="option-btn w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm flex items-center gap-3 transition ${optClass}"
+                  ${isAnswered ? 'disabled' : ''}
+                >
+                  ${iconHtml}
+                  <span class="flex-1">${opt.text}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="rationale-box ${isAnswered ? '' : 'hidden'} mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs leading-relaxed">
+            <div class="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-200 mb-1.5">
+              <i class="ph-bold ph-info text-purple-600 dark:text-purple-400 text-sm"></i>
+              <span>Textbook Explanation & Reason:</span>
+            </div>
+            <p class="text-slate-600 dark:text-slate-300 whitespace-pre-line">${q.reason}</p>
+          </div>
+        `;
+
+        questionsContainer.appendChild(card);
+      });
+
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const qid = parseInt(btn.dataset.qid);
+          const optkey = btn.dataset.optkey;
+          handleOptionSelect(qid, optkey);
+        });
+      });
+    }
+
+    function handleOptionSelect(qid, selectedKey) {
+      if (userAnswers[qid]) return;
+      userAnswers[qid] = selectedKey;
+
+      updateMetrics();
+      renderQuestions();
+      updatePaletteItem(qid);
+    }
+
+    function updatePaletteItem(qid) {
+      const btn = document.getElementById(`palette-item-${qid}`);
+      if (!btn) return;
+      const q = questionsData.find(item => item.id === qid);
+      const isCorrect = userAnswers[qid] === q.correct;
+
+      btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300', 'bg-emerald-500', 'bg-rose-500', 'text-white', 'border-emerald-600', 'border-rose-600');
+
+      if (isCorrect) {
+        btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+      } else {
+        btn.classList.add('bg-rose-500', 'text-white', 'border-rose-600');
+      }
+    }
+
+    function updateMetrics() {
+      const answeredKeys = Object.keys(userAnswers);
+      const totalAnswered = answeredKeys.length;
+      let correctCount = 0;
+      let incorrectCount = 0;
+
+      answeredKeys.forEach(qid => {
+        const q = questionsData.find(item => item.id === parseInt(qid));
+        if (userAnswers[qid] === q.correct) {
+          correctCount++;
+        } else {
+          incorrectCount++;
+        }
+      });
+
+      const accuracy = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+      const progressPercent = Math.round((totalAnswered / questionsData.length) * 100);
+
+      scoreCounter.innerText = `${correctCount} / ${questionsData.length}`;
+      accuracyCounter.innerText = `${accuracy}%`;
+      progressBarFill.style.width = `${progressPercent}%`;
+
+      statAttempted.innerText = `${totalAnswered} / ${questionsData.length}`;
+      statCorrect.innerText = correctCount;
+      statIncorrect.innerText = incorrectCount;
+      statUnanswered.innerText = questionsData.length - totalAnswered;
+      filterIncorrectBadge.innerText = incorrectCount;
+    }
+
+    resetAllBtn.addEventListener('click', () => {
+      for (let key in userAnswers) {
+        delete userAnswers[key];
+      }
+      initPalette();
+      updateMetrics();
+      renderQuestions();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-purple-600', 'text-white');
+          b.classList.add('hover:bg-slate-100', 'dark:hover:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+        });
+        btn.classList.remove('hover:bg-slate-100', 'dark:hover:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+        btn.classList.add('bg-purple-600', 'text-white');
+
+        activeFilter = btn.dataset.filter;
+        renderQuestions();
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderQuestions();
+    });
+
+    let allExpanded = false;
+    expandAllRationalesBtn.addEventListener('click', () => {
+      allExpanded = !allExpanded;
+      document.querySelectorAll('.rationale-box').forEach(box => {
+        if (allExpanded) {
+          box.classList.remove('hidden');
+        } else {
+          const card = box.closest('[id^="question-card-"]');
+          const qid = parseInt(card.id.replace('question-card-', ''));
+          if (!userAnswers[qid]) {
+            box.classList.add('hidden');
+          }
+        }
+      });
+      expandAllRationalesBtn.innerText = allExpanded ? "Collapse Unanswered Explanations" : "Expand All Explanations";
+    });
+
+    openPaletteBtn.addEventListener('click', () => paletteModal.classList.remove('hidden'));
+    closePaletteBtn.addEventListener('click', () => paletteModal.classList.add('hidden'));
+    paletteModal.addEventListener('click', (e) => {
+      if (e.target === paletteModal) paletteModal.classList.add('hidden');
+    });
+
+    // Initialize on load
+    initPalette();
+    updateMetrics();
+    renderQuestions();
+  </script>
+</body>
+</html>
