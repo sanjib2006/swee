@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapters</title>
+<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Revision Chapters</title>
 
 <style>
     body {
@@ -17,12 +15,18 @@
 
     h1 {
         text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
     }
 
     #chapters {
         display: grid;
         gap: 12px;
-        margin-top: 30px;
     }
 
     a {
@@ -34,7 +38,7 @@
         color: #222;
         font-size: 18px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        transition: transform 0.15s, box-shadow 0.15s;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     a:hover {
@@ -43,19 +47,27 @@
     }
 
     .loading,
-    .empty {
+    .empty,
+    .error {
         text-align: center;
         color: #666;
         margin-top: 30px;
     }
-</style>
 
+    .error {
+        color: #b00020;
+    }
+</style>
 
 </head>
 
 <body>
 
 <h1>Revision Chapters</h1>
+
+<div class="subtitle">
+    Select a chapter to start the quiz
+</div>
 
 <div id="chapters">
     <div class="loading">Checking available chapters...</div>
@@ -64,53 +76,70 @@
 <script>
     const chaptersContainer = document.getElementById("chapters");
 
-    // Change this if you expect more chapters.
+    // Change this if you expect more than 100 chapters.
     const MAX_CHAPTERS = 100;
 
     async function findChapters() {
-        const found = [];
+        try {
+            // Check all chapters at the same time.
+            const checks = Array.from(
+                { length: MAX_CHAPTERS },
+                (_, index) => index + 1
+            ).map(async (chapter) => {
+                const filename = `ch${chapter}.html`;
 
-        for (let chapter = 1; chapter <= MAX_CHAPTERS; chapter++) {
-            const filename = `ch${chapter}.html`;
-
-            try {
-                const response = await fetch(filename, {
-                    method: "HEAD",
-                    cache: "no-store"
-                });
-
-                if (response.ok) {
-                    found.push({
-                        number: chapter,
-                        filename: filename
+                try {
+                    const response = await fetch(filename, {
+                        method: "HEAD",
+                        cache: "no-store"
                     });
+
+                    if (response.ok) {
+                        return {
+                            number: chapter,
+                            filename: filename
+                        };
+                    }
+
+                    return null;
+                } catch {
+                    return null;
                 }
-            } catch (error) {
-                console.error(`Could not check ${filename}`, error);
+            });
+
+            const results = await Promise.all(checks);
+
+            // Remove missing chapters.
+            const found = results.filter(Boolean);
+
+            // Clear loading message.
+            chaptersContainer.innerHTML = "";
+
+            if (found.length === 0) {
+                chaptersContainer.innerHTML =
+                    '<div class="empty">No chapters found.</div>';
+                return;
             }
-        }
 
-        chaptersContainer.innerHTML = "";
+            // Create chapter links.
+            found.forEach(chapter => {
+                const link = document.createElement("a");
 
-        if (found.length === 0) {
+                link.href = chapter.filename;
+                link.textContent = `Chapter ${chapter.number}`;
+
+                chaptersContainer.appendChild(link);
+            });
+
+        } catch (error) {
+            console.error("Error finding chapters:", error);
+
             chaptersContainer.innerHTML =
-                '<div class="empty">No chapters found.</div>';
-            return;
+                '<div class="error">Could not load chapters.</div>';
         }
-
-        found.forEach(chapter => {
-            const link = document.createElement("a");
-
-            link.href = chapter.filename;
-            link.textContent = `Chapter ${chapter.number}`;
-
-            chaptersContainer.appendChild(link);
-        });
     }
 
     findChapters();
 </script>
 
-
-</body>
-</html>
+</body> </html>
