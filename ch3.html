@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Software Project Management — Comprehensive Interactive Exam Quiz</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+
+  <!-- TOP HEADER & LIVE STATUS BAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <!-- Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white flex items-center justify-center shadow-md shadow-blue-100 font-bold text-lg">
+            <i class="ph-bold ph-kanban"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-slate-900 text-lg leading-tight">Software Project Management</h1>
+            <p class="text-xs text-slate-500 font-medium">Chapter 3 Mastery Quiz • 52 Questions (39 MCQs + 13 T/F)</p>
+          </div>
+        </div>
+
+        <!-- Live Metrics & Controls -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <!-- Score -->
+          <div class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 text-xs">
+            <span class="text-slate-500 font-semibold uppercase tracking-wider">Score:</span>
+            <span id="score-counter" class="font-bold text-blue-600 text-sm">0 / 52</span>
+          </div>
+
+          <!-- Accuracy -->
+          <div class="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 text-xs">
+            <span class="text-emerald-700 font-semibold uppercase tracking-wider">Accuracy:</span>
+            <span id="accuracy-counter" class="font-bold text-emerald-700 text-sm">0%</span>
+          </div>
+
+          <!-- Question Palette Trigger -->
+          <button id="open-palette-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-xs transition border border-blue-200">
+            <i class="ph-bold ph-squares-four text-base"></i>
+            <span>Question Navigator</span>
+          </button>
+
+          <!-- Reset -->
+          <button id="reset-all-btn" title="Reset all progress" class="p-2 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-600 transition border border-slate-200 hover:border-rose-200">
+            <i class="ph-bold ph-arrow-counter-clockwise text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Progress Bar -->
+      <div class="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+        <div id="progress-bar-fill" class="bg-blue-600 h-1.5 rounded-full transition-all duration-300 w-0"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- SIDEBAR: STATS, FILTERS, EXAM FORMULAS -->
+      <aside class="hidden lg:block lg:col-span-1 space-y-6">
+        <!-- Quick Stats Card -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+          <h2 class="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i class="ph-bold ph-chart-pie text-blue-600"></i>
+            Performance Summary
+          </h2>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+              <span class="text-slate-500">Attempted</span>
+              <span id="stat-attempted" class="font-bold text-slate-800">0 / 52</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+              <span class="text-slate-500 text-emerald-600 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Correct
+              </span>
+              <span id="stat-correct" class="font-bold text-emerald-600">0</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+              <span class="text-slate-500 text-rose-600 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span> Incorrect
+              </span>
+              <span id="stat-incorrect" class="font-bold text-rose-600">0</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5">
+              <span class="text-slate-500">Unanswered</span>
+              <span id="stat-unanswered" class="font-bold text-slate-400">52</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-3">
+          <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <i class="ph-bold ph-funnel text-blue-600"></i>
+            Filter Questions
+          </h2>
+          <div class="space-y-1.5 text-xs font-semibold">
+            <button data-filter="all" class="filter-btn w-full text-left px-3 py-2 rounded-lg bg-blue-600 text-white flex justify-between items-center transition">
+              <span>All Questions</span>
+              <span class="bg-white/20 px-2 py-0.5 rounded-full text-[11px]">52</span>
+            </button>
+            <button data-filter="mcq" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+              <span>MCQs Only (Q1 – Q39)</span>
+              <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">39</span>
+            </button>
+            <button data-filter="tf" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+              <span>True / False (TF1 – TF13)</span>
+              <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">13</span>
+            </button>
+            <button data-filter="incorrect" class="filter-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-600 flex justify-between items-center transition">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Marked Incorrect</span>
+              <span id="filter-incorrect-badge" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px]">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Formula Cheat Card -->
+        <div class="bg-blue-50/70 rounded-2xl p-4 border border-blue-100 text-xs text-blue-950 space-y-2.5">
+          <div class="flex items-center gap-2 font-bold text-blue-900">
+            <i class="ph-bold ph-function text-base text-blue-600"></i>
+            Key Formulas & Rules
+          </div>
+          <p class="leading-relaxed font-medium">
+            • <strong>COCOMO Precedence:</strong> Size → Effort → Duration → Cost.<br/>
+            • <strong>Putnam Compression:</strong> Effort scales as $(t_1 / t_2)^4$. Cutting time by 50% increases effort 16×.<br/>
+            • <strong>Boehm's Limit:</strong> Max schedule compression is ~25% of nominal time.<br/>
+            • <strong>CPM Critical Path:</strong> Longest path in time ($ST = LS - ES = 0$).<br/>
+            • <strong>Gantt vs PERT:</strong> Gantt = resource allocation; PERT = progress monitoring & control.
+          </p>
+        </div>
+      </aside>
+
+      <!-- MAIN QUESTION STREAM -->
+      <section class="lg:col-span-3 space-y-6">
+        
+        <!-- Search & Control Bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+          <div class="relative w-full sm:w-80">
+            <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input id="search-input" type="text" placeholder="Search keywords (e.g. COCOMO, Putnam, PERT, SCM)..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" />
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+            <span id="visible-count" class="text-xs text-slate-500 font-medium">Showing 52 questions</span>
+            <button id="expand-all-rationales" class="text-xs font-semibold text-blue-600 hover:text-blue-800 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition border border-transparent hover:border-blue-200">
+              Expand All Explanations
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Cards List -->
+        <div id="questions-list" class="space-y-6"></div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- QUESTION NAVIGATOR DRAWER -->
+  <div id="palette-modal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex justify-end">
+    <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col p-6">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-squares-four text-blue-600 text-lg"></i>
+          <h3 class="font-bold text-slate-900 text-base">Question Grid Navigator</h3>
+        </div>
+        <button id="close-palette-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i class="ph-bold ph-x text-lg"></i>
+        </button>
+      </div>
+
+      <div class="my-4 flex items-center justify-between text-xs text-slate-600">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-emerald-500 inline-block"></span> Correct</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-rose-500 inline-block"></span> Incorrect</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-md bg-slate-200 border border-slate-300 inline-block"></span> Unanswered</span>
+      </div>
+
+      <!-- Navigation Grids -->
+      <div class="flex-1 overflow-y-auto scrollbar-thin py-2">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Multiple Choice (1 – 39)</h4>
+        <div id="palette-mcq-grid" class="grid grid-cols-6 gap-2 mb-6"></div>
+
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">True / False (TF1 – TF13)</h4>
+        <div id="palette-tf-grid" class="grid grid-cols-4 gap-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: QUESTION DATA & LOGIC -->
+  <script>
+    const questionsData = [
+      {
+        id: 1,
+        type: 'mcq',
+        numberText: 'MCQ 1',
+        question: "Effort is measured using which one of the following units:",
+        options: [
+          { key: 'a', text: "Persons" },
+          { key: 'b', text: "Person-months" },
+          { key: 'c', text: "Months" },
+          { key: 'd', text: "Rupees" }
+        ],
+        correct: 'b',
+        reason: "Effort in software engineering is measured in person-months (PM). One person-month is the effort an individual can put in a month (accounting for weekends, off-days, and coffee breaks). It represents the area under the person-month vs. time curve."
+      },
+      {
+        id: 2,
+        type: 'mcq',
+        numberText: 'MCQ 2',
+        question: "COCOMO estimation model can be used to estimate which one of the following:",
+        options: [
+          { key: 'a', text: "LOC" },
+          { key: 'b', text: "Effort" },
+          { key: 'c', text: "Function points" },
+          { key: 'd', text: "Defect density" }
+        ],
+        correct: 'b',
+        reason: "The Constructive Cost Model (COCOMO) takes software size (in KLOC) as input and directly computes the estimated effort in person-months, from which development duration and overall project cost are subsequently derived."
+      },
+      {
+        id: 3,
+        type: 'mcq',
+        numberText: 'MCQ 3',
+        question: "Which one of the following is the correct order in which a software project manager estimates various project parameters while using the COCOMO estimation technique?",
+        options: [
+          { key: 'a', text: "Cost, effort, duration, size" },
+          { key: 'b', text: "Cost, duration, effort, size" },
+          { key: 'c', text: "Size, effort, duration, cost" },
+          { key: 'd', text: "Size, cost, effort, duration" }
+        ],
+        correct: 'c',
+        reason: "As illustrated in Figure 3.1 of the textbook, project size is the fundamental starting parameter. From size, effort and nominal duration are calculated. Finally, total project cost is computed by multiplying effort by manpower cost per month and adding overheads."
+      },
+      {
+        id: 4,
+        type: 'mcq',
+        numberText: 'MCQ 4',
+        question: "Which one of the following is NOT a factor for \"Lines of code\" being considered as a poor size metric?",
+        options: [
+          { key: 'a', text: "It is programming language dependent." },
+          { key: 'b', text: "It penalises efficient and compact coding." },
+          { key: 'c', text: "It is programmer dependent." },
+          { key: 'd', text: "It is dependent on the complexity of the requirements." }
+        ],
+        correct: 'd',
+        reason: "LOC measures coding activity alone and fails to reflect logical or requirement complexity. The recognized shortcomings of LOC are: language dependency, penalizing compact code & reuse, programmer coding style variation, and the inability to know LOC accurately during early planning. Claiming that LOC depends on requirement complexity is incorrect, which makes (d) NOT a valid shortcoming."
+      },
+      {
+        id: 5,
+        type: 'mcq',
+        numberText: 'MCQ 5',
+        question: "While using COCOMO, which one of the following project parameters is usually the first to be estimated by a project manager?",
+        options: [
+          { key: 'a', text: "Cost" },
+          { key: 'b', text: "Effort" },
+          { key: 'c', text: "Size" },
+          { key: 'd', text: "Duration" }
+        ],
+        correct: 'c',
+        reason: "Size estimation (in KLOC or Function Points) is the very first activity undertaken during project planning. All downstream estimations (effort, duration, staffing, cost, and schedules) depend on the initial size estimate."
+      },
+      {
+        id: 6,
+        type: 'mcq',
+        numberText: 'MCQ 6',
+        question: "Which one of the following charts is the most appropriate for decomposing the project activities into smaller tasks that can be more meaningfully managed?",
+        options: [
+          { key: 'a', text: "PERT chart" },
+          { key: 'b', text: "GANTT chart" },
+          { key: 'c', text: "Task network representation" },
+          { key: 'd', text: "Work breakdown structure" }
+        ],
+        correct: 'd',
+        reason: "Work Breakdown Structure (WBS) is a hierarchical tree notation used to recursively decompose high-level project activities down to atomic, manageable units called tasks (typically taking 1 to 2 weeks of developer effort)."
+      },
+      {
+        id: 7,
+        type: 'mcq',
+        numberText: 'MCQ 7',
+        question: "Which one of the following is an example of a multivariable cost estimation model?",
+        options: [
+          { key: 'a', text: "Basic COCOMO" },
+          { key: 'b', text: "Intermediate COCOMO" },
+          { key: 'c', text: "Complete COCOMO" },
+          { key: 'd', text: "Delphi technique" }
+        ],
+        correct: 'b',
+        reason: "Intermediate COCOMO is a multivariable model because it scales the initial basic size-based estimate using 15 cost drivers (multipliers) covering product complexity, computer constraints, personnel capability, and development environment maturity."
+      },
+      {
+        id: 8,
+        type: 'mcq',
+        numberText: 'MCQ 8',
+        question: "If an organic type software product of size S takes m months to develop, then according to the COCOMO estimation model, how long (in months) will it take to develop a product of size 2 × S?",
+        options: [
+          { key: 'a', text: "Greater than 2 × m months" },
+          { key: 'b', text: "Greater than 3 × m months" },
+          { key: 'c', text: "Less than 2 × m months" },
+          { key: 'd', text: "Greater than 4 × m months" }
+        ],
+        correct: 'c',
+        reason: "In COCOMO, development duration is a sublinear function of size: Tdev = 2.5 × (Effort)^0.38, where Effort = 2.4 × (Size)^1.05. Doubling the size (2×) increases effort by 2^1.05 ≈ 2.07×. Consequently, duration increases by (2.07)^0.38 ≈ 1.32×, which is approximately 1.32m — strictly less than 2 × m months."
+      },
+      {
+        id: 9,
+        type: 'mcq',
+        numberText: 'MCQ 9',
+        question: "Which one of the following statements is implicitly assumed by the COCOMO model?",
+        options: [
+          { key: 'a', text: "Cost is the most fundamental attribute of a software product, based on which the project size and duration are estimated." },
+          { key: 'b', text: "Size is the most fundamental attribute of a software product, based on which the project cost and duration are estimated." },
+          { key: 'c', text: "Effort is the most fundamental attribute of a software product, based on which the project size and cost are estimated." },
+          { key: 'd', text: "Duration is the most fundamental attribute of a software product, based on which the project size and effort are estimated." }
+        ],
+        correct: 'b',
+        reason: "COCOMO is built upon the fundamental assumption that project size (measured in KLOC) is the primary independent parameter from which development effort, duration, staffing, and project cost are derived."
+      },
+      {
+        id: 10,
+        type: 'mcq',
+        numberText: 'MCQ 10',
+        question: "For a certain software development project, an effort estimation of 100 person-months was arrived by using COCOMO model. This implies that the project needs to be completed by:",
+        options: [
+          { key: 'a', text: "Employing 100 persons for 1 month" },
+          { key: 'b', text: "Employing 1 person for 100 months" },
+          { key: 'c', text: "Employing 10 persons for 10 months" },
+          { key: 'd', text: "The number of persons employed over different project phases would correspond to Rayleigh distribution" },
+        ],
+        correct: 'd',
+        reason: "An effort of 100 PM does NOT mean 100 persons for 1 month or 10 persons for 10 months. Effort represents the area under the person-month curve, and optimal staffing dynamically follows a Rayleigh-Norden distribution (few people at inception, peaking during integration/testing, then decreasing)."
+      },
+      {
+        id: 11,
+        type: 'mcq',
+        numberText: 'MCQ 11',
+        question: "Which one of the following most closely describes configuration management in software engineering?",
+        options: [
+          { key: 'a', text: "Management of the configuration parameter settings in the software." },
+          { key: 'b', text: "Management of objects that control the system configuration parameter settings." },
+          { key: 'c', text: "Management of the states of various project deliverables." },
+          { key: 'd', text: "Configuration of the management activities depending on the type of the projects." }
+        ],
+        correct: 'c',
+        reason: "The configuration of software is the state of all project deliverables (SRS, design docs, source code, test suites, user manuals) at any point in time. SCM is the discipline of tracking and controlling changes to these states throughout the life cycle."
+      },
+      {
+        id: 12,
+        type: 'mcq',
+        numberText: 'MCQ 12',
+        question: "How is an application program's \"version\" different from its \"release\"?",
+        options: [
+          { key: 'a', text: "A release is a small change to an earlier release." },
+          { key: 'b', text: "A version is a small change made to an earlier release." },
+          { key: 'c', text: "A release is essentially the same as a version." },
+          { key: 'd', text: "A release is the one made available to customers whereas versions are for internal use." }
+        ],
+        correct: 'a',
+        reason: "In software engineering nomenclature, a new version is created when there is a significant shift in functionality, hardware platform, or architecture. A release represents minor changes, bug fixes, or incremental enhancements to an existing release lineage."
+      },
+      {
+        id: 13,
+        type: 'mcq',
+        numberText: 'MCQ 13',
+        question: "If a project is already delayed, then adding manpower to complete it at the earliest would be:",
+        options: [
+          { key: 'a', text: "Always counter productive" },
+          { key: 'b', text: "Can help to a very limited extent" },
+          { key: 'c', text: "Most effective way to tackle the situation" },
+          { key: 'd', text: "Leads to on-time project completion" }
+        ],
+        correct: 'a',
+        reason: "Brooks' Law famously states: \"Adding manpower to a late software project makes it later.\" New personnel require learning time (diverting existing staff for ramp-up), communication paths multiply exponentially, and software tasks have limited scope for parallelization, making addition of manpower counterproductive."
+      },
+      {
+        id: 14,
+        type: 'mcq',
+        numberText: 'MCQ 14',
+        question: "Which one of the following is true for a critical path in a PERT chart?",
+        options: [
+          { key: 'a', text: "It is the path having maximum number of tasks" },
+          { key: 'b', text: "It is the shortest path in terms of time" },
+          { key: 'c', text: "It is the longest path in terms of time" },
+          { key: 'd', text: "It is the path with the largest amount of slack time" }
+        ],
+        correct: 'c',
+        reason: "By definition, the critical path is the chain of dependent tasks with zero slack that takes the longest time to complete from project start to finish. It determines the minimum project duration."
+      },
+      {
+        id: 15,
+        type: 'mcq',
+        numberText: 'MCQ 15',
+        question: "Which one of the following most closely characterizes software configuration management?",
+        options: [
+          { key: 'a', text: "It is used to ensure that all artifacts associated with the project are correct and complete" },
+          { key: 'b', text: "It is used to breakdown the work parts into manageable chunks" },
+          { key: 'c', text: "It is used to ensure that all project design criteria are met" },
+          { key: 'd', text: "It is used to ensure that all artifacts associated with the project are consistent and up-to-date" }
+        ],
+        correct: 'd',
+        reason: "The core characterization and purpose of SCM is ensuring that all work products (SRS, code, design, test cases) remain consistent, synchronized, and up-to-date across all team members, preventing conflicting edits and replication inconsistencies."
+      },
+      {
+        id: 16,
+        type: 'mcq',
+        numberText: 'MCQ 16',
+        question: "The PERT method differs from CPM in which one of the following aspects:",
+        options: [
+          { key: 'a', text: "PERT uses statistical time durations, whereas CPM uses deterministic time durations" },
+          { key: 'b', text: "PERT uses dummy activities, whereas CPM does not" },
+          { key: 'c', text: "PERT uses free float, whereas CPM uses total float in critical path calculations" },
+          { key: 'd', text: "PERT uses activity on arc, whereas CPM uses activity on node networks" }
+        ],
+        correct: 'a',
+        reason: "PERT treats task durations probabilistically using three time estimates (Optimistic, Most Likely, Pessimistic) to model statistical uncertainty. CPM uses a single deterministic time duration for each task."
+      },
+      {
+        id: 17,
+        type: 'mcq',
+        numberText: 'MCQ 17',
+        question: "Using the data of the following table, what can be said about the total project duration?\n\nActivity A (dur: 14, pred: none)\nActivity B (dur: 13, pred: A)\nActivity C (dur: 20, pred: A)\nActivity D (dur: 10, pred: B, C)",
+        options: [
+          { key: 'a', text: "20" },
+          { key: 'b', text: "27" },
+          { key: 'c', text: "37" },
+          { key: 'd', text: "44" }
+        ],
+        correct: 'd',
+        reason: "Path 1: A → B → D = 14 + 13 + 10 = 37. Path 2: A → C → D = 14 + 20 + 10 = 44. Since D depends on both B and C, its earliest start ES(D) = max(EF_B, EF_C) = max(27, 34) = 34. Total duration = 34 + 10 = 44."
+      },
+      {
+        id: 18,
+        type: 'mcq',
+        numberText: 'MCQ 18',
+        question: "Which one of the following may be a reason as to why COCOMO project duration estimation may be more accurate than the duration estimation obtained by using the expression, duration = size/productivity?",
+        options: [
+          { key: 'a', text: "Productivity of personnel for a project cannot be determined" },
+          { key: 'b', text: "Duration is dependent on the number of personnel deployed" },
+          { key: 'c', text: "Productivity can vary widely among team members" },
+          { key: 'd', text: "Duration can only be derived from effort" }
+        ],
+        correct: 'c',
+        reason: "Individual developer productivity varies widely (by as much as 1:30 in coding/debugging). A single static productivity figure is completely unreliable, whereas COCOMO models non-linear team dynamics and historical project averages."
+      },
+      {
+        id: 19,
+        type: 'mcq',
+        numberText: 'MCQ 19',
+        question: "The use of resources such as personnel in a software development project varies with time. Which one of the following distributions should be the best approximation for modelling the personnel requirements for a software development project?",
+        options: [
+          { key: 'a', text: "Poisson" },
+          { key: 'b', text: "Beta" },
+          { key: 'c', text: "Rayleigh" },
+          { key: 'd', text: "Log-normal" }
+        ],
+        correct: 'c',
+        reason: "Norden and Putnam established that software project staffing starts low during planning/specification, rises gradually to a peak during integration and system testing, and then tapers off, which is mathematically approximated by the Rayleigh distribution curve."
+      },
+      {
+        id: 20,
+        type: 'mcq',
+        numberText: 'MCQ 20',
+        question: "Parametric estimation models are typically defined based on which one of the following:",
+        options: [
+          { key: 'a', text: "Expert judgment of independent variables and coefficients" },
+          { key: 'b', text: "Refinement of expected value estimation" },
+          { key: 'c', text: "Regression analysis of historical project data" },
+          { key: 'd', text: "Trial and error estimation of variables and their coefficients" }
+        ],
+        correct: 'c',
+        reason: "Parametric (heuristic) estimation models such as COCOMO are mathematically derived by performing statistical regression analysis on empirical data collected from completed historical software projects."
+      },
+      {
+        id: 21,
+        type: 'mcq',
+        numberText: 'MCQ 21',
+        question: "Which one of the following correctly characterizes the accuracy of project estimations carried out at different stages of the project life cycle?",
+        options: [
+          { key: 'a', text: "Accuracy decreases as a project progresses through its life cycle" },
+          { key: 'b', text: "Accuracy increases as a project progresses through its life cycle" },
+          { key: 'c', text: "Accuracy stays constant throughout the project life cycle" },
+          { key: 'd', text: "Accuracy is independent of the specific point in project life cycle at which estimation is made" }
+        ],
+        correct: 'b',
+        reason: "As depicted in the COCOMO II estimation funnel (Figure 3.6), estimate accuracy increases as a project progresses because uncertainties dissolve, risks are resolved, architectural details crystallize, and more project data becomes available."
+      },
+      {
+        id: 22,
+        type: 'mcq',
+        numberText: 'MCQ 22',
+        question: "Suppose as the IT manager of an IIT, you have the responsibility of either procuring or developing an application software to automate the book keeping activities associated with the academic, finance, and employee management aspects of the institute. When considering off-the-shelf purchase versus in-house development, which one of the following facts would be a major point in favour of in-house development?",
+        options: [
+          { key: 'a', text: "In-house development may be a bit cheaper" },
+          { key: 'b', text: "Off-the-shelf software is unlikely to meet all the institute's future needs" },
+          { key: 'c', text: "In-house solution can take much longer time to implement because of the software's complexity" },
+          { key: 'd', text: "The user documentation of off-the-shelf software may be inadequate" }
+        ],
+        correct: 'b',
+        reason: "Academic and administrative workflows in specialized institutions have highly specific, evolving regulations. Commercial off-the-shelf software is generic and rigid; it is unlikely to satisfy custom future needs, making in-house development the preferred choice."
+      },
+      {
+        id: 23,
+        type: 'mcq',
+        numberText: 'MCQ 23',
+        question: "Which one of the following scenarios can occur even while a software development organization is using a configuration management tool?",
+        options: [
+          { key: 'a', text: "Two team members overwrite each other's code that are under configuration control" },
+          { key: 'b', text: "Accidental deletion of a work product that is under configuration control by a developer and its consequent loss" },
+          { key: 'c', text: "A user reporting a software configuration error during installation" },
+          { key: 'd', text: "Unauthorized modifications to a work product under configuration control by one of the developers" }
+        ],
+        correct: 'c',
+        reason: "An SCM tool enforces reserve/restore discipline, prevents concurrent overwriting, and blocks unauthorized code updates. However, it cannot prevent end-user environmental issues or user-reported software configuration/installation mismatches in the field."
+      },
+      {
+        id: 24,
+        type: 'mcq',
+        numberText: 'MCQ 24',
+        question: "Using COCOMO estimation model, which one of the following can be estimated?",
+        options: [
+          { key: 'a', text: "LOC" },
+          { key: 'b', text: "Effort" },
+          { key: 'c', text: "Function points" },
+          { key: 'd', text: "Project milestones" }
+        ],
+        correct: 'b',
+        reason: "COCOMO directly computes development effort in person-months (PM) using size (KLOC) as an independent input variable."
+      },
+      {
+        id: 25,
+        type: 'mcq',
+        numberText: 'MCQ 25',
+        question: "Which one of the following charts would be the most useful to decompose the project activities into smaller tasks that are more meaningfully managed?",
+        options: [
+          { key: 'a', text: "PERT chart" },
+          { key: 'b', text: "GANTT chart" },
+          { key: 'c', text: "Task network representation" },
+          { key: 'd', text: "Work breakdown structure" }
+        ],
+        correct: 'd',
+        reason: "Work Breakdown Structure (WBS) is explicitly designed for the top-down hierarchical decomposition of project activities into small manageable tasks."
+      },
+      {
+        id: 26,
+        type: 'mcq',
+        numberText: 'MCQ 26',
+        question: "Which one of the following is an important purpose of software configuration management?",
+        options: [
+          { key: 'a', text: "To support efficient customer relationship management such as providing technical help and accepting bug reports" },
+          { key: 'b', text: "To avoid maintaining multiple copies of the same project files" },
+          { key: 'c', text: "To keep track of which team member would perform which task and by when" },
+          { key: 'd', text: "To manage the workflow across the team members" }
+        ],
+        correct: 'b',
+        reason: "A primary purpose of SCM is to maintain a centralized baseline and repository, eliminating uncontrolled replication and avoiding multiple inconsistent copies of project files across developers' machines."
+      },
+      {
+        id: 27,
+        type: 'mcq',
+        numberText: 'MCQ 27',
+        question: "Which one of the following is not true about estimating by analogy?",
+        options: [
+          { key: 'a', text: "Estimation is based on data about past projects" },
+          { key: 'b', text: "It is essentially a heuristic estimation technique" },
+          { key: 'c', text: "It is usually a bottom-up approach" },
+          { key: 'd', text: "It is a form of an expert judgment" }
+        ],
+        correct: 'b',
+        reason: "Estimation by analogy is an empirical technique based on expert judgment and case-based comparison with past projects. It is NOT a heuristic technique (heuristic techniques rely on mathematical expressions like COCOMO)."
+      },
+      {
+        id: 28,
+        type: 'mcq',
+        numberText: 'MCQ 28',
+        question: "Which one of the following is an advantage of the Delphi estimation technique over the expert estimation?",
+        options: [
+          { key: 'a', text: "Largely free from bias of the individual experts" },
+          { key: 'b', text: "Results in a quantitative estimation" },
+          { key: 'c', text: "Takes project peculiarities into account" },
+          { key: 'd', text: "Takes into account the fact that different components may have different complexities" }
+        ],
+        correct: 'a',
+        reason: "The Delphi method utilizes anonymous individual estimates over multiple iterative rounds managed by a coordinator, preventing senior or assertive experts from unduly biasing or dominating junior team members."
+      },
+      {
+        id: 29,
+        type: 'mcq',
+        numberText: 'MCQ 29',
+        question: "Purchasing insurance cover can be considered to be an example of which one of the following risk handling strategies:",
+        options: [
+          { key: 'a', text: "Mitigation" },
+          { key: 'b', text: "Transfer" },
+          { key: 'c', text: "Acceptance" },
+          { key: 'd', text: "Avoidance" }
+        ],
+        correct: 'b',
+        reason: "Risk transference involves shifting the financial consequences of a risk to a third party, such as purchasing insurance coverage or subcontracting high-risk components to external specialists."
+      },
+      {
+        id: 30,
+        type: 'mcq',
+        numberText: 'MCQ 30',
+        question: "Which one of the following is the correct sequence of activities recommended by a typical proactive risk management framework?",
+        options: [
+          { key: 'a', text: "Risk Control, Risk Identification, Risk Assessment" },
+          { key: 'b', text: "Risk Assessment, Risk Identification, Risk Control" },
+          { key: 'c', text: "Risk Identification, Risk Assessment, Risk Control" },
+          { key: 'd', text: "Risk Identification, Risk Control, Risk Assessment" }
+        ],
+        correct: 'c',
+        reason: "A proactive risk management framework operates sequentially in three primary phases: Risk Identification (discovering potential risks), Risk Assessment (prioritizing likelihood and severity), and Risk Control/Mitigation (formulating containment strategies)."
+      },
+      {
+        id: 31,
+        type: 'mcq',
+        numberText: 'MCQ 31',
+        question: "Which one of the following is the critical path for the activity network given in Figure Q31?\n(Paths: A-B-F-H-I-L=8; A-B-E-H-I-L=11; A-B-E-L=10; A-C-E-L=9; A-C-D-J-K-L=12; A-C-D-G-K-L=11)",
+        options: [
+          { key: 'a', text: "A, B, F, H, G, I, L" },
+          { key: 'b', text: "A, B, F, H, I, L" },
+          { key: 'c', text: "A, C, D, J, K, L" },
+          { key: 'd', text: "A, C, D, G, K, L" }
+        ],
+        correct: 'c',
+        reason: "Calculating path lengths from A to L: Path A-B-F-H-I-L = 1+2+2+1+2 = 8; Path A-C-D-G-K-L = 2+3+2+1+3 = 11; Path A-C-D-J-K-L = 2+3+3+1+3 = 12. The longest path is A, C, D, J, K, L with a duration of 12 units, making it the critical path."
+      },
+      {
+        id: 32,
+        type: 'mcq',
+        numberText: 'MCQ 32',
+        question: "Which one of the following COCOMO II estimation levels would provide most accurate estimations?",
+        options: [
+          { key: 'a', text: "Application composition" },
+          { key: 'b', text: "Early design" },
+          { key: 'c', text: "Post architecture" },
+          { key: 'd', text: "Different COCOMO II estimation levels provide equally accurate results, but each is applicable to only those software projects that have certain defined characteristics" }
+        ],
+        correct: 'c',
+        reason: "Post-architecture model is applied after detailed design during the coding phase, using 23 detailed cost drivers and accurate scale factors, yielding the narrowest margin of error and highest accuracy."
+      },
+      {
+        id: 33,
+        type: 'mcq',
+        numberText: 'MCQ 33',
+        question: "Suppose you are the project manager of a software project. Based on your experience with three similar past projects, you estimate the duration of the project, i.e., 5 months. Which one of the following types of estimation techniques have you made use of?",
+        options: [
+          { key: 'a', text: "Three point estimating" },
+          { key: 'b', text: "Bottom-up estimating" },
+          { key: 'c', text: "COCOMO" },
+          { key: 'd', text: "Expert judgment" }
+        ],
+        correct: 'd',
+        reason: "An educated guess based directly on personal domain experience with similar completed past projects is classic expert judgment (an empirical estimation technique)."
+      },
+      {
+        id: 34,
+        type: 'mcq',
+        numberText: 'MCQ 34',
+        question: "Which one of the following is not a reason for late project becoming later due to addition of manpower?",
+        options: [
+          { key: 'a', text: "Increased communication among team members" },
+          { key: 'b', text: "Learning by the added members" },
+          { key: 'c', text: "Increased project scope" },
+          { key: 'd', text: "Limited scope for parallelizing various project activities" }
+        ],
+        correct: 'c',
+        reason: "Brooks' Law attributes schedule slippage to: (1) time needed for newcomers to learn the project, (2) exponential communication overhead n(n-1)/2, and (3) sequential task dependencies. Adding developers does not inherently expand project scope."
+      },
+      {
+        id: 35,
+        type: 'mcq',
+        numberText: 'MCQ 35',
+        question: "Which one of the following statements regarding critical paths is true?",
+        options: [
+          { key: 'a', text: "A critical path through the network has the least number of edges" },
+          { key: 'b', text: "Some activities on the critical path may have slack" },
+          { key: 'c', text: "Every task network has exactly one critical path" },
+          { key: 'd', text: "It is possible that in a task network model for a project, there can be multiple critical paths, all with exactly the same duration" }
+        ],
+        correct: 'd',
+        reason: "A task network can have multiple parallel critical paths as long as each of those paths has zero slack time and their total durations are tied for the maximum completion time."
+      },
+      {
+        id: 36,
+        type: 'mcq',
+        numberText: 'MCQ 36',
+        question: "An activity has an early start (ES) of day 3, a late start (LS) of day 13, an early finish (EF) of day 16, and a late finish (LF) of day 26. Which one of the following can be inferred for this activity?",
+        options: [
+          { key: 'a', text: "It is on the critical path" },
+          { key: 'b', text: "It is not progressing well" },
+          { key: 'c', text: "It is progressing well" },
+          { key: 'd', text: "It is not on the critical path" }
+        ],
+        correct: 'd',
+        reason: "Slack time ST = LS - ES = 13 - 3 = 10 days (or LF - EF = 26 - 16 = 10 days). Because slack is positive (ST = 10 > 0), this activity has flexibility and is definitely NOT on the critical path (critical tasks strictly have ST = 0)."
+      },
+      {
+        id: 37,
+        type: 'mcq',
+        numberText: 'MCQ 37',
+        question: "Suppose you have estimated the nominal duration of your project to be four months and you have planned to complete the work by deploying three developers. However, the customer requests you to complete the work in three months. In this case, what will be the manpower requirement as per Putnam's results?",
+        options: [
+          { key: 'a', text: "6" },
+          { key: 'b', text: "8" },
+          { key: 'c', text: "10" },
+          { key: 'd', text: "20" }
+        ],
+        correct: 'c',
+        reason: "According to Putnam's law, effort/manpower penalty scales as the fourth power of schedule compression: M2 = M1 × (t1 / t2)^4 = 3 × (4 / 3)^4 = 3 × (256 / 81) = 256 / 27 ≈ 9.48 developers, which rounds to 10 developers."
+      },
+      {
+        id: 38,
+        type: 'mcq',
+        numberText: 'MCQ 38',
+        question: "Which one of the following is an important purpose of software configuration management?",
+        options: [
+          { key: 'a', text: "Replace the need for program management" },
+          { key: 'b', text: "Help avoid multiple copies of the same information" },
+          { key: 'c', text: "Eliminate \"firefighting\" during the development life cycle" },
+          { key: 'd', text: "Ensure that adequate test cases are developed" }
+        ],
+        correct: 'b',
+        reason: "SCM prevents inconsistencies arising from replication by providing controlled access (reserve/restore) to a unified baseline, avoiding separate, divergent copies of project information."
+      },
+      {
+        id: 39,
+        type: 'mcq',
+        numberText: 'MCQ 39',
+        question: "Which one of the following techniques is not suggested by Boehm to handle the risk of gold-plating?",
+        options: [
+          { key: 'a', text: "Requirements scrubbing" },
+          { key: 'b', text: "Cross training of personnel" },
+          { key: 'c', text: "Cost-benefit analysis" },
+          { key: 'd', text: "Prototyping" }
+        ],
+        correct: 'b',
+        reason: "In Boehm's Top 10 Risks table, countermeasures for gold-plating are requirements scrubbing, prototyping, and cost-benefit analysis. \"Cross training of personnel\" is a countermeasure for personnel shortfall, not gold-plating."
+      },
+
+      // TRUE / FALSE QUESTIONS (13)
+      {
+        id: 40,
+        type: 'tf',
+        numberText: 'True / False 1',
+        question: "As a project manager it would be worthwhile on your part to reduce the project duration by half provided the customer agrees to pay for the increased manpower requirements.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Compressing duration by 50% violates Boehm's limit (schedule cannot be compressed by more than ~25% of nominal duration). Putnam's law shows effort would rise 16-fold (2^4 = 16), but because software tasks have inherently sequential dependencies, developers would sit idle, leading to severe communication breakdown and project failure regardless of payment."
+      },
+      {
+        id: 41,
+        type: 'tf',
+        numberText: 'True / False 2',
+        question: "Software organisations achieve more efficient manpower utilisation by adopting a project-based organisation structure as compared to a function-based organisation.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Function-based organizations achieve far more efficient manpower utilization because specialists are brought into a project only when needed and returned to the functional pool, adhering to the Rayleigh distribution. Project-based structures retain a static team throughout, causing developers to sit idle during early phases and face extreme stress later."
+      },
+      {
+        id: 42,
+        type: 'tf',
+        numberText: 'True / False 3',
+        question: "For the development of the same product, the larger is the size of a software development team, the faster is the product development (for simplicity, assume that all developer are equally proficient and have exactly similar experience).",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Beyond an optimal team size, adding developers increases communication paths quadratically (n(n-1)/2) and coordination overhead. Many software tasks are inherently sequential and cannot be partitioned, so additional developers cause delays rather than faster development."
+      },
+      {
+        id: 43,
+        type: 'tf',
+        numberText: 'True / False 4',
+        question: "The number of development personnel required for any software development project can be determined by dividing the total (estimated) effort by the total (estimated) duration of the project.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. Simple division yields a constant staffing level, which the textbook explicitly warns is a 'perfect recipe for project delays and cost overshoot'. Personnel requirements vary dynamically following a Rayleigh-Norden distribution curve (low initially, peaking during testing, then tapering off)."
+      },
+      {
+        id: 44,
+        type: 'tf',
+        numberText: 'True / False 5',
+        question: "The democratic team organisation is very well suited to handle complex and challenging projects.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. For small teams tackling complex, less-understood, research-oriented problems, a democratic team structure is highly effective because open discussion, egoless programming, and collective brainstorms produce superior solutions compared to a single individual's vision."
+      },
+      {
+        id: 45,
+        type: 'tf',
+        numberText: 'True / False 6',
+        question: "It is possible to carry out the configuration management for a software project without using an automated tool.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. SCM is fundamentally a management process and discipline (identification, baseline freezing, CCB review, change documentation). While tools like Git, SCCS, and RCS automate this, SCM can theoretically be carried out manually using paper forms, logbooks, and strict administrative procedures."
+      },
+      {
+        id: 46,
+        type: 'tf',
+        numberText: 'True / False 7',
+        question: "According to the COCOMO model, cost is the most fundamental attribute of a software product, based on which size and effort are estimated.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. In COCOMO, Size (KLOC) is the most fundamental attribute, based on which effort and duration are estimated, and cost is computed last (Size → Effort → Duration → Cost)."
+      },
+      {
+        id: 47,
+        type: 'tf',
+        numberText: 'True / False 8',
+        question: "Size of a project, as used in COCOMO is the size of the final executable code in bytes.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. In COCOMO, project size is measured in KLOC (Kilo Lines of delivered source code instructions), excluding comment lines and headers, NOT executable file size or byte count."
+      },
+      {
+        id: 48,
+        type: 'tf',
+        numberText: 'True / False 9',
+        question: "Delphi estimation technique usually gives a more accurate estimation of project size compared to the expert judgement technique.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. Delphi eliminates individual bias, peer pressure, and the influence of aggressive senior members by enforcing anonymity and iterative coordinator-mediated estimation rounds, yielding more accurate results than single or unstructured expert judgment."
+      },
+      {
+        id: 49,
+        type: 'tf',
+        numberText: 'True / False 10',
+        question: "A democratic team structure is the most suitable compared to other types of team structures for developing a very large software product.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. In large software projects, a pure democratic organization becomes chaotic because communication overhead grows excessively and decision-making stalls due to lack of central authority. Large projects require hierarchical structures like mixed control teams."
+      },
+      {
+        id: 50,
+        type: 'tf',
+        numberText: 'True / False 11',
+        question: "When a task along a critical path is completed in less time than originally estimated, it should result in faster completion of the overall project.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'false',
+        reason: "FALSE. If multiple critical paths exist, speeding up a task on only one critical path will NOT reduce the overall project completion time. Furthermore, a near-critical path may become the new bottleneck, limiting overall time savings."
+      },
+      {
+        id: 51,
+        type: 'tf',
+        numberText: 'True / False 12',
+        question: "A task completing after its latest finish (LF) time would show up as a delay in the completion of the project by corresponding time.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. Latest Finish (LF) is defined as the absolute latest time a task can complete without delaying the project deadline. Any delay beyond LF consumes all available slack and directly postpones final project completion."
+      },
+      {
+        id: 52,
+        type: 'tf',
+        numberText: 'True / False 13',
+        question: "Project managers normally use GANTT charts for doing resource allocation, whereas PERT charts are used for monitoring and controlling the progress of the project.",
+        options: [
+          { key: 'true', text: "TRUE" },
+          { key: 'false', text: "FALSE" }
+        ],
+        correct: 'true',
+        reason: "TRUE. Gantt charts display activities and slack times clearly along a calendar timeline, making them ideal for staffing and resource allocation. PERT charts map probabilistic milestone dependencies and critical paths, making them ideal for monitoring and progress control."
+      }
+    ];
+
+    // State
+    const userAnswers = {};
+    let activeFilter = 'all';
+    let searchQuery = '';
+
+    // DOM Elements
+    const questionsContainer = document.getElementById('questions-list');
+    const scoreCounter = document.getElementById('score-counter');
+    const accuracyCounter = document.getElementById('accuracy-counter');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const statAttempted = document.getElementById('stat-attempted');
+    const statCorrect = document.getElementById('stat-correct');
+    const statIncorrect = document.getElementById('stat-incorrect');
+    const statUnanswered = document.getElementById('stat-unanswered');
+    const filterIncorrectBadge = document.getElementById('filter-incorrect-badge');
+    const visibleCount = document.getElementById('visible-count');
+    const paletteModal = document.getElementById('palette-modal');
+    const openPaletteBtn = document.getElementById('open-palette-btn');
+    const closePaletteBtn = document.getElementById('close-palette-btn');
+    const paletteMcqGrid = document.getElementById('palette-mcq-grid');
+    const paletteTfGrid = document.getElementById('palette-tf-grid');
+    const searchInput = document.getElementById('search-input');
+    const resetAllBtn = document.getElementById('reset-all-btn');
+    const expandAllRationalesBtn = document.getElementById('expand-all-rationales');
+
+    // Build Palette
+    function initPalette() {
+      paletteMcqGrid.innerHTML = '';
+      paletteTfGrid.innerHTML = '';
+
+      questionsData.forEach(q => {
+        const btn = document.createElement('button');
+        btn.id = `palette-item-${q.id}`;
+        btn.className = "w-full aspect-square text-xs font-bold rounded-lg border flex items-center justify-center transition bg-slate-100 border-slate-200 text-slate-600 hover:border-blue-400";
+        btn.innerText = q.type === 'mcq' ? q.id : `TF${q.id - 39}`;
+        btn.onclick = () => {
+          paletteModal.classList.add('hidden');
+          const el = document.getElementById(`question-card-${q.id}`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('ring-2', 'ring-blue-500');
+            setTimeout(() => el.classList.remove('ring-2', 'ring-blue-500'), 1500);
+          }
+        };
+
+        if (q.type === 'mcq') {
+          paletteMcqGrid.appendChild(btn);
+        } else {
+          paletteTfGrid.appendChild(btn);
+        }
+      });
+    }
+
+    // Render Cards
+    function renderQuestions() {
+      questionsContainer.innerHTML = '';
+      
+      const filtered = questionsData.filter(q => {
+        if (activeFilter === 'mcq' && q.type !== 'mcq') return false;
+        if (activeFilter === 'tf' && q.type !== 'tf') return false;
+        if (activeFilter === 'incorrect') {
+          if (!userAnswers[q.id] || userAnswers[q.id] === q.correct) return false;
+        }
+
+        if (searchQuery.trim() !== '') {
+          const matchQuestion = q.question.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchReason = q.reason.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchOpts = q.options.some(o => o.text.toLowerCase().includes(searchQuery.toLowerCase()));
+          if (!matchQuestion && !matchReason && !matchOpts) return false;
+        }
+        return true;
+      });
+
+      visibleCount.innerText = `Showing ${filtered.length} of ${questionsData.length} questions`;
+
+      if (filtered.length === 0) {
+        questionsContainer.innerHTML = `
+          <div class="bg-white rounded-2xl p-12 text-center border border-slate-200">
+            <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <i class="ph-bold ph-magnifying-glass text-xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-base mb-1">No questions found</h3>
+            <p class="text-xs text-slate-500">Try adjusting your search query or switching active filters.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(q => {
+        const isAnswered = !!userAnswers[q.id];
+        const selectedKey = userAnswers[q.id];
+        const isCorrect = isAnswered && selectedKey === q.correct;
+
+        const card = document.createElement('div');
+        card.id = `question-card-${q.id}`;
+        card.className = "bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm transition-all";
+
+        let statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 border border-slate-200">Unanswered</span>`;
+        if (isAnswered) {
+          if (isCorrect) {
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1"><i class="ph-bold ph-check"></i> Correct</span>`;
+          } else {
+            statusBadge = `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1"><i class="ph-bold ph-x"></i> Incorrect</span>`;
+          }
+        }
+
+        const typeTag = q.type === 'mcq' 
+          ? `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100">Multiple Choice</span>`
+          : `<span class="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-100">True / False</span>`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm text-slate-900 bg-slate-100 px-2.5 py-1 rounded-lg">${q.numberText}</span>
+              ${typeTag}
+            </div>
+            <div>${statusBadge}</div>
+          </div>
+
+          <p class="text-sm font-semibold text-slate-800 mb-5 leading-relaxed whitespace-pre-line">${q.question}</p>
+
+          <div class="options-container space-y-2.5 mb-4">
+            ${q.options.map(opt => {
+              let optClass = "border-slate-200 hover:border-blue-300 hover:bg-slate-50/80 text-slate-700";
+              let iconHtml = `<span class="w-6 h-6 rounded-lg border border-slate-300 text-xs font-bold flex items-center justify-center text-slate-500 uppercase">${opt.key}</span>`;
+
+              if (isAnswered) {
+                if (opt.key === q.correct) {
+                  optClass = "border-emerald-500 bg-emerald-50/90 text-emerald-900 font-semibold ring-1 ring-emerald-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-check"></i></span>`;
+                } else if (opt.key === selectedKey) {
+                  optClass = "border-rose-500 bg-rose-50/90 text-rose-900 font-semibold ring-1 ring-rose-500";
+                  iconHtml = `<span class="w-6 h-6 rounded-lg bg-rose-600 text-white text-xs font-bold flex items-center justify-center"><i class="ph-bold ph-x"></i></span>`;
+                } else {
+                  optClass = "border-slate-200 bg-slate-50/40 text-slate-400 opacity-60";
+                }
+              }
+
+              return `
+                <button 
+                  type="button" 
+                  data-qid="${q.id}" 
+                  data-optkey="${opt.key}" 
+                  class="option-btn w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm flex items-center gap-3 transition ${optClass}"
+                  ${isAnswered ? 'disabled' : ''}
+                >
+                  ${iconHtml}
+                  <span class="flex-1">${opt.text}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="rationale-box ${isAnswered ? '' : 'hidden'} mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs leading-relaxed">
+            <div class="flex items-center gap-1.5 font-bold text-slate-800 mb-1.5">
+              <i class="ph-bold ph-info text-blue-600 text-sm"></i>
+              <span>Textbook Explanation & Reason:</span>
+            </div>
+            <p class="text-slate-600 whitespace-pre-line">${q.reason}</p>
+          </div>
+        `;
+
+        questionsContainer.appendChild(card);
+      });
+
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const qid = parseInt(btn.dataset.qid);
+          const optkey = btn.dataset.optkey;
+          handleOptionSelect(qid, optkey);
+        });
+      });
+    }
+
+    function handleOptionSelect(qid, selectedKey) {
+      if (userAnswers[qid]) return;
+      userAnswers[qid] = selectedKey;
+
+      updateMetrics();
+      renderQuestions();
+      updatePaletteItem(qid);
+    }
+
+    function updatePaletteItem(qid) {
+      const btn = document.getElementById(`palette-item-${qid}`);
+      if (!btn) return;
+      const q = questionsData.find(item => item.id === qid);
+      const isCorrect = userAnswers[qid] === q.correct;
+
+      btn.classList.remove('bg-slate-100', 'border-slate-200', 'text-slate-600', 'bg-emerald-500', 'bg-rose-500', 'text-white', 'border-emerald-600', 'border-rose-600');
+
+      if (isCorrect) {
+        btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+      } else {
+        btn.classList.add('bg-rose-500', 'text-white', 'border-rose-600');
+      }
+    }
+
+    function updateMetrics() {
+      const answeredKeys = Object.keys(userAnswers);
+      const totalAnswered = answeredKeys.length;
+      let correctCount = 0;
+      let incorrectCount = 0;
+
+      answeredKeys.forEach(qid => {
+        const q = questionsData.find(item => item.id === parseInt(qid));
+        if (userAnswers[qid] === q.correct) {
+          correctCount++;
+        } else {
+          incorrectCount++;
+        }
+      });
+
+      const accuracy = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+      const progressPercent = Math.round((totalAnswered / questionsData.length) * 100);
+
+      scoreCounter.innerText = `${correctCount} / ${questionsData.length}`;
+      accuracyCounter.innerText = `${accuracy}%`;
+      progressBarFill.style.width = `${progressPercent}%`;
+
+      statAttempted.innerText = `${totalAnswered} / ${questionsData.length}`;
+      statCorrect.innerText = correctCount;
+      statIncorrect.innerText = incorrectCount;
+      statUnanswered.innerText = questionsData.length - totalAnswered;
+      filterIncorrectBadge.innerText = incorrectCount;
+    }
+
+    resetAllBtn.addEventListener('click', () => {
+      if (confirm("Are you sure you want to reset all answers and progress?")) {
+        for (let key in userAnswers) {
+          delete userAnswers[key];
+        }
+        initPalette();
+        updateMetrics();
+        renderQuestions();
+      }
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-blue-600', 'text-white');
+          b.classList.add('hover:bg-slate-100', 'text-slate-600');
+        });
+        btn.classList.remove('hover:bg-slate-100', 'text-slate-600');
+        btn.classList.add('bg-blue-600', 'text-white');
+
+        activeFilter = btn.dataset.filter;
+        renderQuestions();
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderQuestions();
+    });
+
+    let allExpanded = false;
+    expandAllRationalesBtn.addEventListener('click', () => {
+      allExpanded = !allExpanded;
+      document.querySelectorAll('.rationale-box').forEach(box => {
+        if (allExpanded) {
+          box.classList.remove('hidden');
+        } else {
+          const card = box.closest('[id^="question-card-"]');
+          const qid = parseInt(card.id.replace('question-card-', ''));
+          if (!userAnswers[qid]) {
+            box.classList.add('hidden');
+          }
+        }
+      });
+      expandAllRationalesBtn.innerText = allExpanded ? "Collapse Unanswered Explanations" : "Expand All Explanations";
+    });
+
+    openPaletteBtn.addEventListener('click', () => paletteModal.classList.remove('hidden'));
+    closePaletteBtn.addEventListener('click', () => paletteModal.classList.add('hidden'));
+    paletteModal.addEventListener('click', (e) => {
+      if (e.target === paletteModal) paletteModal.classList.add('hidden');
+    });
+
+    // Initialize
+    initPalette();
+    updateMetrics();
+    renderQuestions();
+  </script>
+</body>
+</html>
