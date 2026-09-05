@@ -947,6 +947,31 @@
 
     // State
     const userAnswers = {};
+    const storageKey = `revision-quiz-progress:${window.location.pathname}`;
+
+    function restoreProgress() {
+      try {
+        const savedAnswers = JSON.parse(localStorage.getItem(storageKey));
+        if (!savedAnswers || typeof savedAnswers !== 'object') return;
+
+        Object.entries(savedAnswers).forEach(([id, answer]) => {
+          const question = questionsData.find(q => q.id === Number(id));
+          if (question && question.options.some(option => option.key === answer)) {
+            userAnswers[question.id] = answer;
+          }
+        });
+      } catch (error) {
+        console.warn('Could not restore saved quiz progress.', error);
+      }
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+      } catch (error) {
+        console.warn('Could not save quiz progress.', error);
+      }
+    }
     let activeFilter = 'all';
     let searchQuery = '';
 
@@ -1143,6 +1168,7 @@
     function handleOptionSelect(qid, selectedKey) {
       if (userAnswers[qid]) return;
       userAnswers[qid] = selectedKey;
+      saveProgress();
 
       updateMetrics();
       renderQuestions();
@@ -1198,6 +1224,7 @@
         for (let key in userAnswers) {
           delete userAnswers[key];
         }
+        localStorage.removeItem(storageKey);
         initPalette();
         updateMetrics();
         renderQuestions();
@@ -1247,6 +1274,7 @@
     });
 
     // Initialize
+    restoreProgress();
     initPalette();
     updateMetrics();
     renderQuestions();
