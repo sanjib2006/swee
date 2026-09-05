@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapters</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f5f5f5;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    #chapters {
+        display: grid;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    a {
+        display: block;
+        padding: 16px 20px;
+        background: white;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #222;
+        font-size: 18px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .loading,
+    .empty {
+        text-align: center;
+        color: #666;
+        margin-top: 30px;
+    }
+</style>
+
+
+</head>
+
+<body>
+
+<h1>Revision Chapters</h1>
+
+<div id="chapters">
+    <div class="loading">Checking available chapters...</div>
+</div>
+
+<script>
+    const chaptersContainer = document.getElementById("chapters");
+
+    // Change this if you expect more chapters.
+    const MAX_CHAPTERS = 100;
+
+    async function findChapters() {
+        const found = [];
+
+        for (let chapter = 1; chapter <= MAX_CHAPTERS; chapter++) {
+            const filename = `ch${chapter}.html`;
+
+            try {
+                const response = await fetch(filename, {
+                    method: "HEAD",
+                    cache: "no-store"
+                });
+
+                if (response.ok) {
+                    found.push({
+                        number: chapter,
+                        filename: filename
+                    });
+                }
+            } catch (error) {
+                console.error(`Could not check ${filename}`, error);
+            }
+        }
+
+        chaptersContainer.innerHTML = "";
+
+        if (found.length === 0) {
+            chaptersContainer.innerHTML =
+                '<div class="empty">No chapters found.</div>';
+            return;
+        }
+
+        found.forEach(chapter => {
+            const link = document.createElement("a");
+
+            link.href = chapter.filename;
+            link.textContent = `Chapter ${chapter.number}`;
+
+            chaptersContainer.appendChild(link);
+        });
+    }
+
+    findChapters();
+</script>
+
+
+</body>
+</html>
