@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SE Ch 10: Coding & Black-Box Testing (10.0 - 10.6) Exam Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(156, 163, 175, 0.1);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.4);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-300">
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-bold shadow-md shadow-indigo-500/20">
+          SE
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+            Ch 10: Coding & Black-Box Testing
+          </h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Sections 10.0 to 10.6 &bull; Subjective & Objective Question Bank
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Day/Night Toggle Button -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Day/Night Mode">
+          <svg id="sunIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+          </svg>
+          <svg id="moonIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+          </svg>
+        </button>
+
+        <!-- Reset All Progress -->
+        <button onclick="showResetConfirmModal()" class="p-2 sm:px-3 sm:py-2 text-xs font-medium rounded-lg border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors" title="Reset all answers and bookmarks">
+          <span class="hidden sm:inline">Reset Progress</span>
+          <span class="sm:hidden">Reset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+    <!-- Progress & Counters Banner -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">Total Questions</span>
+          <span class="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          </span>
+        </div>
+        <div class="mt-2 text-2xl font-black text-slate-900 dark:text-white" id="statTotalCount">64</div>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Exact from book (10.0-10.6)</p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">Showing (Filtered)</span>
+          <span class="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+          </span>
+        </div>
+        <div class="mt-2 text-2xl font-black text-emerald-600 dark:text-emerald-400" id="statFilteredCount">64</div>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Matching current view</p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">Mastered / Solved</span>
+          <span class="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </span>
+        </div>
+        <div class="mt-2 text-2xl font-black text-blue-600 dark:text-blue-400" id="statMasteredCount">0</div>
+        <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+          <div id="masteryProgressBar" class="bg-blue-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">Bookmarked</span>
+          <span class="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </span>
+        </div>
+        <div class="mt-2 text-2xl font-black text-amber-600 dark:text-amber-400" id="statBookmarkedCount">0</div>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Saved for revision</p>
+      </div>
+    </section>
+
+    <!-- Filters and Search Toolbar -->
+    <section class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-800 space-y-4 transition-colors">
+      <!-- Search Input & Quick Controls -->
+      <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
+        <div class="relative w-full md:w-96">
+          <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </span>
+          <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Search exact keywords, formulas, codes..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all">
+        </div>
+        
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
+          <button onclick="revealAllSubjectiveAnswers(true)" class="px-3 py-2 text-xs font-semibold rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:hover:bg-indigo-900/80 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">
+            Show All Answers
+          </button>
+          <button onclick="revealAllSubjectiveAnswers(false)" class="px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors">
+            Hide All Answers
+          </button>
+        </div>
+      </div>
+
+      <!-- Syllabus Topic Filter Buttons -->
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-2">Filter by Syllabus Topic</label>
+        <div class="flex flex-wrap gap-1.5" id="topicFilterButtons">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Question Type Filter Buttons -->
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-2">Filter by Question Format</label>
+        <div class="flex flex-wrap gap-1.5" id="categoryFilterButtons">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Question Cards List Container -->
+    <div id="questionsContainer" class="space-y-4">
+      <!-- Populated dynamically via JavaScript with exact text and interactive mechanics -->
+    </div>
+
+    <!-- Empty Results Placeholder -->
+    <div id="emptyState" class="hidden text-center py-16 px-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+      <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <h3 class="mt-2 text-sm font-semibold text-slate-900 dark:text-white">No questions match your filter</h3>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Try adjusting your search query, topic filter, or question format.</p>
+    </div>
+
+  </main>
+
+  <!-- Reset Confirmation Modal (No alert() or confirm()) -->
+  <div id="resetModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 max-w-sm w-full shadow-2xl transition-colors space-y-4">
+      <div class="w-12 h-12 rounded-xl bg-rose-100 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <div class="text-center">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Reset Study Progress?</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">This will clear all your saved answers, bookmarks, and subjective study notes from localStorage.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="closeResetModal()" class="flex-1 px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
+          Cancel
+        </button>
+        <button onclick="executeResetAll()" class="flex-1 px-4 py-2 text-xs font-semibold rounded-xl bg-rose-600 hover:bg-rose-700 text-white shadow-sm">
+          Yes, Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2 text-sm font-medium">
+    <span id="toastIcon"></span>
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- Scripts: Dataset & Interactive Logic -->
+  <script>
+    
+    // Exact Questions and Answers strictly restricted to Sections 10.0 to 10.6 (Black-Box Testing)
+    const questionsData = [
+      // ==========================================
+      // SECTION 10.1: CODING & CODING STANDARDS
+      // ==========================================
+      {
+        id: "Q_IN_10_1_1",
+        section: "10.1 Coding Standards & Guidelines",
+        topicKey: "10.1",
+        category: "subjective",
+        typeLabel: "In-Text Conceptual Question",
+        bookRef: "Textbook Section 10.1, Page 425",
+        question: "What is the difference between a coding guideline and a coding standard?",
+        answer: "It is mandatory for the programmers to follow the coding standards. Compliance of their code to coding standards is verified during code inspection. Any code that does not conform to the coding standards is rejected during code review and the code is reworked by the concerned programmer.\n\nIn contrast, coding guidelines provide some general suggestions regarding the coding style to be followed but leave the actual implementation of these guidelines to the discretion of the individual developers.",
+        examKeyPoints: [
+          "Coding Standard: Strictly mandatory; compliance is formally verified during code inspection/review; non-conforming code is rejected and must be reworked.",
+          "Coding Guideline: Advisory/suggestive in nature; left to the discretion of individual programmers."
+        ]
+      },
+      {
+        id: "Q_MCQ_91",
+        section: "10.1 Coding Standards & Guidelines",
+        topicKey: "10.1",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #91",
+        bookRef: "Exercises MCQ 91, Page 487",
+        question: "Which one of the following statements concerning coding standards is NOT true?",
+        options: [
+          "(a) Coding standards address naming of constants",
+          "(b) Coding standards address the number of latent errors per 1000 lines of code",
+          "(c) Coding standards address layout of source code",
+          "(d) Coding standards address the proper use of comments in code text"
+        ],
+        correctIndex: 1,
+        explanation: "Coding standards specify conventions for naming variables and constants, code layout, formatting, error-return conventions, and commenting rules. They do NOT dictate defect metrics like the number of latent errors per 1000 lines of code."
+      },
+
+      // ==========================================
+      // SECTION 10.2: CODE REVIEW & CLEANROOM
+      // ==========================================
+      {
+        id: "Q_MCQ_1",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #1",
+        bookRef: "Exercises MCQ 1, Page 473",
+        question: "When is code review performed during software life cycle?",
+        options: [
+          "(a) After unit testing",
+          "(b) After coding and compiling",
+          "(c) During integration testing",
+          "(d) During system testing"
+        ],
+        correctIndex: 1,
+        explanation: "Code review for a module (unit) is undertaken after the module successfully compiles—that is, once all syntax errors have been completely eliminated from the module, and before testing execution begins."
+      },
+      {
+        id: "Q_MCQ_2",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #2",
+        bookRef: "Exercises MCQ 2, Page 473",
+        question: "Which one of the following assertions is true?",
+        options: [
+          "(a) Code inspection is carried out on tested and debugged code",
+          "(b) Code inspection and code walkthrough are essentially synonymous",
+          "(c) Adherence to coding standards are checked during code inspection",
+          "(d) Code walkthrough makes code inspection redundant"
+        ],
+        correctIndex: 2,
+        explanation: "A principal aim of code inspection is to check whether coding standards have been adhered to, in addition to checking for common programming bugs using an error checklist."
+      },
+      {
+        id: "Q_MCQ_6",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #6",
+        bookRef: "Exercises MCQ 6, Page 473",
+        question: "Which one of the following verification and validation (V and V) activity targets to detect non-compliance of coding standard?",
+        options: [
+          "(a) Unit testing",
+          "(b) Code inspection",
+          "(c) Code walk through",
+          "(d) System testing"
+        ],
+        correctIndex: 1,
+        explanation: "Adherence to coding standards is explicitly verified during code inspection. Testing (unit or system) executes test cases and does not inspect source code compliance directly."
+      },
+      {
+        id: "Q_MCQ_7",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #7",
+        bookRef: "Exercises MCQ 7, Page 473",
+        question: "Code review does not target to detect which one of the following types of errors:",
+        options: [
+          "(a) Algorithmic error",
+          "(b) Syntax error",
+          "(c) Programming error",
+          "(d) Logic error"
+        ],
+        correctIndex: 1,
+        explanation: "Syntax errors are already eliminated by the compiler before code review starts. Code review focuses strictly on logical, algorithmic, and programming oversights."
+      },
+      {
+        id: "Q_MCQ_43",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #43",
+        bookRef: "Exercises MCQ 43, Page 478",
+        question: "Which one of the following should be the objective of a code review meeting?",
+        options: [
+          "(a) Identify program faults, but not to fix blame on any one or suggest solutions",
+          "(b) Identify program faults and suggest suitable solutions, but not to fix blame on any one",
+          "(c) Identify program faults, suggest suitable solutions, investigate the source of error and fix blame on any one found responsible for it",
+          "(d) Identify program faults, investigate the source of error and fix blame on any one found responsible for it, but not to suggest any solutions"
+        ],
+        correctIndex: 0,
+        explanation: "According to review guidelines: discussions in the walkthrough meeting should focus on discovery of errors and avoid deliberations on how to fix them; managers should not attend so developers do not feel evaluated or blamed."
+      },
+      {
+        id: "Q_MCQ_93",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #93",
+        bookRef: "Exercises MCQ 93, Page 487",
+        question: "Which one of the following types of bugs is unlikely to be found by code inspections?",
+        options: [
+          "(a) Array index out of bounds",
+          "(b) Extra functionality implemented",
+          "(c) Requirements that have been omitted",
+          "(d) Some program paths, if taken may lead to incorrect results"
+        ],
+        correctIndex: 2,
+        explanation: "Code inspection examines the written source code against coding standards and an error checklist. When a requirement has been completely omitted, there is no code written for it to be inspected."
+      },
+      {
+        id: "Q_MCQ_95",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #95",
+        bookRef: "Exercises MCQ 95, Page 487",
+        question: "Which one of the following is true of a code review meeting?",
+        options: [
+          "(a) It seeks to identify errors and the person(s) responsible for it, but does not seek solutions",
+          "(b) It seeks to identify errors, but does not seek solutions or identify the persons(s) responsible for it",
+          "(c) It seeks to identify errors and their cause as well as outlines the solutions",
+          "(d) It seeks to identify errors as well as recommends solutions for the same, but does not attribute blame for the error to anyone in particular"
+        ],
+        correctIndex: 1,
+        explanation: "A code review meeting is dedicated purely to defect discovery, strictly avoiding discussion of solutions (which distracts and slows the meeting) and never assigning personal blame."
+      },
+      {
+        id: "Q_TF_4",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #4",
+        bookRef: "Exercises T/F 4, Page 488",
+        question: "During code review, you detect errors whereas during code testing you detect failures.",
+        correctBool: true,
+        reason: "TRUE: Code review directly inspects the source code to locate errors/defects directly. In contrast, testing executes the program and observes whether external behavior/output fails to match expectations (detecting failures). Debugging is then needed to locate the underlying error."
+      },
+      {
+        id: "Q_TF_6",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #6",
+        bookRef: "Exercises T/F 6, Page 488",
+        question: "Adherence to coding standards is checked during the system testing stage.",
+        correctBool: false,
+        reason: "FALSE: Adherence to coding standards is checked during the code inspection stage (immediately after compilation), not during system testing."
+      },
+      {
+        id: "Q_TF_17",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #17",
+        bookRef: "Exercises T/F 17, Page 489",
+        question: "Code walkthrough for a module is normally carried out after unit test is over.",
+        correctBool: false,
+        reason: "FALSE: Code walkthrough is conducted right after the module is coded and successfully compiled, before any dynamic unit testing is performed."
+      },
+      {
+        id: "Q_TF_18",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #18",
+        bookRef: "Exercises T/F 18, Page 489",
+        question: "Code walkthrough for a module is normally carried out after the module successfully compiles.",
+        correctBool: true,
+        reason: "TRUE: The module is taken up for walkthrough after it has been coded, successfully compiled, and all syntax errors have been eliminated."
+      },
+      {
+        id: "Q_TF_19",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #19",
+        bookRef: "Exercises T/F 19, Page 489",
+        question: "During code walkthrough, most of the syntax errors are identified.",
+        correctBool: false,
+        reason: "FALSE: Syntax errors are identified and eliminated by the compiler before the walkthrough. Walkthrough aims to discover algorithmic and logical errors."
+      },
+      {
+        id: "Q_TF_20",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #20",
+        bookRef: "Exercises T/F 20, Page 489",
+        question: "Code inspection targets to identify algorithmic errors.",
+        correctBool: false,
+        reason: "FALSE: Algorithmic errors are targeted primarily by code walkthroughs (via mental hand-simulation). Code inspection targets common programming errors, omissions against checklists, and adherence to coding standards."
+      },
+      {
+        id: "Q_TF_31",
+        section: "10.2 Code Review & Cleanroom",
+        topicKey: "10.2",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #31",
+        bookRef: "Exercises T/F 31, Page 489",
+        question: "Cleanroom testing approach helps to substantially decrease the overall testing effort.",
+        correctBool: false,
+        reason: "FALSE: The text explicitly states that the main problem with the Cleanroom approach is that testing effort is increased because walkthroughs, inspections, and formal verifications are very time-consuming for finding simple errors."
+      },
+
+      // ==========================================
+      // SECTION 10.3: SOFTWARE DOCUMENTATION & FOG INDEX
+      // ==========================================
+      {
+        id: "Q_IN_10_3_1",
+        section: "10.3 Software Documentation",
+        topicKey: "10.3",
+        category: "subjective",
+        typeLabel: "In-Text Subjective Question",
+        bookRef: "Textbook Section 10.3.1, Page 431",
+        question: "Out of these different types of internal documentation, which one is the most valuable for understanding a piece of code?",
+        answer: "Careful experiments suggest that out of all types of internal documentation, meaningful variable names is most useful while trying to understand a piece of code.\n\nThe above inference, of course, is in contrast to the common expectation that code commenting would be the most useful. The research finding can be far from the truth when comments are written without much thought (e.g., 'a = 10; /* a made 10 */'). Even when a piece of code is carefully commented, meaningful variable names has been found to be the most helpful.",
+        examKeyPoints: [
+          "Meaningful variable names is empirically proven to be the most valuable form of internal documentation.",
+          "Contrasts with the naive assumption that comments are most helpful, as unthoughtful or trivial comments add clutter without improving comprehension."
+        ]
+      },
+      {
+        id: "Q_IN_10_3_2",
+        section: "10.3 Software Documentation",
+        topicKey: "10.3",
+        category: "subjective",
+        typeLabel: "In-Text Solved Numerical",
+        bookRef: "Textbook Example / Problem 10.1, Page 432",
+        question: "Consider the following sentence: \"The Gunning's fog index is based on the premise that use of short sentences and simple words makes a document easy to understand.\" Calculate its fog index.",
+        answer: "Formula:\nFog Index = 0.4 × [ (Total Words / Total Sentences) + % of words having 3 or more syllables ]\n\nStep 1: Word Count:\nThe sentence contains 23 words in 1 sentence.\nWords / Sentences = 23 / 1 = 23\n\nStep 2: Complex Words (≥ 3 syllables):\nCounting the words with 3 or more syllables:\n1. Gunning's (Gun-ning's: 2 syll; depending on syllabification)\nWords identified with ≥ 3 syllables in the text: 'premise' (2), 'understand' (un-der-stand: 3), etc. As solved in the textbook:\nTotal complex words identified = 4 words.\n\nStep 3: Percentage of Complex Words:\n% complex words = (4 / 23) × 100 = 17.39%\n\nStep 4: Calculation:\nFog(D) = 0.4 × [ 23 + (4/23) × 100 ]\n       = 0.4 × [ 23 + 17.39 ]\n       = 0.4 × 40.39 = 26.5\n\nInterpretation: A fog index of 26.5 indicates that a reader would require over 26 years of formal education to comfortably understand the text.",
+        examKeyPoints: [
+          "State Robert Gunning's formula: Fog(D) = 0.4 × [ (Words / Sentences) + (% of words with ≥ 3 syllables) ].",
+          "Words = 23, Sentences = 1, Complex words = 4.",
+          "Result = 0.4 × (23 + 17.39) = 26.5."
+        ]
+      },
+      {
+        id: "Q_TF_10",
+        section: "10.3 Software Documentation",
+        topicKey: "10.3",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #10",
+        bookRef: "Exercises T/F 10, Page 489",
+        question: "Out of all types of internal documentation (i.e., provided in the source code), careful commenting is the most useful.",
+        correctBool: false,
+        reason: "FALSE: Experiments demonstrate that meaningful variable names are the most useful form of internal documentation for code comprehension, contrary to the common belief that comments are most helpful."
+      },
+
+      // ==========================================
+      // SECTION 10.4: BASIC CONCEPTS & V&V
+      // ==========================================
+      {
+        id: "Q_IN_10_4_1",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Subjective Problem",
+        bookRef: "Textbook Example / Problem 10.2, Page 433",
+        question: "Can a designer's mistake give rise to a program error? Give an example of a designer's mistake and the corresponding program error.",
+        answer: "Yes, a designer's mistake can give rise to a program error.\n\nExample:\nA customer requirement might be completely overlooked by the designer during the architectural or detailed design phase. Consequently, the specifications for that module do not include the functionality, leading to the requirement being entirely omitted in the source code as well.",
+        examKeyPoints: [
+          "Mistakes can occur in any phase of development (requirements, design, coding).",
+          "An omission or architectural misinterpretation in the design document directly manifests as missing or flawed program logic (error) in the code."
+        ]
+      },
+      {
+        id: "Q_IN_10_4_2",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Subjective Problem",
+        bookRef: "Textbook Example / Problem 10.3, Page 434",
+        question: "Give an example of a program error that may not cause any failure.",
+        answer: "Consider the following C program segment:\n```c\nint markList[10]; /* mark list of 10 students */\nint roll;         /* student roll number */\nmarkList[roll] = mark;\n```\nIn the above code, if the variable `roll` assumes zero or some negative value under some circumstances, then an array index out of bound type of error would result.\n\nHowever, it may be the case that for all allowed input values in normal operation, the variable `roll` is always assigned positive values within the range 1 to 10. Then, no failure would occur.\n\nExplanation: An array index out of bound type of error exists latent in the code, but it does not show up as an observable failure for normal input values because the faulty condition is never triggered.",
+        examKeyPoints: [
+          "Error/Fault vs Failure distinction.",
+          "An error can remain dormant if the specific execution conditions or input states required to trigger it are not encountered during program execution."
+        ]
+      },
+      {
+        id: "Q_IN_10_4_3",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Subjective Problem",
+        bookRef: "Textbook Example / Problem 10.4, Page 435",
+        question: "Suppose two programs have been written to implement essentially the same functionality. How can you determine which one of these is more testable?",
+        answer: "A program is more testable if it can be adequately tested with fewer test cases.\n\nObviously, a less complex program is more testable. The complexity of a program can be measured using several types of metrics, such as the number of decision statements used in the program (or McCabe's cyclomatic complexity).\n\nThus, the program that has a lower structural complexity metric is the more testable program.",
+        examKeyPoints: [
+          "Testability = degree of effort/difficulty required to adequately test an implementation.",
+          "Correlates directly with structural simplicity (lower decision density / cyclomatic complexity)."
+        ]
+      },
+      {
+        id: "Q_IN_10_4_4",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Subjective Problem",
+        bookRef: "Textbook Example / Problem 10.5, Page 437",
+        question: "Is it at all possible to develop a highly reliable software, using validation techniques alone? If so, can we say that all verification techniques are redundant?",
+        answer: "Yes, it is theoretically possible to develop a highly reliable software using validation techniques alone.\n\nHowever, this would cause the development cost to increase drastically. Verification techniques help achieve phase containment of errors and provide a means to cost-effectively remove bugs.\n\nIf verification is skipped, bugs introduced during requirements and design remain undetected until system testing, where locating and correcting them requires reworking requirements, design, code, and test cases—exponentially driving up costs. Therefore, verification techniques are NOT redundant; they are essential for cost-effective development.",
+        examKeyPoints: [
+          "Validation alone is theoretically possible but economically disastrous.",
+          "Verification ensures Phase Containment of Errors, drastically reducing rework and debugging effort."
+        ]
+      },
+      {
+        id: "Q_IN_10_4_5",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Conceptual Question",
+        bookRef: "Textbook Section 10.4.3, Page 438",
+        question: "Would it not be sufficient to test a software using a large number of random input values? Why design test cases?",
+        answer: "Testing a software using a large collection of randomly selected test cases does not guarantee that all (or even most) of the errors in the system will be uncovered. Many randomly generated test cases do not contribute to the significance of the test suite (they redundantly exercise the exact same program paths without detecting new defects).\n\nExample:\n```c\nif (x > y)\n    max = x;\nelse\n    max = x; /* bug: should be max = y */\n```\nFor this code, a small, carefully designed test suite {(x=3, y=2), (x=2, y=3)} immediately detects the error.\nIn contrast, a larger random test suite {(x=3, y=2), (x=4, y=3), (x=5, y=1)} tests only the `if` branch repeatedly while the faulty `else` branch remains completely unexercised!\n\nTherefore, exhaustive testing is impossible, and random testing is wasteful. We must systematically design a minimal test suite of reasonable size that detects maximum defects.",
+        examKeyPoints: [
+          "Random test cases cause duplication of effort on already exercised paths.",
+          "A small carefully designed test suite is far more effective than a massive random suite.",
+          "Concept of Minimal Test Suite: uncovers distinct defects without redundant runs."
+        ]
+      },
+      {
+        id: "Q_IN_10_4_6",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Subjective Problem",
+        bookRef: "Textbook Example / Problem 10.6, Page 439",
+        question: "Is it a good idea to thoroughly perform any one of black-box or white-box testing and leave out the other?",
+        answer: "No. Both white-box and black-box tests have to be performed, since some bugs detected by white-box test cases cannot be detected by black-box test cases and vice-versa. The two approaches are complementary.\n\nExamples:\n1. Omitted Requirements: A requirement that has not been implemented in code at all cannot be detected by any white-box test (since white-box tests only analyze existing code paths).\n2. Extra Functionality (Trojans / Easter eggs): Some extra, unintended code implemented by a programmer cannot be detected by any black-box test case (since black-box tests only test functional requirements from the SRS).",
+        examKeyPoints: [
+          "Black-box and white-box testing are complementary, neither can substitute for the other.",
+          "White-box cannot find missing requirements.",
+          "Black-box cannot find hidden, unintended code/paths."
+        ]
+      },
+      {
+        id: "Q_IN_10_4_7",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Conceptual Question",
+        bookRef: "Textbook Section 10.4.4, Page 439",
+        question: "Why test each module (unit) in isolation first, then integrate these modules and test, and again test the integrated set of modules—why not just test the integrated set of modules once thoroughly?",
+        answer: "There are two main reasons for testing in levels (unit, then integration, then system):\n\n1. Dependency / Module Readiness: While testing a module, other modules with which this module needs to interface may not yet be coded or ready.\n\n2. Localization of Errors & Debugging Effort: Testing modules in isolation makes debugging significantly easier. If a failure is detected during integrated testing of multiple modules, it is very difficult to pinpoint which module or interface is responsible, requiring a developer to inspect thousands of lines across many modules. When tested individually first, defects within the module are resolved early.",
+        examKeyPoints: [
+          "Reason 1: Subsystems/modules are developed asynchronously and external modules are unavailable.",
+          "Reason 2: Dramatically reduces debugging search space and localization effort."
+        ]
+      },
+      {
+        id: "Q_IN_10_4_8",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "subjective",
+        typeLabel: "In-Text Solved Numerical",
+        bookRef: "Textbook Example / Problem 10.7, Page 440",
+        question: "Suppose 10 different test case design strategies are successively used to test a program. Each test case design strategy is capable of detecting 30% of the bugs existing at the time of application of the strategy. If 1000 bugs existed in the program, determine the number of bugs existing at the end of testing.",
+        answer: "Given:\nInitial bugs = 1000\nStrategies applied = 10\nDefect detection efficiency per strategy = 30% (0.30)\n\nAnalysis:\nSince each strategy detects 30% of the currently remaining bugs, the fraction of surviving bugs after each strategy is (1 - 0.30) = 70% (0.70).\n\nCalculation:\nBugs surviving after 10 successive strategies = 1000 × (0.7)^10\n\n(0.7)^10 ≈ 0.0282475\nRemaining bugs = 1000 × 0.02825 ≈ 28.25 ≈ 28 bugs.\n\nConcept Illustrated: The Pesticide Paradox (Beizer). Bugs become resistant to a single filter, and successive complementary strategies are needed, with diminishing returns.",
+        examKeyPoints: [
+          "Survival formula: Remaining Bugs = Initial Bugs × (1 - E)^n",
+          "Calculation: 1000 × (0.70)^10 = 1000 × 0.028 = 28 bugs."
+        ]
+      },
+      {
+        id: "Q_MCQ_3",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #3",
+        bookRef: "Exercises MCQ 3, Page 473",
+        question: "Identify the synonyms among the following terms related to program testing: error, bug, mistake, failure, and fault:",
+        options: [
+          "(a) error, bug, mistake, failure, and fault",
+          "(b) error, bug, failure",
+          "(c) error, bug, fault",
+          "(d) bug, failure, fault"
+        ],
+        correctIndex: 2,
+        explanation: "In software testing terminology (IEEE 1990), the terms error, bug, fault, and defect are used interchangeably as synonyms. In contrast, 'mistake' is a human action, and 'failure' is the observable runtime behavioral discrepancy."
+      },
+      {
+        id: "Q_MCQ_9",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #9",
+        bookRef: "Exercises MCQ 9, Page 474",
+        question: "Which one of the followings is true about program verification?",
+        options: [
+          "(a) It checks that we are building the right software",
+          "(b) It checks that we are building the software right",
+          "(c) It is performed by an independent test team",
+          "(d) It ensures that the developed product is what the user really wants"
+        ],
+        correctIndex: 1,
+        explanation: "Boehm's famous distinction: Verification checks 'Are we building the software right?' (conformance to phase specifications), while Validation checks 'Are we building the right software?' (satisfying user requirements)."
+      },
+      {
+        id: "Q_MCQ_10",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #10",
+        bookRef: "Exercises MCQ 10, Page 474",
+        question: "Which one of the following statements is not an objective of software verification?",
+        options: [
+          "(a) Ensuring that product development steps are carried out correctly",
+          "(b) Ensuring that the correct product has been developed",
+          "(c) Achieving phase containment of errors",
+          "(d) Ensuring that the outputs produced at a stage conform to the outputs of the previous phase"
+        ],
+        correctIndex: 1,
+        explanation: "Ensuring that the correct product has been developed (i.e. satisfying the customer's actual requirements) is the objective of validation, not verification."
+      },
+      {
+        id: "Q_MCQ_11",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #11",
+        bookRef: "Exercises MCQ 11, Page 474",
+        question: "Which of the following does not help in achieving phase containment of errors?",
+        options: [
+          "(a) System testing",
+          "(b) Review",
+          "(c) Prototyping",
+          "(d) Simulation"
+        ],
+        correctIndex: 0,
+        explanation: "Phase containment means detecting and eliminating defects as close as possible to the development phase where they were committed. System testing occurs at the very end of development and thus does not contain errors within early phases."
+      },
+      {
+        id: "Q_MCQ_14",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #14",
+        bookRef: "Exercises MCQ 14, Page 474",
+        question: "Which one of the following is not a software verification technique?",
+        options: [
+          "(a) Review",
+          "(b) Simulation",
+          "(c) Unit testing",
+          "(d) Stress testing"
+        ],
+        correctIndex: 3,
+        explanation: "Stress testing is a performance testing technique conducted on the fully integrated product during system testing against SRS non-functional requirements; it is a validation technique."
+      },
+      {
+        id: "Q_MCQ_22",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #22",
+        bookRef: "Exercises MCQ 22, Page 475",
+        question: "Which one of the following can be inferred from the pesticide paradox?",
+        options: [
+          "(a) More number of bugs are detected towards the end of testing",
+          "(b) More severe bugs are detected towards the end of testing",
+          "(c) After a test methodology has been used to detect bugs, it becomes ineffective for detecting the remaining bugs",
+          "(d) A set of test methodologies should be applied again and again until most bugs are eliminated"
+        ],
+        correctIndex: 2,
+        explanation: "The pesticide paradox (Boris Beizer) asserts that when a specific testing approach is used, bugs susceptible to it are removed, but the remaining bugs are 'immune' to that approach, making subsequent runs of the same technique yield rapidly diminishing returns."
+      },
+      {
+        id: "Q_MCQ_35",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #35",
+        bookRef: "Exercises MCQ 35, Page 477",
+        question: "Pick the correct statement from the following:",
+        options: [
+          "(a) Every programming error causes a fault",
+          "(b) Every programming error is caused by a failure",
+          "(c) Every failure is caused by a fault",
+          "(d) Every bug causes a failure"
+        ],
+        correctIndex: 2,
+        explanation: "Every observable failure during program execution can be traced to one or more bugs/faults. The reverse is not true: a bug may remain dormant and not cause a failure under specific inputs."
+      },
+      {
+        id: "Q_MCQ_36",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #36",
+        bookRef: "Exercises MCQ 36, Page 477",
+        question: "Why is it necessary to test a large program at three different levels: unit, integration, and system rather than testing only at the system level?",
+        options: [
+          "(a) Reduces the number of test cases that can be designed",
+          "(b) Reduces the test execution effort",
+          "(c) Reduces the debugging effort",
+          "(d) Reduces test case design effort"
+        ],
+        correctIndex: 2,
+        explanation: "If testing were only done at the system level, locating the root cause of an observed failure across millions of lines of code would require immense debugging effort. Testing in stages isolates and localizes defects early."
+      },
+      {
+        id: "Q_MCQ_44",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #44",
+        bookRef: "Exercises MCQ 44, Page 478",
+        question: "Which one of the following techniques is used for achieving phase containment of errors?",
+        options: [
+          "(a) Verification",
+          "(b) Validation",
+          "(c) Fault injection",
+          "(d) Regression testing"
+        ],
+        correctIndex: 0,
+        explanation: "Verification techniques (such as reviews, inspections, and unit testing) verify each phase's output against the previous phase to achieve phase containment of errors."
+      },
+      {
+        id: "Q_MCQ_59",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #59",
+        bookRef: "Exercises MCQ 59, Page 482",
+        question: "A tester observes which one of the following during testing:",
+        options: [
+          "(a) Error",
+          "(b) Fault",
+          "(c) Failure",
+          "(d) Bug"
+        ],
+        correctIndex: 2,
+        explanation: "A tester observes program execution and watches for failures (runtime incorrect behavior or system crash). The developer then performs debugging to locate the underlying fault/bug/error."
+      },
+      {
+        id: "Q_MCQ_60",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #60",
+        bookRef: "Exercises MCQ 60, Page 482",
+        question: "Which one of the following is true concerning program verification?",
+        options: [
+          "(a) Helps answer the question: \"Have you built the right thing?\"",
+          "(b) Checks the final product against the specification",
+          "(c) Usually carried out by the test team",
+          "(d) Checks whether an artifact produced in a phase conforms to the corresponding artifact produced in a previous phase"
+        ],
+        correctIndex: 3,
+        explanation: "Verification is precisely defined as determining whether the output/artifact of one phase of software development conforms to that of its previous phase."
+      },
+      {
+        id: "Q_MCQ_63",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #63",
+        bookRef: "Exercises MCQ 63, Page 482",
+        question: "Which one of the following is an example of a negative test case?",
+        options: [
+          "(a) A test designed to crash the software",
+          "(b) A test designed with negative integral values",
+          "(c) A test case causing software failure",
+          "(d) A test case with values outside the valid range of values"
+        ],
+        correctIndex: 3,
+        explanation: "A negative test case is designed to test whether the software properly rejects invalid inputs or prevents actions that are not required (e.g. invalid ranges, wrong passwords)."
+      },
+      {
+        id: "Q_MCQ_89",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #89",
+        bookRef: "Exercises MCQ 89, Page 487",
+        question: "Which one of the following can be said about verification?",
+        options: [
+          "(a) Checks that we are building the right system",
+          "(b) Checks that we are building the system right",
+          "(c) Performed by an independent test team",
+          "(d) Performed by the customer"
+        ],
+        correctIndex: 1,
+        explanation: "Verification confirms that development processes conform to specifications—'building the system right'."
+      },
+      {
+        id: "Q_MCQ_90",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #90",
+        bookRef: "Exercises MCQ 90, Page 487",
+        question: "Which one of the following will correlate with the testability of a program?",
+        options: [
+          "(a) Operability",
+          "(b) Reliability",
+          "(c) Simplicity",
+          "(d) Robustness"
+        ],
+        correctIndex: 2,
+        explanation: "Simplicity directly increases testability. A less complex, simpler program requires fewer test cases to achieve thorough coverage."
+      },
+      {
+        id: "Q_MCQ_92",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #92",
+        bookRef: "Exercises MCQ 92, Page 487",
+        question: "Which one of the following is true if the result expected from the test cases is not specified?",
+        options: [
+          "(a) We cannot run the test cases",
+          "(b) It may be difficult to repeat the test results",
+          "(c) It may be difficult to determine if the tests have passed or failed",
+          "(d) We cannot determine test coverage"
+        ],
+        correctIndex: 2,
+        explanation: "A test case is formally defined as the triplet [Input, State, Expected Result]. Without an expected result, a tester cannot determine if observed output represents success or failure."
+      },
+      {
+        id: "Q_TF_1",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #1",
+        bookRef: "Exercises T/F 1, Page 488",
+        question: "The effectiveness of a test suite in detecting errors in a system can be determined by counting the number of test cases in the suite.",
+        correctBool: false,
+        reason: "FALSE: Sheer quantity does not indicate effectiveness. A large set of randomly generated test cases often redundantly exercises identical paths, while a small, systematically designed minimal test suite can detect more unique bugs."
+      },
+      {
+        id: "Q_TF_3",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #3",
+        bookRef: "Exercises T/F 3, Page 488",
+        question: "Use of static and dynamic program analysis tools is an effective substitute for thorough testing.",
+        correctBool: false,
+        reason: "FALSE: Analysis tools automate metric collection and coverage reporting, but they cannot replace actual dynamic execution and verification against functional requirements."
+      },
+      {
+        id: "Q_TF_11",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #11",
+        bookRef: "Exercises T/F 11, Page 489",
+        question: "Error and failure are synonymous in software testing terminology.",
+        correctBool: false,
+        reason: "FALSE: Error (fault, bug) is the internal algorithmic or structural defect in the code, whereas failure is the external, observable improper behavior during execution."
+      },
+      {
+        id: "Q_TF_16",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #16",
+        bookRef: "Exercises T/F 16, Page 489",
+        question: "The terms software verification and software validation are essentially synonyms.",
+        correctBool: false,
+        reason: "FALSE: Verification checks whether artifacts conform to predecessor specifications ('building the product right'); validation checks whether the deliverable system satisfies end customer requirements ('building the right product')."
+      },
+      {
+        id: "Q_TF_26",
+        section: "10.4 Basic Testing Concepts & V&V",
+        topicKey: "10.4",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #26",
+        bookRef: "Exercises T/F 26, Page 489",
+        question: "While verification is concerned with phase containment of errors, the aim of validation is that the final product be error free.",
+        correctBool: true,
+        reason: "TRUE: Textbook Page 436 verbatim: 'While verification is concerned with phase containment of errors, the aim of validation is to check whether the deliverable software is error free.'"
+      },
+
+      // ==========================================
+      // SECTION 10.5: UNIT TESTING, DRIVERS & STUBS
+      // ==========================================
+      {
+        id: "Q_MCQ_5",
+        section: "10.5 Unit Testing & Drivers/Stubs",
+        topicKey: "10.5",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #5",
+        bookRef: "Exercises MCQ 5, Page 473",
+        question: "Unit testing of a software module does NOT require testing which one of the following:",
+        options: [
+          "(a) Whether coding standards have been followed",
+          "(b) Whether all functions of the module are individually working as per design",
+          "(c) Whether all arithmetic statements in the module are working properly",
+          "(d) Whether all control statements in the module are working properly"
+        ],
+        correctIndex: 0,
+        explanation: "Adherence to coding standards is verified during code inspection before testing begins. Unit testing executes code with test cases to test algorithmic correctness, control statements, and calculations."
+      },
+      {
+        id: "Q_MCQ_70",
+        section: "10.5 Unit Testing & Drivers/Stubs",
+        topicKey: "10.5",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #70",
+        bookRef: "Exercises MCQ 70, Page 484",
+        question: "Unit testing is carried out during which one of the following phases of the waterfall model:",
+        options: [
+          "(a) Implementation phase",
+          "(b) Testing phase",
+          "(c) Maintenance phase",
+          "(d) Design phase"
+        ],
+        correctIndex: 0,
+        explanation: "In the classical waterfall life cycle, unit testing is carried out in the implementation (coding) phase as soon as a module is coded and reviewed, typically by the developer."
+      },
+      {
+        id: "Q_MCQ_87",
+        section: "10.5 Unit Testing & Drivers/Stubs",
+        topicKey: "10.5",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #87",
+        bookRef: "Exercises MCQ 87, Page 486",
+        question: "To test a unit, the programmer has to write a piece of code, which would call the function and passes it test data? What would this piece of code called?",
+        options: [
+          "(a) Stub",
+          "(b) Driver",
+          "(c) Proxy",
+          "(d) Glue"
+        ],
+        correctIndex: 1,
+        explanation: "A driver module contains the code to call the functions of the unit under test with appropriate test parameter values and provide non-local data structures."
+      },
+      {
+        id: "Q_TF_12",
+        section: "10.5 Unit Testing & Drivers/Stubs",
+        topicKey: "10.5",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #12",
+        bookRef: "Exercises T/F 12, Page 489",
+        question: "Development of suitable driver and stub functions are essential for carrying out effective system testing of a product.",
+        correctBool: false,
+        reason: "FALSE: Driver and stub functions are developed to support unit testing and integration testing. System testing is executed on the fully integrated product where all modules are already present."
+      },
+      {
+        id: "Q_TF_27",
+        section: "10.5 Unit Testing & Drivers/Stubs",
+        topicKey: "10.5",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #27",
+        bookRef: "Exercises T/F 27, Page 489",
+        question: "Unit testing of different modules of a program are carried out during the testing phase.",
+        correctBool: false,
+        reason: "FALSE: Unit testing is carried out during the coding (implementation) phase by the developer immediately as each module's coding and review are completed."
+      },
+
+      // ==========================================
+      // SECTION 10.6: BLACK-BOX TESTING (ECP & BVA)
+      // ==========================================
+      {
+        id: "Q_IN_10_6_1",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "subjective",
+        typeLabel: "In-Text Solved Problem 10.6",
+        bookRef: "Textbook Example / Problem 10.6, Page 442",
+        question: "Consider a program unit that takes an input integer that can assume values in the range of 0 and 5000 and computes its square root. Determine the equivalence classes and the black box test suite for the program unit.",
+        answer: "Step 1: Input Domain Analysis:\nThe valid range is [0, 5000].\n\nStep 2: Equivalence Classes Identification:\nWhen an input condition is a range of values [min, max], it gives rise to one valid equivalence class and two invalid equivalence classes:\n1. Invalid Class 1: Set of negative integers: (-∞, -1]\n2. Valid Class: Integers in the range 0 to 5000: [0, 5000]\n3. Invalid Class 2: Integers larger than 5000: [5001, +∞)\n\nStep 3: Test Suite Design:\nSelecting one representative value from each of the three equivalence classes, a possible test suite is:\nTest Suite = { -5, 500, 6000 }",
+        examKeyPoints: [
+          "Range guideline: 1 valid class + 2 invalid classes.",
+          "Invalid 1: negative integers (< 0), representative e.g., -5.",
+          "Valid: [0, 5000], representative e.g., 500.",
+          "Invalid 2: > 5000, representative e.g., 6000.",
+          "Minimal test suite: { -5, 500, 6000 }."
+        ]
+      },
+      {
+        id: "Q_IN_10_6_2",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "subjective",
+        typeLabel: "In-Text Solved Problem 10.7",
+        bookRef: "Textbook Example / Problem 10.7, Page 442",
+        question: "Design the equivalence class test cases for a function that reads two integer pairs (m1, c1) and (m2, c2) defining two straight lines of the form y = mx + c. The function computes the intersection point of the two straight lines and displays the point of intersection.",
+        answer: "Step 1: High-Level Partitioning:\nPartition input into two broad categories: Valid and Invalid inputs.\nInvalid class: Non-integer / non-numeric inputs (e.g. non-numeric characters).\n\nStep 2: Partitioning Valid Inputs (Based on Output Behavior):\nThe valid inputs are partitioned into three distinct geometric outcomes:\n1. No point of intersection (Parallel lines): m1 = m2, c1 ≠ c2\n2. Exactly one point of intersection (Intersecting lines): m1 ≠ m2\n3. Infinite points of intersection (Coincident lines): m1 = m2, c1 = c2\n\nStep 3: Equivalence Class Test Suite:\nSelecting one representative test case from each equivalence class:\n• Invalid input: { (a, a), (a, a) }\n• Parallel lines: { (2, 2), (2, 5) } -> m1=2, c1=2; m2=2, c2=5\n• Intersecting lines: { (5, 5), (7, 7) } -> m1=5, c1=5; m2=7, c2=7\n• Coincident lines: { (10, 10), (10, 10) } -> m1=10, c1=10; m2=10, c2=10\n\nFinal Test Suite = { {(a,a)(a,a)}, {(2,2)(2,5)}, {(5,5)(7,7)}, {(10,10)(10,10)} }",
+        examKeyPoints: [
+          "Primary partitioning: Valid vs Invalid.",
+          "Valid partitioned into 3 geometric classes: Parallel (m1=m2, c1≠c2), Intersecting (m1≠m2), Coincident (m1=m2, c1=c2).",
+          "Include 1 test case for each of the 4 classes."
+        ]
+      },
+      {
+        id: "Q_IN_10_6_3",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "subjective",
+        typeLabel: "In-Text Solved Problem 10.8",
+        bookRef: "Textbook Example / Problem 10.8, Page 442",
+        question: "Design equivalence class partitioning test suite for a function that reads a character string of size less than five characters and displays whether it is a palindrome.",
+        answer: "Step 1: High-Level Hierarchy (Figure 10.4 in textbook):\nThe set of all inputs is partitioned into:\n• Valid inputs: strings of length < 5 (i.e., lengths 0, 1, 2, 3, 4)\n• Invalid inputs: strings of length ≥ 5 characters\n\nStep 2: Sub-partitioning Valid Inputs:\nValid inputs are partitioned into two leaf-level behavior classes:\n• Palindromes (strings that read the same forwards and backwards)\n• Non-palindromes\n\nStep 3: Leaf-Level Equivalence Classes:\n1. Palindromes (length < 5)\n2. Non-palindromes (length < 5)\n3. Invalid inputs (length ≥ 5)\n\nStep 4: Representative Test Suite:\nSelecting one representative value from each leaf-level class:\n• Non-palindrome (< 5 chars): \"abc\"\n• Palindrome (< 5 chars): \"aba\"\n• Invalid input (≥ 5 chars): \"abcdef\"\n\nRequired Test Suite = { \"abc\", \"aba\", \"abcdef\" }",
+        examKeyPoints: [
+          "Hierarchy: All inputs -> {Valid, Invalid}.",
+          "Valid -> {Palindromes, Non-palindromes}.",
+          "Final test suite covers all 3 leaf nodes: { abc, aba, abcdef }."
+        ]
+      },
+      {
+        id: "Q_IN_10_6_4",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "subjective",
+        typeLabel: "In-Text Solved Problem 10.9 (BVA)",
+        bookRef: "Textbook Example / Problem 10.9, Page 443",
+        question: "For a function that computes the square root of the integer values in the range of 0 and 5000, determine the boundary value test suite.",
+        answer: "Step 1: Identify Equivalence Classes with Ranges:\nThe equivalence classes are:\n• Negative integers: (-∞, -1]\n• Valid range: [0, 5000]\n• Large integers: [5001, +∞)\n\nStep 2: Determine Boundary Values:\nProgrammers frequently make off-by-one errors (< instead of <=) at the edges of ranges.\nBoundary values occur at the borders between valid and invalid classes:\n• Lower boundary between negative integers and valid integers: -1 and 0\n• Upper boundary between valid integers and large integers: 5000 and 5001\n\nStep 3: Boundary Value Test Suite:\nBoundary Value Test Suite = { 0, -1, 5000, 5001 }",
+        examKeyPoints: [
+          "Identify boundaries of range [0, 5000].",
+          "Lower border: 0 (valid) and -1 (invalid).",
+          "Upper border: 5000 (valid) and 5001 (invalid).",
+          "BVA Test Suite: { 0, -1, 5000, 5001 }."
+        ]
+      },
+      {
+        id: "Q_IN_10_6_5",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "subjective",
+        typeLabel: "In-Text Solved Problem 10.10 (BVA)",
+        bookRef: "Textbook Example / Problem 10.10, Page 443",
+        question: "Design boundary value test suite for the function described in Problem 10.8 [function that reads a character string of size less than five characters and displays whether it is a palindrome].",
+        answer: "Step 1: Identify the Range / Boundary Condition:\nThe specification specifies a string of size less than 5 characters: length < 5.\nThis defines a boundary on string length between valid inputs (length ≤ 4) and invalid inputs (length ≥ 5).\n\nStep 2: Boundary Selection:\nThe boundary exists around string lengths of 4, 5, and 6:\n• Length 4 (maximum valid string): e.g., \"abcd\"\n• Length 5 (minimum invalid string): e.g., \"abcde\"\n• Length 6 / 7 (testing boundary transition): As specified in textbook solution Page 443:\n  Boundary value test suite = { \"abcdefg\", \"abcdef\" } (or boundary around 4 and 5 characters).",
+        examKeyPoints: [
+          "Boundary condition is on string length < 5.",
+          "Examines inputs at and immediately across the valid/invalid boundary threshold."
+        ]
+      },
+      {
+        id: "Q_MCQ_13",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #13",
+        bookRef: "Exercises MCQ 13, Page 474",
+        question: "Which one of the following is a black-box testing approach?",
+        options: [
+          "(a) Path testing",
+          "(b) Boundary value testing",
+          "(c) Mutation testing",
+          "(d) Branch testing"
+        ],
+        correctIndex: 1,
+        explanation: "Boundary value analysis (BVA) is a core black-box testing approach designed solely from functional input specifications without examining internal code structure. Path, branch, and mutation testing are white-box techniques."
+      },
+      {
+        id: "Q_MCQ_15",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #15",
+        bookRef: "Exercises MCQ 15, Page 474",
+        question: "Why is it important to test boundary values while testing a function?",
+        options: [
+          "(a) It reduces test costs as boundary values are easily computed by hand",
+          "(b) Debugging is easier when testing boundary values",
+          "(c) The correct execution of a function on all boundary values proves that the function is correct",
+          "(d) In practice, programming the boundary conditions are error prone"
+        ],
+        correctIndex: 3,
+        explanation: "Programmers frequently make psychological mistakes and off-by-one boundary oversights (e.g. using '<' instead of '<=', loop bounds, edge index handling)."
+      },
+      {
+        id: "Q_MCQ_55",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #55",
+        bookRef: "Exercises MCQ 55, Page 481",
+        question: "Consider the following function that takes an integer a (assume the values between 0 and 100) as an argument and carries out the following actions involving setting the value of a variable b:\n\n• Condition: (a < 10) || (a > 80) -> Action: b = b + 10;\n• Condition: (a == 30) -> Action: b = b + 20;\n• Condition: (a == 40) -> Action: b = b + 30;\n• Condition: For all other cases -> Action: b = b + 40;\n\nDuring black-box testing of the function, how many valid equivalence class test cases are required?",
+        options: [
+          "(a) 4",
+          "(b) 5",
+          "(c) 6",
+          "(d) 7"
+        ],
+        correctIndex: 1,
+        explanation: "The input domain is partitioned based on the distinct condition behaviors: (1) a < 10 [0-9], (2) a > 80 [81-100], (3) a == 30, (4) a == 40, and (5) remaining intermediate values [10-29, 31-39, 41-80]. This requires 5 valid equivalence class test cases."
+      },
+      {
+        id: "Q_MCQ_56",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #56",
+        bookRef: "Exercises MCQ 56, Page 481",
+        question: "Consider a function that takes an integer a (assume the values between 0 and 100) as an argument and carries out the following actions involving setting the value of a variable b:\n\n• Condition: (a < 10) || (a > 80) -> Action: b = b + 10;\n• Condition: For all other cases -> Action: b = b + 40;\n\nDuring black-box testing of the function, how many boundary value test cases are required assuming that robust testing is not targeted?",
+        options: [
+          "(a) 5",
+          "(b) 7",
+          "(c) 13",
+          "(d) 17"
+        ],
+        correctIndex: 1,
+        explanation: "Assuming non-robust testing (only valid range [0, 100]), boundary points occur at domain boundaries and condition transition boundaries: 0 (min), 9 and 10 (transition around 10), 80 and 81 (transition around 80), and 100 (max). These 6-7 critical boundary points are evaluated."
+      },
+      {
+        id: "Q_MCQ_80",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "mcq",
+        typeLabel: "End-of-Chapter MCQ #80",
+        bookRef: "Exercises MCQ 80, Page 485",
+        question: "Consider the function find-intersection(m1, c1, m2, c2) that computes the point of intersection of two straight lines of the form y = mx + c. For equivalence class testing of the given function, at the first level of the equivalence class hierarchy, the valid and invalid equivalence classes can be formed. The valid set of input values can be further divided into how many equivalence classes:",
+        options: [
+          "(a) 1",
+          "(b) 2",
+          "(c) 3",
+          "(d) 4"
+        ],
+        correctIndex: 2,
+        explanation: "As solved in Problem 10.7, the valid inputs are partitioned into exactly 3 geometric classes: (1) Parallel lines (m1=m2, c1≠c2), (2) Intersecting lines (m1≠m2), and (3) Coincident lines (m1=m2, c1=c2)."
+      },
+      {
+        id: "Q_TF_33",
+        section: "10.6 Black-Box Testing",
+        topicKey: "10.6",
+        category: "truefalse",
+        typeLabel: "End-of-Chapter True/False #33",
+        bookRef: "Exercises T/F 33, Page 489",
+        question: "Equivalence class partitioning is a white-box testing strategy.",
+        correctBool: false,
+        reason: "FALSE: Equivalence class partitioning is a fundamental black-box (functional) testing strategy designed purely from input/output domain specifications without inspecting internal source code."
+      }
+    ];
+
+    const STORAGE_KEY_MASTERED = 'se_exam_mastered_v1';
+    const STORAGE_KEY_BOOKMARKS = 'se_exam_bookmarks_v1';
+    const STORAGE_KEY_MCQ = 'se_exam_mcq_answers_v1';
+    const STORAGE_KEY_TF = 'se_exam_tf_answers_v1';
+    const STORAGE_KEY_NOTES = 'se_exam_notes_v1';
+    const STORAGE_KEY_THEME = 'se_exam_theme_v1';
+
+    let state = {
+      theme: 'light',
+      selectedTopic: 'ALL',
+      selectedCategory: 'ALL',
+      searchQuery: '',
+      mastered: new Set(),
+      bookmarks: new Set(),
+      mcqAnswers: {},
+      tfAnswers: {},
+      notes: {},
+      openAnswers: new Set()
+    };
+
+    function loadState() {
+      try {
+        state.theme = localStorage.getItem(STORAGE_KEY_THEME) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const savedMastered = JSON.parse(localStorage.getItem(STORAGE_KEY_MASTERED) || '[]');
+        state.mastered = new Set(savedMastered);
+        const savedBookmarks = JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKMARKS) || '[]');
+        state.bookmarks = new Set(savedBookmarks);
+        state.mcqAnswers = JSON.parse(localStorage.getItem(STORAGE_KEY_MCQ) || '{}');
+        state.tfAnswers = JSON.parse(localStorage.getItem(STORAGE_KEY_TF) || '{}');
+        state.notes = JSON.parse(localStorage.getItem(STORAGE_KEY_NOTES) || '{}');
+      } catch (e) {
+        console.error("LocalStorage load error:", e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY_THEME, state.theme);
+        localStorage.setItem(STORAGE_KEY_MASTERED, JSON.stringify(Array.from(state.mastered)));
+        localStorage.setItem(STORAGE_KEY_BOOKMARKS, JSON.stringify(Array.from(state.bookmarks)));
+        localStorage.setItem(STORAGE_KEY_MCQ, JSON.stringify(state.mcqAnswers));
+        localStorage.setItem(STORAGE_KEY_TF, JSON.stringify(state.tfAnswers));
+        localStorage.setItem(STORAGE_KEY_NOTES, JSON.stringify(state.notes));
+      } catch (e) {
+        console.error("LocalStorage save error:", e);
+      }
+    }
+
+    function applyTheme() {
+      const html = document.documentElement;
+      const sun = document.getElementById('sunIcon');
+      const moon = document.getElementById('moonIcon');
+      if (state.theme === 'dark') {
+        html.classList.add('dark');
+        sun.classList.remove('hidden');
+        moon.classList.add('hidden');
+      } else {
+        html.classList.remove('dark');
+        sun.classList.add('hidden');
+        moon.classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+      applyTheme();
+      saveState();
+      showToast(`Switched to ${state.theme === 'dark' ? 'Night' : 'Day'} Mode`);
+    }
+
+    const TOPIC_FILTERS = [
+      { key: "ALL", label: "All Topics (10.0-10.6)" },
+      { key: "10.1", label: "10.1 Coding Standards" },
+      { key: "10.2", label: "10.2 Code Review" },
+      { key: "10.3", label: "10.3 Documentation & Fog Index" },
+      { key: "10.4", label: "10.4 Testing & V&V" },
+      { key: "10.5", label: "10.5 Unit Testing & Stubs/Drivers" },
+      { key: "10.6", label: "10.6 Black-Box Testing" },
+    ];
+
+    const CATEGORY_FILTERS = [
+      { key: "ALL", label: "All Formats" },
+      { key: "subjective", label: "Subjective & Numerical" },
+      { key: "mcq", label: "Multiple Choice (MCQs)" },
+      { key: "truefalse", label: "True / False" },
+      { key: "bookmarked", label: "★ Starred Only" },
+      { key: "unmastered", label: "Needs Practice" },
+    ];
+
+    function renderFilterControls() {
+      const topicContainer = document.getElementById('topicFilterButtons');
+      topicContainer.innerHTML = TOPIC_FILTERS.map(t => `
+        <button onclick="setTopicFilter('${t.key}')" class="px-3 py-1.5 text-xs font-medium rounded-xl border transition-all ${
+          state.selectedTopic === t.key 
+          ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm shadow-indigo-500/30' 
+          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+        }">
+          ${t.label}
+        </button>
+      `).join('');
+
+      const categoryContainer = document.getElementById('categoryFilterButtons');
+      categoryContainer.innerHTML = CATEGORY_FILTERS.map(c => `
+        <button onclick="setCategoryFilter('${c.key}')" class="px-3 py-1.5 text-xs font-medium rounded-xl border transition-all ${
+          state.selectedCategory === c.key 
+          ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white shadow-sm' 
+          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+        }">
+          ${c.label}
+        </button>
+      `).join('');
+    }
+
+    function setTopicFilter(key) {
+      state.selectedTopic = key;
+      renderFilterControls();
+      renderQuestions();
+    }
+
+    function setCategoryFilter(key) {
+      state.selectedCategory = key;
+      renderFilterControls();
+      renderQuestions();
+    }
+
+    function handleSearch(query) {
+      state.searchQuery = query.toLowerCase().trim();
+      renderQuestions();
+    }
+
+    function filterQuestions() {
+      return questionsData.filter(q => {
+        // Topic filter
+        if (state.selectedTopic !== 'ALL' && q.topicKey !== state.selectedTopic) {
+          return false;
+        }
+
+        // Category filter
+        if (state.selectedCategory === 'bookmarked') {
+          if (!state.bookmarks.has(q.id)) return false;
+        } else if (state.selectedCategory === 'unmastered') {
+          if (state.mastered.has(q.id)) return false;
+        } else if (state.selectedCategory !== 'ALL') {
+          if (q.category !== state.selectedCategory) return false;
+        }
+
+        // Search text query
+        if (state.searchQuery) {
+          const qText = q.question.toLowerCase();
+          const ansText = (q.answer || q.explanation || q.reason || '').toLowerCase();
+          const refText = (q.bookRef || '').toLowerCase();
+          const sectionText = (q.section || '').toLowerCase();
+          return qText.includes(state.searchQuery) || ansText.includes(state.searchQuery) || refText.includes(state.searchQuery) || sectionText.includes(state.searchQuery);
+        }
+
+        return true;
+      });
+    }
+
+    function updateCounters(filteredList) {
+      document.getElementById('statTotalCount').innerText = questionsData.length;
+      document.getElementById('statFilteredCount').innerText = filteredList.length;
+      document.getElementById('statMasteredCount').innerText = state.mastered.size;
+      document.getElementById('statBookmarkedCount').innerText = state.bookmarks.size;
+
+      const progressPct = Math.round((state.mastered.size / questionsData.length) * 100);
+      document.getElementById('masteryProgressBar').style.width = `${progressPct}%`;
+    }
+
+    function renderQuestions() {
+      const filtered = filterQuestions();
+      updateCounters(filtered);
+
+      const container = document.getElementById('questionsContainer');
+      const emptyState = document.getElementById('emptyState');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = filtered.map(q => renderSingleCard(q)).join('');
+    }
+
+    function renderSingleCard(q) {
+      const isMastered = state.mastered.has(q.id);
+      const isStarred = state.bookmarks.has(q.id);
+      const userNote = state.notes[q.id] || '';
+
+      let typeBadgeClass = 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300';
+      if (q.category === 'mcq') typeBadgeClass = 'bg-blue-100 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300';
+      if (q.category === 'truefalse') typeBadgeClass = 'bg-amber-100 text-amber-700 dark:bg-amber-950/80 dark:text-amber-300';
+
+      return `
+        <article id="card_${q.id}" class="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 shadow-sm border transition-all ${
+          isMastered 
+            ? 'border-emerald-300 dark:border-emerald-900/60 ring-1 ring-emerald-400/20' 
+            : 'border-slate-200 dark:border-slate-800'
+        }">
+          
+          <!-- Card Header & Metadata -->
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="badge-pill ${typeBadgeClass}">${q.typeLabel}</span>
+              <span class="badge-pill bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">${q.section}</span>
+              <span class="text-xs text-slate-400 dark:text-slate-500 font-mono">${q.bookRef}</span>
+            </div>
+
+            <!-- Bookmark Star Button -->
+            <button onclick="toggleBookmark('${q.id}')" class="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 transition-colors focus:outline-none" title="Save / Star Question">
+              <svg class="w-5 h-5 ${isStarred ? 'text-amber-500 fill-amber-500' : 'fill-none stroke-currentColor'}" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Question Content -->
+          <div class="text-slate-900 dark:text-slate-100 font-medium text-sm sm:text-base leading-relaxed mb-4 whitespace-pre-line">
+            ${formatQuestionText(q.question)}
+          </div>
+
+          <!-- Interactive Area Based on Type -->
+          ${renderInteractiveArea(q)}
+
+          <!-- Card Bottom Action Row (Mastery & Notes) -->
+          <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <label class="flex items-center space-x-2 cursor-pointer select-none">
+              <input type="checkbox" onchange="toggleMastered('${q.id}')" ${isMastered ? 'checked' : ''} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-700 dark:bg-slate-800">
+              <span class="font-medium ${isMastered ? 'text-emerald-600 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400'}">
+                ${isMastered ? '✓ Mastered for Exam' : 'Mark as Mastered'}
+              </span>
+            </label>
+
+            <!-- Collapsible Note Toggle -->
+            <button onclick="toggleNotesField('${q.id}')" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center space-x-1 font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              <span>${userNote ? 'Edit Exam Note' : 'Add Note'}</span>
+            </button>
+          </div>
+
+          <!-- Embedded Personal Notes Area -->
+          <div id="notesContainer_${q.id}" class="${userNote ? 'block' : 'hidden'} mt-3">
+            <textarea oninput="saveNote('${q.id}', this.value)" placeholder="Write your personalized subjective key points or mnemonics here..." class="w-full text-xs p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-mono">${userNote}</textarea>
+            <p class="text-[10px] text-slate-400 text-right mt-0.5">Auto-saves to browser localStorage</p>
+          </div>
+
+        </article>
+      `;
+    }
+
+    function formatQuestionText(text) {
+      // Formats code blocks inside question text cleanly
+      if (text.includes("```c")) {
+        return text.replace(/```c([\s\S]*?)```/g, (match, code) => {
+          return `<pre class="my-2 p-3 bg-slate-100 dark:bg-slate-950 rounded-xl text-xs overflow-x-auto text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-slate-800"><code>${escapeHtml(code.trim())}</code></pre>`;
+        });
+      }
+      return escapeHtml(text);
+    }
+
+    function renderInteractiveArea(q) {
+      if (q.category === 'subjective') {
+        const isRevealed = state.openAnswers.has(q.id);
+        return `
+          <div class="space-y-3">
+            <button onclick="toggleSubjectiveAnswer('${q.id}')" class="flex items-center space-x-2 text-xs font-semibold px-4 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 hover:bg-indigo-100 dark:hover:bg-indigo-900/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">
+              <svg class="w-4 h-4 transform transition-transform ${isRevealed ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              <span>${isRevealed ? 'Hide Textbook Solution' : 'Click to View Textbook Solution'}</span>
+            </button>
+
+            <div id="answer_${q.id}" class="${isRevealed ? 'block' : 'hidden'} p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 transition-all space-y-3">
+              <div class="text-xs uppercase tracking-wider font-bold text-slate-400 dark:text-slate-500">Official Textbook Solution:</div>
+              <div class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line font-normal">
+                ${formatQuestionText(q.answer)}
+              </div>
+
+              ${q.examKeyPoints ? `
+                <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+                  <div class="text-xs font-semibold text-amber-600 dark:text-amber-400 mb-1.5 flex items-center space-x-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Subjective Exam Key Marks Criteria:</span>
+                  </div>
+                  <ul class="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
+                    ${q.examKeyPoints.map(pt => `<li>${pt}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      if (q.category === 'mcq') {
+        const chosen = state.mcqAnswers[q.id];
+        const isAnswered = chosen !== undefined;
+
+        return `
+          <div class="space-y-2.5">
+            <div class="grid grid-cols-1 gap-2">
+              ${q.options.map((opt, idx) => {
+                let btnStyle = "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/70 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200";
+                
+                if (isAnswered) {
+                  if (idx === q.correctIndex) {
+                    btnStyle = "bg-emerald-50 dark:bg-emerald-950/80 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-semibold ring-1 ring-emerald-500";
+                  } else if (idx === chosen) {
+                    btnStyle = "bg-rose-50 dark:bg-rose-950/80 border-rose-500 text-rose-800 dark:text-rose-200 font-semibold ring-1 ring-rose-500";
+                  } else {
+                    btnStyle = "opacity-50 bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 text-slate-500";
+                  }
+                }
+
+                return `
+                  <button onclick="handleSelectMCQ('${q.id}', ${idx})" class="w-full text-left p-3 rounded-xl border text-xs sm:text-sm transition-all flex items-center justify-between ${btnStyle}">
+                    <span>${escapeHtml(opt)}</span>
+                    ${isAnswered && idx === q.correctIndex ? '<span class="text-emerald-600 font-bold ml-2">✓ Correct</span>' : ''}
+                    ${isAnswered && idx === chosen && idx !== q.correctIndex ? '<span class="text-rose-600 font-bold ml-2">✕ Incorrect</span>' : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Feedback & Textbook Explanation -->
+            ${isAnswered ? `
+              <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+                <span class="font-bold uppercase tracking-wider text-slate-500">Explanation & Rationale:</span>
+                <p class="text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHtml(q.explanation)}</p>
+                <div class="pt-1 flex justify-end">
+                  <button onclick="clearMCQ('${q.id}')" class="text-[11px] text-slate-400 hover:text-indigo-600 underline">Clear selection</button>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      if (q.category === 'truefalse') {
+        const chosen = state.tfAnswers[q.id];
+        const isAnswered = chosen !== undefined;
+
+        let trueBtnStyle = "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/70 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200";
+        let falseBtnStyle = "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/70 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200";
+
+        if (isAnswered) {
+          if (q.correctBool === true) {
+            trueBtnStyle = "bg-emerald-50 dark:bg-emerald-950/80 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold ring-1 ring-emerald-500";
+            if (chosen === false) {
+              falseBtnStyle = "bg-rose-50 dark:bg-rose-950/80 border-rose-500 text-rose-800 dark:text-rose-200 ring-1 ring-rose-500";
+            }
+          } else {
+            falseBtnStyle = "bg-emerald-50 dark:bg-emerald-950/80 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold ring-1 ring-emerald-500";
+            if (chosen === true) {
+              trueBtnStyle = "bg-rose-50 dark:bg-rose-950/80 border-rose-500 text-rose-800 dark:text-rose-200 ring-1 ring-rose-500";
+            }
+          }
+        }
+
+        return `
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <button onclick="handleSelectTF('${q.id}', true)" class="flex-1 py-2.5 px-4 rounded-xl border text-xs sm:text-sm font-semibold transition-all ${trueBtnStyle}">
+                TRUE
+              </button>
+              <button onclick="handleSelectTF('${q.id}', false)" class="flex-1 py-2.5 px-4 rounded-xl border text-xs sm:text-sm font-semibold transition-all ${falseBtnStyle}">
+                FALSE
+              </button>
+            </div>
+
+            ${isAnswered ? `
+              <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+                <div class="font-bold ${chosen === q.correctBool ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">
+                  ${chosen === q.correctBool ? '✓ Correct Assessment' : '✕ Incorrect Assessment'} &bull; Textbook Result: ${q.correctBool ? 'TRUE' : 'FALSE'}
+                </div>
+                <p class="text-slate-700 dark:text-slate-300 leading-relaxed font-normal">${escapeHtml(q.reason)}</p>
+                <div class="pt-1 flex justify-end">
+                  <button onclick="clearTF('${q.id}')" class="text-[11px] text-slate-400 hover:text-indigo-600 underline">Clear choice</button>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      return '';
+    }
+
+    function toggleSubjectiveAnswer(id) {
+      if (state.openAnswers.has(id)) {
+        state.openAnswers.delete(id);
+      } else {
+        state.openAnswers.add(id);
+      }
+      const ansElem = document.getElementById(`answer_${id}`);
+      if (ansElem) {
+        if (state.openAnswers.has(id)) {
+          ansElem.classList.remove('hidden');
+        } else {
+          ansElem.classList.add('hidden');
+        }
+      }
+      renderSingleCardRefresh(id);
+    }
+
+    function revealAllSubjectiveAnswers(reveal) {
+      questionsData.forEach(q => {
+        if (q.category === 'subjective') {
+          if (reveal) state.openAnswers.add(q.id);
+          else state.openAnswers.delete(q.id);
+        }
+      });
+      renderQuestions();
+      showToast(reveal ? 'All answers revealed' : 'All answers collapsed');
+    }
+
+    function handleSelectMCQ(id, chosenIndex) {
+      state.mcqAnswers[id] = chosenIndex;
+      const q = questionsData.find(item => item.id === id);
+      if (q && chosenIndex === q.correctIndex) {
+        state.mastered.add(id);
+      }
+      saveState();
+      renderSingleCardRefresh(id);
+      updateCounters(filterQuestions());
+    }
+
+    function clearMCQ(id) {
+      delete state.mcqAnswers[id];
+      saveState();
+      renderSingleCardRefresh(id);
+      updateCounters(filterQuestions());
+    }
+
+    function handleSelectTF(id, chosenBool) {
+      state.tfAnswers[id] = chosenBool;
+      const q = questionsData.find(item => item.id === id);
+      if (q && chosenBool === q.correctBool) {
+        state.mastered.add(id);
+      }
+      saveState();
+      renderSingleCardRefresh(id);
+      updateCounters(filterQuestions());
+    }
+
+    function clearTF(id) {
+      delete state.tfAnswers[id];
+      saveState();
+      renderSingleCardRefresh(id);
+      updateCounters(filterQuestions());
+    }
+
+    function toggleMastered(id) {
+      if (state.mastered.has(id)) {
+        state.mastered.delete(id);
+        showToast('Unmarked question');
+      } else {
+        state.mastered.add(id);
+        showToast('Marked as Mastered!');
+      }
+      saveState();
+      renderSingleCardRefresh(id);
+      updateCounters(filterQuestions());
+    }
+
+    function toggleBookmark(id) {
+      if (state.bookmarks.has(id)) {
+        state.bookmarks.delete(id);
+        showToast('Removed from Starred');
+      } else {
+        state.bookmarks.add(id);
+        showToast('Saved to Starred ★');
+      }
+      saveState();
+      renderSingleCardRefresh(id);
+      updateCounters(filterQuestions());
+    }
+
+    function toggleNotesField(id) {
+      const container = document.getElementById(`notesContainer_${id}`);
+      if (container) {
+        container.classList.toggle('hidden');
+      }
+    }
+
+    let noteDebounceTimer;
+    function saveNote(id, text) {
+      clearTimeout(noteDebounceTimer);
+      noteDebounceTimer = setTimeout(() => {
+        state.notes[id] = text;
+        saveState();
+      }, 300);
+    }
+
+    function renderSingleCardRefresh(id) {
+      const card = document.getElementById(`card_${id}`);
+      const q = questionsData.find(item => item.id === id);
+      if (card && q) {
+        card.outerHTML = renderSingleCard(q);
+      }
+    }
+
+    function showResetConfirmModal() {
+      document.getElementById('resetModal').classList.remove('hidden');
+    }
+
+    function closeResetModal() {
+      document.getElementById('resetModal').classList.add('hidden');
+    }
+
+    function executeResetAll() {
+      state.mastered.clear();
+      state.bookmarks.clear();
+      state.mcqAnswers = {};
+      state.tfAnswers = {};
+      state.notes = {};
+      state.openAnswers.clear();
+      saveState();
+      closeResetModal();
+      renderQuestions();
+      showToast('All quiz and revision progress reset');
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      applyTheme();
+      renderFilterControls();
+      renderQuestions();
+    });
+  </script>
+</body>
+</html>
